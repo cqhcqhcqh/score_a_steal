@@ -11,56 +11,34 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-import undetected_chromedriver as uc
 
 os.environ["no_proxy"] = ""
 os.environ["http_proxy"] = ""
 os.environ["https_proxy"] = ""
-# os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
 
-def setup_selenium_dirver():
-    chrome_options = Options()
-    chrome_options.add_argument('--start-maximized')
-    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
-    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
-    chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_argument("--no-proxy-server")
-
+def setup_driver():
+    chrome_option = Options()
+    chrome_option.add_argument('--start-maximized')
+    chrome_option.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
+    chrome_option.add_experimental_option('excludeSwitches', ['enable-automation'])
+    chrome_option.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    chrome_option.add_argument("--disable-blink-features=AutomationControlled")
+    chrome_option.add_argument("--no-proxy-server")
+    # chrome_option.add_argument("--proxy-bypass-list=*")
     service = Service(executable_path='./chromedriver')
-    driver = webdriver.Chrome(options=chrome_options, 
+    driver = webdriver.Chrome(options=chrome_option, 
                               service=service)
     driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-        'source': '''
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-        '''
-    })
-    return driver
-
-def setup_undetected_chromedriver():
-    chrome_options = Options()
-    chrome_options.add_argument('--start-maximized')
-    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
-    # chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
-    chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    driver.execute_cdp_cmd("Network.setProxySettings", {
-        "proxyType": "direct"  # 直连，不走代理
-    })
-    driver = uc.Chrome(options=chrome_options)
-    driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-        'source': '''
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-        '''
+    'source': '''
+        Object.defineProperty(navigator, 'webdriver', {
+            get: () => undefined
+        });
+    '''
     })
     return driver
 
 def login_with_qr():
-    driver: webdriver = setup_selenium_dirver()
+    driver: webdriver = setup_driver()
     driver.get('https://www.goofish.com/')
     ActionChains(driver).move_by_offset(100, 100).perform()  # 模拟鼠标移动
     # with open("goofish_cookies.json", "r") as f:
@@ -111,7 +89,7 @@ def login_with_qr():
     canvas_element.screenshot(qr_code_image_path)
     print("已截取 <canvas> 中的二维码图片")
 
-    # time.sleep(200000)
+    time.sleep(200000)
 
     input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
 
@@ -130,7 +108,7 @@ def login_with_qr():
 
     driver.quit()
 
-    driver: webdriver = setup_selenium_dirver()
+    driver: webdriver = setup_driver()
 
     driver.get("https://www.goofish.com")  # 先访问域名以设置 cookies
 
