@@ -1,0 +1,167 @@
+[
+  {
+    "domain": ".goofish.com",
+    "expiry": 1757593546,
+    "httpOnly": false,
+    "name": "tfstk",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "gc8wrRgxbZvIPNYZn6b4YWku1ZbOkND73E6fiIAc1OXg5PwDYLvdCnt1CS-enpI1IERYusADHfBj6DO96ZQmFYMSPCdTkH4z1v_miBbfgPxDqTO96ZFKFYgSPCe4VIR-_Zvc-MfVaZ2cnGcF-s55oPj0Sk2hpsbcoZvDtX5AKtbcjEv6rEeFGGc43RlU-35NbTAGKCd9-1y5ECXUorcf_GmBs9z0oexQ-3rlU2yhdIAJmM8qSP7vO3J2mLDQfOxymFsOkJDPHeRHSs-KQlseWQ9OSFDQQZRHwEI2kYuNlFRH56p4ZlOhmHTO2FM37axJ1NtDEvZ1I3-D5GQYQgWzH6mqTXD7noSG96WSTXXdWHo9HpvBYoEAXfCFFfjgDoIGF6WStGqYDGKlTTGgP"
+  },
+  {
+    "domain": ".goofish.com",
+    "httpOnly": false,
+    "name": "sdkSilent",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1742127944485"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1744662342,
+    "httpOnly": false,
+    "name": "havana_lgc_exp",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1744633542277"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1744662342,
+    "httpOnly": true,
+    "name": "_hvn_lgc_",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "77"
+  },
+  {
+    "domain": ".goofish.com",
+    "httpOnly": false,
+    "name": "csg",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "77363be3"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1773606342,
+    "httpOnly": true,
+    "name": "sgcookie",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "E100hxQL3iVCTFp1f4FQDnO82yaMaVZYBbAq70zXvnLx0aVVDLDmzJCJX1sNmS%2BE56L8q5TghXupCgd7oxTPM%2Bk7zxNcuXLAMTpn7v4DvDwk1HSwC56LtKCPcO3l6hBWYidr"
+  },
+  {
+    "domain": ".goofish.com",
+    "httpOnly": true,
+    "name": "cookie2",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "11c5c4f5d0a6f6392246e3252a8c66b8"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1773606342,
+    "httpOnly": false,
+    "name": "tracknick",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "tb817965751"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1742300717,
+    "httpOnly": false,
+    "name": "xlly_s",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1"
+  },
+  {
+    "domain": ".goofish.com",
+    "httpOnly": false,
+    "name": "_tb_token_",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "3eb1793155611"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1749846316,
+    "httpOnly": false,
+    "name": "t",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "ef37b0b57af6bc473fbd73116b63ea54"
+  },
+  {
+    "domain": ".goofish.com",
+    "httpOnly": true,
+    "name": "_samesite_flag_",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "true"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1744662342,
+    "httpOnly": true,
+    "name": "havana_lgc2_77",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "eyJoaWQiOjM5MjE5MTkyOTEsInNnIjoiY2Q1ZGQ2NzE4YWVkZjk1YzNmNDdmNDAwNWU4NGVlZGIiLCJzaXRlIjo3NywidG9rZW4iOiIxdEZUT1JIaExfYUNoSXZoNjB2bUw2USJ9"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1742046915,
+    "httpOnly": false,
+    "name": "_m_h5_tk_enc",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "505f3f5b998e5409c94924852f7392bb"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1742329542,
+    "httpOnly": false,
+    "name": "unb",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "3921919291"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1742046915,
+    "httpOnly": false,
+    "name": "_m_h5_tk",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "629b7e456557820b19a6bd519f8accec_1742049435432"
+  },
+  {
+    "domain": ".goofish.com",
+    "expiry": 1742046915,
+    "httpOnly": false,
+    "name": "mtop_partitioned_detect",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1"
+  }
+]

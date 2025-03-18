@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "./qr_login.py",
+            "program": "./src/qr_login.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["-Xfrozen_modules=off"],
