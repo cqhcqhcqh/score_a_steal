@@ -19,18 +19,22 @@ class ItemDetail(Base):
     want_count = Column(Integer)
     description = Column(String)
     brand = Column(String)
+    model = Column(String)
     storage = Column(String)
-    condition = Column(String)
+    RAM = Column(String)
+    version = Column(String)
+    quality = Column(String)
+    repair_function = Column(String)
     category_id = Column(String)
+    channel_cat_id = Column(String)
     seller_id = Column(String)
     publish_time = Column(BigInteger)
-    keyword = Column(String)
-    tagname = Column(String)
+    title = Column(String)
 
     def __repr__(self):
         return f"<SearchResult(item_id='{self.item_id}', title='{self.title}', price={self.price})>"
     
-def cache_feed_filtered_result(items):
+def cache_feed_filtered_result(item_data, item_show_data):
     try:
         # 初始化 SQLite 数据库
         engine = create_engine('sqlite:///search_results.db')
@@ -38,58 +42,65 @@ def cache_feed_filtered_result(items):
         Session = sessionmaker(bind=engine)
         session = Session()
 
-        # 使用 BeautifulSoup 解析 HTML
-        # soup = BeautifulSoup(page_source, 'html.parser')
-        # with open ('search_feed_result.html', 'w+') as f:
-        #     f.write(page_source)
-
-        # items = soup.select('a[class*="feeds-item-wrap"]')
-
         # 提取并存储数据
-        for item_warpper in items:
-            item_data = item_warpper.get('data').get('item').get('main').get('clickParam').get('args')
-            # 提取字段
-            item_id = str(item_data.get('item_id', ''))
-            # get_product_detail(dir)
-            detail_url = f"https://www.goofish.com/item?id={item_id}"
-            price = float(item_data.get('price', 0)) / 100  # 假设单位为分，转为元
-            want_count = int(item_data.get('wantNum', 0))
-            seller_id = item_data.get('seller_id', '')
-            publish_time = int(item_data.get('publishTime', 0)) // 1000
-            keyword = item_data.get('keyword', '')
-            tagname = item_data.get('tagname', '')
-            category_id = item_data.get('cCatId', '')
+        # 提取字段
+        itemDO = item_data['itemDO']
+        item_id = str(itemDO.get('itemId'))
+        price = float(itemDO.get('soldPrice', 0))  # 假设单位为分，转为元
+        want_count = itemDO.get('wantCnt', 0)
+        desc = itemDO.get('desc')
+        title = itemDO.get('title')
 
-            # 从 serviceUtParams 提取额外信息
-            service_params = json.loads(item_data.get('serviceUtParams', '[]'))
-            brand, storage, condition = '', '', ''
-            is_free_shipping = tagname == '包邮'
-            description = keyword  # 临时使用 keyword 作为描述
-            for param in service_params:
-                args = param.get('args', {})
-                content = args.get('content', '')
-                description += content
-                if 'freeShippingIcon' in content:
-                    is_free_shipping = True
-                elif '人想要' in content:
-                    want_count = int(''.join(filter(str.isdigit, content)))
+        publish_time = int(item_show_data.get('publishTime', 0)) // 1000
 
-            # 存储
-            item_detail = ItemDetail(
-                item_id=item_id, detail_url=detail_url, price=price,
-                is_free_shipping=is_free_shipping, want_count=want_count,
-                description=description, brand=brand, storage=storage,
-                condition=condition, category_id=category_id, seller_id=seller_id,
-                publish_time=publish_time, keyword=keyword, tagname=tagname
-            )
+        itemCatDTO = itemDO.get('itemCatDTO')
+        category_id = str(itemDO.get('categoryId'))
+        channel_cat_id = str(itemCatDTO.get('channelCatId'))
+        sellerDO = item_data['sellerDO']
+        seller_id = str(sellerDO['sellerId'])
 
-            # 检查是否已存在，避免重复插入
-            if not session.query(ItemDetail).filter_by(item_id=item_id).first():
-                session.add(item_detail)
+        # 从 serviceUtParams 提取额外信息
+        cpvLabels = json.loads(itemDO.get('cpvLabels', '[]'))
+        brand, storage, model, version, RAM, quality, repair_function = '', '', '', '', '', '', ''
+        
+        # is_free_shipping = tagname == '包邮'
+        # description = keyword  # 临时使用 keyword 作为描述
+        for label in cpvLabels:
+            # args = param.get('args', {})
+            name = label.get('propertyName', '')
+            value = label.get('valueName')
+            # description += content
+            if '品牌' == name:
+                brand = value
+            elif '型号' == name:
+                model = value
+            elif '存储容量' == name:
+                storage = value
+            elif '运行内存' == name:
+                RAM = value
+            elif '版本' == name:
+                version = value
+            elif '成色' == name:
+                quality = value
+            elif '拆修和功能' == name:
+                repair_function = value
+        # 存储
+        item_detail = ItemDetail(
+            item_id=item_id, title=title, price=price,
+            is_free_shipping=is_free_shipping, want_count=want_count,
+            description=desc, brand=brand, storage=storage, model=model,
+            version=version, RAM=RAM, quality=quality, repair_function=repair_function,
+            category_id=category_id, channel_cat_id=channel_cat_id, seller_id=seller_id,
+            publish_time=publish_time,
+        )
+
+        # 检查是否已存在，避免重复插入
+        if not session.query(ItemDetail).filter_by(item_id=item_id).first():
+            session.add(item_detail)
         
         # 提交到数据库
         session.commit()
-        print(f"成功存储 {len(items)} 条搜索结果到数据库")
+        print(f"成功存储 1 条搜索结果到数据库")
 
     except Exception as e:
         print(f"发生错误: {str(e)}")

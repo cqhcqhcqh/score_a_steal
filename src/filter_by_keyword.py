@@ -13,6 +13,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 from save_filtered_result import cache_feed_filtered_result
 from product_detail import get_product_detail
 from home_search_list import get_home_search_result
+from user_page_nav import goto_user_nav_page
+from user_page_product_list import fetch_user_product_list
 
 def filter_by_keyword_lastest(driver, keyword):
     # del driver.requests
@@ -59,10 +61,15 @@ def filter_by_keyword_lastest(driver, keyword):
         headers = search_api_request.headers
 
         items = get_home_search_result(cookies, headers, 'iPhone14Pro256').get('data').get('resultList')
-        # cache_feed_filtered_result(items)
+        
         for item_warpper in items:
             item_data = item_warpper.get('data').get('item').get('main').get('clickParam').get('args')
             # 提取字段
             item_id = str(item_data.get('item_id', ''))
             
-            get_product_detail(cookies, search_api_request.headers, item_id)
+            product_detail = get_product_detail(cookies, headers, item_id)
+            cache_feed_filtered_result(product_detail)
+            seller_id = product_detail.get('data').get('sellerDO').get('sellerId')
+            user_info = goto_user_nav_page(cookies, headers, str(seller_id)).get('data')
+            product_list = fetch_user_product_list(cookies, headers, str(seller_id))
+            print(0)
