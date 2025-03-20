@@ -12,6 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from save_filtered_result import cache_feed_filtered_result
 from product_detail import get_product_detail
+from home_search_list import get_home_search_result
 
 def filter_by_keyword_lastest(driver, keyword):
     # del driver.requests
@@ -49,15 +50,19 @@ def filter_by_keyword_lastest(driver, keyword):
                 break
 
     if search_api_request:
-        response_body = search_api_request.response.body.decode('utf-8')
-        response_json = json.loads(response_body)
-        items = response_json.get('data').get('resultList')
-    
+        # response_body = search_api_request.response.body.decode('utf-8')
+        # response_json = json.loads(response_body)
+        # items = response_json.get('data').get('resultList')
+
+        cookie_str = search_api_request.headers.get("Cookie")
+        cookies = dict(cookie.split("=", 1) for cookie in cookie_str.split("; "))
+        headers = search_api_request.headers
+
+        items = get_home_search_result(cookies, headers, 'iPhone14Pro256').get('data').get('resultList')
         # cache_feed_filtered_result(items)
         for item_warpper in items:
             item_data = item_warpper.get('data').get('item').get('main').get('clickParam').get('args')
             # 提取字段
             item_id = str(item_data.get('item_id', ''))
-            cookie_str = search_api_request.headers.get("Cookie")
-            cookies = dict(cookie.split("=", 1) for cookie in cookie_str.split("; "))
+            
             get_product_detail(cookies, search_api_request.headers, item_id)

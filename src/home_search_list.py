@@ -1,14 +1,38 @@
+import requests
+
+# cookies = {
+#     'mtop_partitioned_detect': '1',
+#     'havana_lgc_exp': '1745019190281',
+#     '_hvn_lgc_': '77',
+#     'havana_lgc2_77': 'eyJoaWQiOjM5MjE5MTkyOTEsInNnIjoiOTRjMWQ2ZjY5NTIxMGY1N2QyZmI0MzE5NTZhNmY1ZWMiLCJzaXRlIjo3NywidG9rZW4iOiIxeDVWVmloaWJaZ3NSU3M5QVlZWkhMZyJ9',
+#     '_tb_token_': '55b1ea7333be3',
+#     'xlly_s': '1',
+#     'tracknick': 'tb817965751',
+#     '_samesite_flag_': 'true',
+#     't': '1bae4f773ac3d86e04a1603545be3dc8',
+#     'unb': '3921919291',
+#     'cna': 'rDpgIKd3eC8CAd+n6+dApg1s',
+#     'sdkSilent': '1742513644409',
+#     'mtop_partitioned_detect': '1',
+#     '_m_h5_tk': '0205fb81c63e4e357d47003aa2fdc9ce_1742434870100',
+#     '_m_h5_tk_enc': '2e8fef823d531d8aee27ad75079801fe',
+#     'cookie2': '25a679a2b59f7fb3f4e3cb94414f3a96',
+#     'sgcookie': 'E100Y4V17ETmhzfdAl0KSB3FBYcE39eT%2Bh4KBTZjTorJUBGeePhrRfbLgXEeK%2BI%2FORneQqoLNUOP2DBQzEh4DWakNbvUka3Fd0TgQUteKydulRgvNO2EQBOiUwR9mPWX%2FEgQ',
+#     'csg': 'e0c79423',
+#     'tfstk': 'g8RxBjcge4UYTI1nijMuseNqt20kBCL2nn8QsGj0C3KJRercCIfDXRKD7hXs0sA92FtKuNm2srJyxeNDix5g6s5N1DmntXb2u156qPTFWoS5RwlGl5_fg_wBmEhKtXY2lrbj-UGHiDqkrij11t61F7sPW5s6ftwWPg7N5o__G4L54g_bGS61N__CSRaXf1gJPg711ZTrcYIahMV9dzUtUM0apJwBwZBAX5jz66d4tTIQqgPT6nqRhMGh25N6wZTuzgb_GXIWndOcNIi7A_TeEn_R9jEFkLTp29Auq5fBL3dOdHgg3axv0I7eeDFViepWiTRIqS-9-ndOKncSlh5f5hWesDPVcFTeTpfKMk7vFeKRKQquTg79tBCyPkjdS-g-yRyNhaztZr9WkX_iWaInrZ2aQTHPyM0-ARw_YGQRx42LQRWrl',
+# }
+
 import time
 import json
 import requests
 from sign import calculate_sign
 
-def get_product_detail(cookies, headers, itemId):
+def get_home_search_result(cookies, headers, keyword):
     _m_h5_tk = cookies.get('_m_h5_tk')
     assert _m_h5_tk != None
 
     t = str(int(time.time() * 1000))
-    api = 'mtop.taobao.idle.pc.detail'
+    api = 'mtop.taobao.idlemtopsearch.pc.search'
     appKey = '34839810'
     spm_cnt = 'a21ybx.item.0.0'
     spm_pre = 'a21ybx.search.searchFeedList.1.25734829IcZ8UM'
@@ -32,7 +56,21 @@ def get_product_detail(cookies, headers, itemId):
         # 'spm_pre': spm_pre,
         # 'log_id': log_id,
     }
-    data_item = json.dumps({"itemId": itemId})
+    data_item = json.dumps(
+                {"pageNumber":1,
+                 "keyword": keyword,
+                 "fromFilter":True,
+                 "rowsPerPage":30,
+                 "sortValue":"desc",
+                 "sortField":"create", # 按照发布日期排序
+                 "customDistance":"",
+                 "gps":"",
+                 "propValueStr":{"searchFilter":"quickFilter:filterPersonal;"}, # 个人闲置
+                 "customGps":"",
+                 "searchReqFromPage":"pcSearch",
+                 "extraFilterValue":"{}",
+                 "userPositionJson":"{}"})
+    
     data = {
         'data': data_item,
     }
@@ -103,7 +141,7 @@ def get_product_detail(cookies, headers, itemId):
     # }
 
     responseJson = requests.post(
-        'https://h5api.m.goofish.com/h5/mtop.taobao.idle.pc.detail/1.0/',
+        'https://h5api.m.goofish.com/h5/mtop.taobao.idlemtopsearch.pc.search/1.0/',
         params=params,
         cookies=cookies,
         headers=headers,
@@ -111,7 +149,7 @@ def get_product_detail(cookies, headers, itemId):
     ).json()
 
     import os
-    if not os.path.exists('sessions/mtop.taobao.idle.pc.detail_.json'):
-        with open('sessions/mtop.taobao.idle.pc.detail_.json', 'w') as file:
+    if not os.path.exists('sessions/mtop.taobao.idlemtopsearch.pc.search_.json'):
+        with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
     return responseJson

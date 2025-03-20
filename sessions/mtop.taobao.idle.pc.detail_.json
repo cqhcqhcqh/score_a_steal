@@ -1,0 +1,537 @@
+{
+  "api": "mtop.taobao.idle.pc.detail",
+  "data": {
+    "b2cBuyerDO": {
+      "buyQualificationActList": [],
+      "isFirstOrderUser": false,
+      "isNewUserIn7Day": false,
+      "favored": false
+    },
+    "itemDO": {
+      "noPicItem": false,
+      "shareData": {
+        "shareReportUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/cro-report-center/pages/report-type?titleVisible=false&useCusFont=true&pageSourceCode=itemDetail&reportSubjectId=900264045568",
+        "shareHelpUrl": "https://h5.m.goofish.com/app/service-hall/sh-rax-web/goofish.html?hcAppId=1283&hcPageCode=home&hcFromCode=dIekpEBMI&item_id=900264045568",
+        "shareInfoJsonString": "{\"canShareToWxMini\":false,\"contentParams\":{\"headerParams\":{\"subTitle\":\"南昌\",\"title\":\"记住别吃茄子\",\"userAvatar\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01COx2uB1GJJ3GGgN2s_!!4611686018427384329-0-mtopupload.jpg\"},\"mainParams\":{\"content\":\"iPhone14pro，黑色美版无锁256双卡，换过组装屏接触不灵敏，其他功能完好，自提优先，电池良好\",\"contentMaxLine\":\"2\",\"extra\":{\"descRelativeTags\":[],\"priceRelativeTags\":[{\"additionMap\":{},\"bgColor\":\"#FFFFFF\",\"borderColor\":\"#FFFFFF\",\"order\":99,\"text\":\"包邮\",\"textColor\":\"#1F1F1F\",\"trackParams\":{\"tagType\":\"baoyou\"}}],\"soldPrice\":\"1800\"},\"images\":[{\"height\":\"316\",\"image\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01TjM4u31GJJ4jyQgZi_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"224\"},{\"height\":\"1440\",\"image\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01oNxoXG1GJJ4lSbyKd_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"1080\"},{\"height\":\"1440\",\"image\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01HG7AaA1GJJ4rdZfoz_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"1080\"},{\"height\":\"1440\",\"image\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01eVJmJI1GJJ4qVbmAe_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"1080\"},{\"height\":\"1440\",\"image\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01mYQSZu1GJJ4taggqr_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"1080\"},{\"height\":\"1440\",\"image\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01KKqkHg1GJJ4qMJtSw_!!4611686018427384329-53-fleamarket.heic\",\"width\":\"1080\"}]}},\"sceneId\":\"900264045568\",\"sceneType\":\"detail\",\"shareMessageCard\":{\"coverImg\":\"\",\"subTitle\":\"\",\"title\":\"\"},\"url\":\"fleamarket://awesome_detail?itemId=900264045568&hitNativeDetail=true&flutter=true&ignoreMiddle=true&id=900264045568\",\"version\":2}"
+      },
+      "attitudes": [
+        {
+          "image": "https://gw.alicdn.com/imgextra/i4/O1CN01Bgss8723h2YneWrTE_!!6000000007286-2-tps-144-144.png",
+          "lottie": "https://g.alicdn.com/eva-assets/63c22c21841037745d6d122ae42dbe49/0.0.1/tmp/46150a7/46150a7.json",
+          "fullLottie": "https://g.alicdn.com/eva-assets/355cbc5f9eff697e226de7da654a37b8/0.0.1/tmp/499a606/499a606.json",
+          "supportedCnt": 0,
+          "hasTake": false,
+          "title": "赞一个",
+          "key": "1"
+        },
+        {
+          "image": "https://gw.alicdn.com/imgextra/i1/O1CN01zJVtzf20SR5Fda9DD_!!6000000006848-2-tps-144-144.png",
+          "lottie": "https://g.alicdn.com/eva-assets/83ff59f7738159a49724adbe3e62cdc5/0.0.1/tmp/264dbaa/264dbaa.json",
+          "fullLottie": "https://g.alicdn.com/eva-assets/ab812d87f6f7d31435daea0c0e4186a8/0.0.1/tmp/11a6df5/11a6df5.json",
+          "supportedCnt": 0,
+          "hasTake": false,
+          "title": "鱿意思",
+          "key": "2"
+        },
+        {
+          "image": "https://gw.alicdn.com/imgextra/i4/O1CN01VaBBtE1NZWBrLFp1h_!!6000000001584-2-tps-144-144.png",
+          "lottie": "https://g.alicdn.com/eva-assets/6180e4332bcf187db28a77b9c1f44159/0.0.1/tmp/f15ef4b/f15ef4b.json",
+          "fullLottie": "https://g.alicdn.com/eva-assets/32ce088a88f78dfeee6f27ae172f4220/0.0.1/tmp/129afe1/129afe1.json",
+          "supportedCnt": 0,
+          "hasTake": false,
+          "title": "鲸呆了",
+          "key": "3"
+        }
+      ],
+      "templateId": 0,
+      "worthBuySimilarFeeds": false,
+      "trackParams": {
+        "itemId": "900264045568",
+        "sellerId": "2218875310601",
+        "idlelabel_serviceUtParams": "[]",
+        "buyerBucketId": "16",
+        "sellerBucketId": "13",
+        "idlelabel_bucketId": "12",
+        "idlelabel_unShowTrackParams": "{}"
+      },
+      "userInputTopics": [],
+      "soldPrice": "1800",
+      "itemLabelExtList": [
+        {
+          "channelCateId": 126862528,
+          "labelId": "15442693",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "手机",
+          "properties": "-10000##分类:126862528##手机"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "138",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "Apple/苹果",
+          "properties": "20000##品牌:30111##Apple/苹果"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "132844444",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "iPhone 14 Pro",
+          "properties": "205924957##型号:20324712888##iPhone 14 Pro"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "140",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "256GB",
+          "properties": "12304035##存储容量:11835346##256GB"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "251161494",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "6GB",
+          "properties": "264629324##运行内存:21555##6GB"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "96125540",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "海外无锁",
+          "properties": "122216431##版本:9643098789##海外无锁"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "160837495",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "细微磕碰划痕",
+          "properties": "20879##成色:5588170937##细微磕碰划痕"
+        },
+        {
+          "channelCateId": 126862528,
+          "labelId": "244037447",
+          "labelType": "common",
+          "from": "newPublishChoice",
+          "text": "屏幕有维修",
+          "properties": "241641050##拆修和功能:9643158076##屏幕有维修"
+        }
+      ],
+      "tradeBanners": [],
+      "browseCnt": 240,
+      "priceRelativeTags": [
+        {
+          "borderColor": "#FFFFFF",
+          "trackParams": {
+            "tagType": "baoyou"
+          },
+          "bgColor": "#FFFFFF",
+          "text": "包邮",
+          "additionMap": {},
+          "textColor": "#1F1F1F",
+          "order": 99
+        }
+      ],
+      "priceUnit": "",
+      "imageInfos": [
+        {
+          "major": true,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi4%2FO1CN01TjM4u31GJJ4jyQgZi_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 224,
+          "heightSize": 316,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i4/O1CN01TjM4u31GJJ4jyQgZi_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        },
+        {
+          "major": false,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi2%2FO1CN01oNxoXG1GJJ4lSbyKd_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 1080,
+          "heightSize": 1440,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i2/O1CN01oNxoXG1GJJ4lSbyKd_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        },
+        {
+          "major": false,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi4%2FO1CN01HG7AaA1GJJ4rdZfoz_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 1080,
+          "heightSize": 1440,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i4/O1CN01HG7AaA1GJJ4rdZfoz_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        },
+        {
+          "major": false,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi4%2FO1CN01eVJmJI1GJJ4qVbmAe_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 1080,
+          "heightSize": 1440,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i4/O1CN01eVJmJI1GJJ4qVbmAe_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        },
+        {
+          "major": false,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi3%2FO1CN01mYQSZu1GJJ4taggqr_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 1080,
+          "heightSize": 1440,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i3/O1CN01mYQSZu1GJJ4taggqr_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        },
+        {
+          "major": false,
+          "photoSearchUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/idle-photo-search/pages/home?kun=true&wh_ttid=native&opaque=false&extra=%7B%22imageInfo%22%3A%7B%22bizCode%22%3A%22idledetail%22%2C%22reqFromPage%22%3A%22idle_detail%22%2C%22source%22%3A%22itempic%22%2C%22url%22%3A%22http%3A%2F%2Fimg.alicdn.com%2Fbao%2Fuploaded%2Fi1%2FO1CN01KKqkHg1GJJ4qMJtSw_%21%214611686018427384329-53-fleamarket.heic_640x640q90.jpg%22%7D%7D",
+          "widthSize": 1080,
+          "heightSize": 1440,
+          "type": 0,
+          "url": "http://img.alicdn.com/bao/uploaded/i1/O1CN01KKqkHg1GJJ4qMJtSw_!!4611686018427384329-53-fleamarket.heic",
+          "labels": []
+        }
+      ],
+      "titleIsUserInput": false,
+      "recommendTagList": [],
+      "spuBottomBarItem": {
+        "trackParams": {
+          "bucket_id": "18",
+          "category_id": "126862528",
+          "item_id": "900264045568"
+        },
+        "title": "卖同款",
+        "targetUrl": "fleamarket://simple_post?sameItemId=900264045568&sourceId=DetailSimilarSellBar"
+      },
+      "croControl": [],
+      "itemId": 900264045568,
+      "GMT_CREATE_DATE_KEY": "2025-03-18 15:30:57",
+      "charitableItem": false,
+      "uiItemServiceDOList": [],
+      "pcSupportTrade": true,
+      "commonTags": [
+        {
+          "borderColor": "ECF9FF",
+          "bgColor": "ECF9FF",
+          "text": "包邮",
+          "additionMap": {},
+          "textColor": "0DAEFF",
+          "order": 99
+        }
+      ],
+      "desc": "iPhone14pro，黑色美版无锁256双卡，换过组装屏接触不灵敏，其他功能完好，自提优先，电池良好",
+      "descTagColor": "#FFF58300",
+      "itemType": "detailCommonBuy",
+      "simpleItem": true,
+      "originalPrice": "0",
+      "transportFee": "0.00",
+      "itemStatusStr": "在线",
+      "cpvLabels": [
+        {
+          "valueObject": "30111",
+          "valueId": 30111,
+          "propertyName": "品牌",
+          "valueName": "Apple/苹果",
+          "propertyId": 20000,
+          "url": "https://h5.m.goofish.com/wow/moyu/moyu-project/shopping-guide/pages/home?titleVisible=false&topicId=12211"
+        },
+        {
+          "valueObject": "20324712888",
+          "valueId": 20324712888,
+          "propertyName": "型号",
+          "valueName": "iPhone 14 Pro",
+          "propertyId": 205924957
+        },
+        {
+          "valueObject": "11835346",
+          "valueId": 11835346,
+          "propertyName": "存储容量",
+          "valueName": "256GB",
+          "propertyId": 12304035
+        },
+        {
+          "valueObject": "21555",
+          "valueId": 21555,
+          "propertyName": "运行内存",
+          "valueName": "6GB",
+          "propertyId": 264629324
+        },
+        {
+          "valueObject": "9643098789",
+          "valueId": 9643098789,
+          "propertyName": "版本",
+          "valueName": "海外无锁",
+          "propertyId": 122216431
+        },
+        {
+          "valueObject": "5588170937",
+          "valueId": 5588170937,
+          "propertyName": "成色",
+          "valueName": "细微磕碰划痕",
+          "propertyId": 20879
+        },
+        {
+          "valueObject": "9643158076",
+          "valueId": 9643158076,
+          "propertyName": "拆修和功能",
+          "valueName": "屏幕有维修",
+          "propertyId": 241641050
+        }
+      ],
+      "richTextDesc": "{\"type\":null,\"children\":[{\"type\":\"Element\",\"children\":[{\"type\":\"Text\",\"text\":\"iPhone14pro，黑色美版无锁256双卡，换过组装屏接触不灵敏，其他功能完好，自提优先，电池良好\",\"properties\":{}}],\"properties\":{}}],\"properties\":{},\"version\":\"1.0\"}",
+      "wantCntUnit": "人想要",
+      "title": "iPhone14pro，黑色美版无锁256双卡，换过组装屏接",
+      "promotionPriceDO": {
+        "additionMap": {}
+      },
+      "createOrderUrl": "fleamarket://order_create?item_id=900264045568&sourceInApp=detail",
+      "interactFavorCnt": 0,
+      "itemStatus": 0,
+      "channelUmpCreateOrderUrl": "fleamarket://order_create?item_id=900264045568&sourceInApp=detail",
+      "charitableTag": {
+        "iconHeight": "60",
+        "iconWidth": "204",
+        "iconUrl": "http://gw.alicdn.com/mt/TB1FjjLdkcx_u4jSZFlXXXnUFXa-204-60.png"
+      },
+      "descRelativeTags": [],
+      "spuTopics": [],
+      "defaultPrice": false,
+      "attitudeType": 5,
+      "quantity": 1,
+      "priceTextTags": [],
+      "bargained": false,
+      "collectCnt": 5,
+      "favorCnt": 0,
+      "reportUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/cro-report-center/pages/report-type?titleVisible=false&useCusFont=true&pageSourceCode=itemDetail&reportSubjectId=900264045568",
+      "cpvTopics": [
+        {
+          "trackParams": {
+            "is_useradd": "0",
+            "theme_id": "12211",
+            "theme_name": "Apple/苹果",
+            "theme_type": "2"
+          },
+          "pvList": [
+            {
+              "valueId": 30111,
+              "propertyId": 20000
+            }
+          ],
+          "name": "Apple/苹果",
+          "id": 12211,
+          "targetUrl": "https://h5.m.goofish.com/wow/moyu/moyu-project/shopping-guide/pages/home?titleVisible=false&topicId=12211"
+        }
+      ],
+      "gmtCreate": 1742283057000,
+      "tradeAccessType": 1,
+      "wantCnt": 6,
+      "defaultPicture": false,
+      "secuGuide": {
+        "secuTitle": "什么是闲鱼支付宝担保交易？",
+        "secuIcon": "https://img.alicdn.com/imgextra/i4/O1CN01rK5Qxk23BR5gvdj8j_!!6000000007217-2-tps-48-48.png",
+        "secuContent": "担保交易",
+        "secuBtmContext": "点击查看更多知识",
+        "secuBtm": "请保证在闲鱼平台进行支付，否则闲鱼将无法保证您交易的安全。",
+        "secuBtmUrl": "https://alimebot.goofish.com/intl/index.htm?from=vcWV25EkPP",
+        "secuBody": "https://gw.alicdn.com/mt/TB1V4Q9OVXXXXa7aXXXXXXXXXXX-488-430.png"
+      },
+      "itemCatDTO": {
+        "catId": 50025386,
+        "leafId": 1377,
+        "rootChannelCatId": 126866987,
+        "sugShow": false,
+        "level3ChannelCatId": 126876576,
+        "tbCatId": 1512,
+        "channelCatId": 126862528,
+        "level2ChannelCatId": 126868835
+      },
+      "categoryId": 50025386,
+      "liveRoomCreateOrderUrl": "fleamarket://order_create?item_id=900264045568&sourceInApp=detail"
+    },
+    "b2cSellerDO": {
+      "sellerStatisticsInfoList": [],
+      "identityTags": [],
+      "levelTags": [],
+      "sellerBizTags": [],
+      "userRegDay": 0,
+      "sellerInfoTags": []
+    },
+    "sellerDO": {
+      "aoiType": "0",
+      "city": "南昌",
+      "signature": "纯情女大要出个人闲置！",
+      "userRegDay": 132,
+      "hasSoldNumInteger": 23,
+      "publishCity": "南昌",
+      "nick": "记住别吃茄子",
+      "sellerStatisticsInfoList": [],
+      "sellerId": 2218875310601,
+      "idleFishCreditTag": {
+        "iconHeight": "36",
+        "trackParams": {
+          "sellerLevel": "2",
+          "pageUserId": "2218875310601"
+        },
+        "iconWidth": "156",
+        "iconUrl": "https://gw.alicdn.com/imgextra/i4/O1CN018tbP0c1NyFf2hSzMM_!!6000000001638-2-tps-285-66.png",
+        "additionMap": {},
+        "order": 99
+      },
+      "lastVisitTime": "7小时前来过",
+      "replyIn24hRatioDouble": 0.75,
+      "avgReply30dLong": 11,
+      "sellerBizTags": [],
+      "replyRatio24h": "75%",
+      "replyInterval": "11分钟",
+      "registerTime": 1730995418000,
+      "portraitUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01COx2uB1GJJ3GGgN2s_!!4611686018427384329-0-mtopupload.jpg",
+      "sellerTypeString": null,
+      "remarkDO": {
+        "sellerDefaultRemarkCnt": 0,
+        "sellerGoodRemarkCnt": 1,
+        "sellerBadRemarkCnt": 0
+      },
+      "zhimaAuth": true,
+      "sellerItems": [],
+      "sellerInfoTags": [],
+      "itemCount": 6,
+      "zhimaLevelInfo": {
+        "levelCode": "D",
+        "levelName": "信用中等"
+      },
+      "uniqueName": "记住别吃茄子",
+      "xianyuSummary": "卖出过23件宝贝。00后天秤座女生。江西师范大学。喜欢宠物、摄影、数码、时尚、绿植。纯情女大要出个人闲置！",
+      "identityTags": [
+        {
+          "iconHeight": "32",
+          "trackParams": {
+            "appearTrackName": "",
+            "trackCtrlName": "Button-Shiren"
+          },
+          "iconWidth": "32",
+          "link": "https://h5.m.taobao.com/2shou/pd/realVerifyUrl.html?userId=2218875310601&isVerify=1",
+          "iconUrl": "https://gw.alicdn.com/bao/uploaded/TB1E3aKPFXXXXcKXpXXXXXXXXXX-32-32.png",
+          "text": "实人认证已通过",
+          "type": "1",
+          "additionMap": {},
+          "order": 99
+        }
+      ],
+      "levelTags": [
+        {
+          "iconHeight": "32",
+          "iconWidth": "128",
+          "iconUrl": "https://gw.alicdn.com/imgextra/i1/O1CN01Ix0UJA1RPg47fGN75_!!6000000002104-2-tps-192-48.png",
+          "additionMap": {},
+          "order": 99
+        },
+        {
+          "iconHeight": "36",
+          "trackParams": {
+            "sellerLevel": "2",
+            "pageUserId": "2218875310601"
+          },
+          "iconWidth": "156",
+          "iconUrl": "https://gw.alicdn.com/imgextra/i4/O1CN018tbP0c1NyFf2hSzMM_!!6000000001638-2-tps-285-66.png",
+          "additionMap": {},
+          "order": 99
+        }
+      ]
+    },
+    "b2cItemDO": {
+      "priceRelativeTags": [],
+      "benefitLabels": [],
+      "priceTextTags": [],
+      "benefitTags": [],
+      "descRelativeTags": [],
+      "templateId": 0,
+      "commonTags": [],
+      "browseCnt": 0
+    },
+    "uiCountDownInfoDO": {},
+    "b2cUiIdleDetailConfigDO": {
+      "enableShowOthersSellInfoGuide": true,
+      "needGroupInfo": true,
+      "needItemGuideInfo": true,
+      "supportTradeTips": false,
+      "showSellerOtherItems": true,
+      "enableShowQuickAskExp": true,
+      "needFishPoolInfo": true,
+      "enableShowBidInfo": true,
+      "needShirenInfo": true,
+      "needZhimaInfo": true,
+      "enableShowSellSimple": true,
+      "extendUserWantUnit": false,
+      "enableNfgcService": true,
+      "showManager": true,
+      "extendPriceUnit": false,
+      "enableJumpXyh": true,
+      "extendDescItemType": false,
+      "extendSellerStatisticInfo": false,
+      "enableNfrService": true,
+      "enableSdrService": true,
+      "enableSellerVipLogo": true,
+      "extendSellerInfoTags": false,
+      "hit202109NewDetail": false,
+      "extendSellerCertificate": false,
+      "extendSellerLevelTags": false
+    },
+    "uiTemplateDO": {},
+    "interactDO": {},
+    "trackParams": {
+      "medal_id": "xymedal_ecofriendly1",
+      "target_type": "item",
+      "idlelabel_bucketId": "12",
+      "buyerOptions": "navBarFollowButton|newDetail|sellerReplyStatisticsInfo|nearby|dislikeReport|sellerUpgrade|nearbyBulk|nearbyLuxury|offlineMakePrice|nearbyLowValue|quickQuestionOffline|shopAvatarSuperLike|shareWxMini|goodValueShow|skuBannerShow|zxTagShow|storeGroupAb|skuRateAb|b2cItemDetail|couponSuperLink|skillCertficate|b2cItemDetailAuction",
+      "target_id": "900264045568",
+      "buyerId": "3921919291",
+      "sellerInBuyOptions": "snReportShow|navBarFollowButton|newDetail|sellerReplyStatisticsInfo|nearby|dislikeReport|sellerUpgrade|nearbyLuxury|nearbyBulk|offlineMakePrice|seaMarketChat|nearbyLowValue|quickQuestionOffline|shopAvatarSuperLike|shareWxMini|goodValueShow|skuBannerShow|zxTagShow|skuRateAb|storeGroupAb|b2cItemDetail|couponSuperLink|skillCertficate|trendyHandbookDx",
+      "detailSpiVersion": "2",
+      "itemId": "900264045568",
+      "sellerOptions": "simplePub|newTagPage|myPubSameSpu|toBuyB|spuGuide|itemGuide|tagV2|mtbFeeds|mtbSell|mtbHome|tobuyQuery|tobuyInitiative|glbV2|ignoreImageEditor|textSameSpu|cpvUnfoldPublish|guidePublishTypeB|tellusNewTask|priceReferenceTag|showResellList|spuBottomBarItem|myPublish91|publishSyncToCircle|directPublish|searchPublishEntry|textLengthDiagnosis|poiLab|themePublishBanner|myPublish92|myPubActivityEntry|myPublish932|accountGuarantee|albef_tpp|PROPERTY_TPP|spuBottomBarActionUrl",
+      "sellerId": "2218875310601",
+      "detailRedirectPublishUrl": "",
+      "idlelabel_serviceUtParams": "[]",
+      "buyerBucketId": "16",
+      "mainPic": "http://img.alicdn.com/bao/uploaded/i4/O1CN01TjM4u31GJJ4jyQgZi_!!4611686018427384329-53-fleamarket.heic",
+      "sellerBucketId": "13",
+      "buyerInSellBucketId": "18",
+      "buyerInSellOptions": "simplePub|newTagPage|myPubSameSpu|spuGuide|itemGuide|toBuyB|mtbFeeds|mtbSell|mtbHome|tagV2|tobuyQuery|tobuyInitiative|glbV2|ignoreImageEditor|textSameSpu|cpvUnfoldPublish|tellusNewTask|guidePublishTypeB|spuBottomBarItem|showResellList|myPublish91|publishSyncToCircle|directPublish|searchPublishEntry|priceReferenceTag|textLengthDiagnosis|poiLab|themePublishBanner|myPublish92|myPubActivityEntry|myPublish932|accountGuarantee|albef_tpp|PROPERTY_TPP|spuBottomBarActionUrl",
+      "sellerInBuyBucketId": "9",
+      "categoryId": "50025386",
+      "idlelabel_unShowTrackParams": "{}"
+    },
+    "seafoodDO": {
+      "bucket": "0"
+    },
+    "configInfo": {
+      "navBarFollowButton": "true",
+      "skuBannerShow": "true",
+      "showResellList": "true",
+      "jumpXyh": "true",
+      "hitIdleFishCreditAb": "true",
+      "paymentGuideMask": "true"
+    },
+    "serverTime": "2025-03-20 07:41:29",
+    "buyerDO": {
+      "buyQualificationActList": [],
+      "isFirstOrderUser": false,
+      "isNewUserIn7Day": false,
+      "buyerNick": "雾桕勼柒",
+      "buyerAvatar": "http://img.alicdn.com/bao/uploaded/i3/O1CN011UuZbC2IVKqwNDiYQ_!!4611686018427387195-0-mtopupload.jpg",
+      "isShopUser": false,
+      "favored": false,
+      "IS_FIRST_ORDER_SAFE_GUARD_USER_KEY": false,
+      "isSuperFavored": false,
+      "buyerId": 3921919291,
+      "attentionState": 0,
+      "isCollected": true
+    }
+  },
+  "ret": [
+    "SUCCESS::调用成功"
+  ],
+  "v": "1.0"
+}
