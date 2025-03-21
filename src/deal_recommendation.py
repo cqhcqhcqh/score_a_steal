@@ -15,7 +15,7 @@ from product_detail import get_product_detail
 from user_page_nav import goto_user_nav_page
 from user_page_product_list import fetch_user_product_list
 from home_search_list import get_home_search_result
-from qr_login import setup_driver, load_persistent_cookies
+from setup import setup_driver, load_persistent_cookies
 
 class DealRecommendationSystem:
     """闲鱼好价推荐系统"""

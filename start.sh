@@ -37,12 +37,12 @@ sleep 2
 # 启动Web服务
 echo "启动Web服务..."
 cd "$BASE_DIR"
-gunicorn --bind 0.0.0.0:5000 --workers 2 --threads 4 --timeout 120 "src.web_server:app" > logs/web.log 2>&1 &
+gunicorn --bind 0.0.0.0:8119 --workers 2 --threads 4 --timeout 120 "src.web_server:app" > logs/web.log 2>&1 &
 
 # 显示访问信息
 echo ""
 echo "系统已启动!"
-echo "Web服务：http://localhost:5000"
+echo "Web服务：http://localhost:8119"
 echo "日志位置："
 echo "  Celery日志: logs/celery.log"
 echo "  Web服务日志: logs/web.log"

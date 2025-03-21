@@ -186,30 +186,6 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
         if keyword:
             filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
 
-def persist_driver_cookies(driver):
-    # Step 7: 提取 cookies
-    cookies = driver.get_cookies()
-    # print("已提取浏览器中的 cookies:")
-    # for cookie in cookies:
-    #     print(cookie)
-
-    # Step 8: 保存 cookies 到文件
-    with open("goofish_cookies.json", "w") as f:
-        json.dump(cookies, f, indent=2)
-    print("Cookies 已保存到 goofish_cookies.json")
-
-def load_persistent_cookies(driver):
-    if not os.path.exists('goofish_cookies.json'):
-        return
-    with open("goofish_cookies.json", "r") as f:
-        cookies = json.load(f)
-        for cookie in cookies:
-            if cookie['domain'] == '.goofish.com':
-                driver.add_cookie(cookie)
-            else:
-                print(f"domain not correct: {cookie['domain']}")
-        print("已加载保存的 cookies")
-
 def start_search_with_recommendation(keyword, expected_price, product_type='iPhone', feishu_webhook=None):
     """
     使用推荐系统开始搜索，提供更加直观的入口

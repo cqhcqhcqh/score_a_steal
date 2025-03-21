@@ -1,0 +1,76 @@
+import os
+import time
+import json
+import requests
+from PIL import Image
+from datetime import datetime
+# from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+from seleniumwire import webdriver
+
+def setup_driver():
+    chrome_options = Options()
+    # chrome_options.add_argument('--start-maximized')
+    # chrome_options.add_argument('--headless')  # Enable headless mode
+    chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
+    # chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+    # chrome_options.add_argument("--no-proxy-server")
+    # 禁用缓存和优化，确保请求可见
+    # chrome_options.add_argument("--disable-cache")
+    # chrome_options.add_argument("--no-sandbox")
+    # chrome_options.add_argument("--disable-dev-shm-usage")
+    # chrome_option.add_argument("--proxy-bypass-list=*")
+    
+    service = Service(executable_path='./resources/chromedriver')
+    seleniumwire_options = {
+        'disable_encoding': True,  # 避免编码干扰
+        'verify_ssl': False,       # 忽略 SSL 验证问题
+    }
+    
+    driver = webdriver.Chrome(
+        options=chrome_options,
+        seleniumwire_options=seleniumwire_options,
+        service=service
+    )
+    
+    # driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+    #     'source': '''
+    #         Object.defineProperty(navigator, 'webdriver', {
+    #             get: () => undefined
+    #         });
+    #     '''
+    # })
+    return driver
+
+def persist_driver_cookies(driver):
+    # Step 7: 提取 cookies
+    cookies = driver.get_cookies()
+    # print("已提取浏览器中的 cookies:")
+    # for cookie in cookies:
+    #     print(cookie)
+
+    # Step 8: 保存 cookies 到文件
+    with open("goofish_cookies.json", "w") as f:
+        json.dump(cookies, f, indent=2)
+    print("Cookies 已保存到 goofish_cookies.json")
+
+def load_persistent_cookies(driver):
+    if not os.path.exists('goofish_cookies.json'):
+        return
+    with open("goofish_cookies.json", "r") as f:
+        cookies = json.load(f)
+        for cookie in cookies:
+            if cookie['domain'] == '.goofish.com':
+                driver.add_cookie(cookie)
+            else:
+                print(f"domain not correct: {cookie['domain']}")
+        print("已加载保存的 cookies")
