@@ -15,7 +15,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from seleniumwire import webdriver
-
+from setup import load_persistent_cookies, persist_driver_cookies
 os.environ["no_proxy"] = ""
 os.environ["http_proxy"] = ""
 os.environ["https_proxy"] = ""
