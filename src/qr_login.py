@@ -35,7 +35,8 @@ os.environ["https_proxy"] = ""
 
 def setup_driver():
     chrome_options = Options()
-    chrome_options.add_argument('--start-maximized')
+    # chrome_options.add_argument('--start-maximized')
+    # chrome_options.add_argument('--headless')  # Enable headless mode
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
     # chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -46,30 +47,42 @@ def setup_driver():
     # chrome_options.add_argument("--no-sandbox")
     # chrome_options.add_argument("--disable-dev-shm-usage")
     # chrome_option.add_argument("--proxy-bypass-list=*")
+    
     service = Service(executable_path='./resources/chromedriver')
     seleniumwire_options = {
         'disable_encoding': True,  # 避免编码干扰
         'verify_ssl': False,       # 忽略 SSL 验证问题
     }
-    driver = webdriver.Chrome(options=chrome_options,
-                                       seleniumwire_options=seleniumwire_options,
-                                       service=service)
+    
+    driver = webdriver.Chrome(
+        options=chrome_options,
+        seleniumwire_options=seleniumwire_options,
+        service=service
+    )
+    
     # driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-    # 'source': '''
-    #     Object.defineProperty(navigator, 'webdriver', {
-    #         get: () => undefined
-    #     });
-    # '''
+    #     'source': '''
+    #         Object.defineProperty(navigator, 'webdriver', {
+    #             get: () => undefined
+    #         });
+    #     '''
     # })
     return driver
 
-def login_with_qr():
+def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feishu_webhook=None):
+    """
+    二维码登录并自动搜索
+    keyword: 搜索关键词，例如'iPhone14Pro美版'
+    expected_price: 期望价格，例如5000
+    product_type: 产品类型，例如'iPhone'
+    feishu_webhook: 飞书机器人Webhook地址
+    """
     driver = setup_driver()
     driver.get('https://www.goofish.com/')
     ActionChains(driver).move_by_offset(100, 100).perform()  # 模拟鼠标移动
     load_persistent_cookies(driver)
 
-    # # 刷新页面以应用 cookies
+    # 刷新页面以应用 cookies
     driver.refresh()
     time.sleep(3)
     # for request in driver.requests:
@@ -80,10 +93,12 @@ def login_with_qr():
         )
         login_button.click()
     except TimeoutException as e:
-        filter_by_keyword_lastest(driver, 'iPhone14Pro美版')
+        if keyword:
+            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
         return
     except NoSuchElementException as e:
-        filter_by_keyword_lastest(driver, 'iPhone14Pro美版')
+        if keyword:
+            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
         return
 
     print('等待iframe 弹出...')
@@ -105,7 +120,8 @@ def login_with_qr():
                 driver.switch_to.default_content()
 
                 persist_driver_cookies(driver)
-                filter_by_keyword_lastest(driver, 'iPhone14Pro美版')
+                if keyword:
+                    filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
                 break
             except Exception as e:
                 print(e)
@@ -124,7 +140,8 @@ def login_with_qr():
             # )
             # print("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
-            filter_by_keyword_lastest(driver, 'iPhone14Pro美版')
+            if keyword:
+                filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
             return
         else:
             print(f"找到 {len(iframes)} 个 iframe，尝试切换")
@@ -166,7 +183,8 @@ def login_with_qr():
         # 刷新页面以应用 cookies
         driver.refresh()
 
-        filter_by_keyword_lastest(driver, 'iPhone14Pro美版')
+        if keyword:
+            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
 
 def persist_driver_cookies(driver):
     # Step 7: 提取 cookies
@@ -181,20 +199,41 @@ def persist_driver_cookies(driver):
     print("Cookies 已保存到 goofish_cookies.json")
 
 def load_persistent_cookies(driver):
-     if not os.path.exists('goofish_cookies.json'):
-         return
-     with open("goofish_cookies.json", "r") as f:
+    if not os.path.exists('goofish_cookies.json'):
+        return
+    with open("goofish_cookies.json", "r") as f:
         cookies = json.load(f)
         for cookie in cookies:
             if cookie['domain'] == '.goofish.com':
                 driver.add_cookie(cookie)
-                print("已加载保存的 cookies")
             else:
                 print(f"domain not correct: {cookie['domain']}")
+        print("已加载保存的 cookies")
+
+def start_search_with_recommendation(keyword, expected_price, product_type='iPhone', feishu_webhook=None):
+    """
+    使用推荐系统开始搜索，提供更加直观的入口
+    
+    keyword: 搜索关键词，例如'iPhone 14 Pro'
+    expected_price: 期望价格，例如5000
+    product_type: 产品类型，例如'iPhone'
+    feishu_webhook: 飞书通知Webhook地址，不提供则使用控制台输出
+    """
+    print(f"开始搜索: {keyword}, 期望价格: {expected_price}, 产品类型: {product_type}")
+    login_with_qr(keyword, expected_price, product_type, feishu_webhook)
 
 if __name__ == '__main__':
     try:
-        login_with_qr()
+        # 两种使用方式：
+        # 1. 仅登录，不带参数
+        # login_with_qr()
+        
+        # 2. 登录并使用推荐系统搜索
+        keyword = 'iPhone 14 Pro'
+        expected_price = 5000  # 元
+        feishu_webhook = None  # 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx'
+        
+        start_search_with_recommendation(keyword, expected_price, 'iPhone', feishu_webhook)
     except Exception as e:
         print(e)
         pass

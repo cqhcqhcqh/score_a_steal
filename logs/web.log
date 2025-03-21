@@ -1,0 +1,12 @@
+[2025-03-21 18:59:58 +0800] [48299] [INFO] Starting gunicorn 20.1.0
+[2025-03-21 18:59:58 +0800] [48299] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2025-03-21 18:59:58 +0800] [48299] [ERROR] Retrying in 1 second.
+[2025-03-21 18:59:59 +0800] [48299] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2025-03-21 18:59:59 +0800] [48299] [ERROR] Retrying in 1 second.
+[2025-03-21 19:00:00 +0800] [48299] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2025-03-21 19:00:00 +0800] [48299] [ERROR] Retrying in 1 second.
+[2025-03-21 19:00:01 +0800] [48299] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2025-03-21 19:00:01 +0800] [48299] [ERROR] Retrying in 1 second.
+[2025-03-21 19:00:02 +0800] [48299] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2025-03-21 19:00:02 +0800] [48299] [ERROR] Retrying in 1 second.
+[2025-03-21 19:00:03 +0800] [48299] [ERROR] Can't connect to ('0.0.0.0', 5000)

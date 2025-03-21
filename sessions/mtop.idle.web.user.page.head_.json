@@ -2,9 +2,9 @@
   "api": "mtop.idle.web.user.page.head",
   "data": {
     "baseInfo": {
-      "encryptedUserId": "nBd5NEflCYlbobVMrCSzag==",
+      "encryptedUserId": "e9T0FNedEBu4nzF9bcFmiA==",
       "iosVerify": false,
-      "kcUserId": "2214598131222",
+      "kcUserId": "2219380717672",
       "self": false,
       "tags": {
         "real_name_certification_77": true,
@@ -19,45 +19,32 @@
       "social": {
         "followStatus": 1,
         "followers": "0",
-        "following": "0",
+        "following": "2",
         "attentionPrivacyProtected": "false"
       },
       "tabs": {
         "item": {
-          "number": 5,
+          "number": 2,
           "name": "宝贝"
         },
         "rate": {
-          "number": "1",
+          "number": "3",
           "name": "信用及评价"
         }
       },
       "base": {
-        "ipLocation": "河南省",
-        "displayName": "情绪凋零岛",
+        "ipLocation": "",
+        "displayName": "板球场奶油味的乐豆",
         "avatar": {
-          "avatar": "http://img.alicdn.com/bao/uploaded/i2/O1CN01kN7NDN1KtizgjvgiN_!!0-mtopupload.jpg"
+          "avatar": "http://img.alicdn.com/bao/uploaded/i4/O1CN01QXd0Nk26XpenxuBdt_!!4611686018427385960-0-mtopupload.jpg"
         },
-        "ylzTags": [
-          {
-            "attributes": {
-              "role": "seller",
-              "level": 4
-            },
-            "code": "cs_seller_level",
-            "icon": "https://gw.alicdn.com/imgextra/i4/O1CN01x4xWOR1gpWohaht8p_!!6000000004191-2-tps-318-66.png",
-            "lottie": "https://g.alicdn.com/eva-assets/b4ca1415b90f5a46e5ec39feef06cdd6/0.0.1/tmp/366411d/2e8a7321-6cd2-461e-bc5e-ff6a16681cf5.json",
-            "text": "卖家信用优秀",
-            "type": "ylzLevel",
-            "url": ""
-          }
-        ]
+        "ylzTags": []
       }
     }
   },
   "ret": [
     "SUCCESS::调用成功"
   ],
-  "traceId": "2150434c17424576377165798e1f56",
+  "traceId": "2150430017425419526887650e605a",
   "v": "1.0"
 }
