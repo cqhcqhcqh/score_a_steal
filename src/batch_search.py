@@ -51,7 +51,7 @@ def setup_driver(headless=False):
 def batch_search_task(self, 
                       keywords,
                       expected_prices=None,
-                      in_days=None,
+                      in_days=[2],
                       feishu_webhook=None,
                       headless=True):
     return _batch_search_task(self,

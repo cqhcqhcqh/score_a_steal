@@ -1,8 +1,6 @@
-import os
 import time
-import json
-import requests
-from PIL import Image
+import random
+from retry import retry
 from datetime import datetime, timedelta
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -17,22 +15,9 @@ from .user_page_nav import goto_user_nav_page
 from .user_page_product_list import fetch_user_product_list
 from .deal_recommendation import DealRecommendationSystem
 
-def filter_by_keyword_lastest(driver,
-                              keyword,
-                              expected_price=None,
-                              feishu_webhook=None,
-                              in_days=2):
-    """
-    根据关键词过滤最新商品，并保存到数据库
-    使用连接池优化数据库性能
-    
-    新增功能：
-    - 支持商品推荐系统
-    - 可通过飞书推送通知
-    """
-    # del driver.requests
-
-    time.sleep(3)
+@retry(exceptions=Exception, tries=5, delay=1, backoff=2)
+def simulate_search_action_by_user(driver, keyword):
+    time.sleep(random.uniform(3, 5))
     print('等待搜索框 出现...')
 
     # 方法2：使用 form 内的第一个 input（假设这是搜索框）
@@ -49,7 +34,7 @@ def filter_by_keyword_lastest(driver,
     print('等待搜索结果...')
     del driver.requests
 
-    time.sleep(2)
+    time.sleep(random.uniform(3, 5))
     # WebDriverWait(driver, 10).until(
     #     EC.presence_of_element_located((By.TAG_NAME, "body"))
     # )
@@ -64,45 +49,66 @@ def filter_by_keyword_lastest(driver,
             if request.response.status_code == 200 and 'application/json' in request.response.headers.get('Content-Type', ''):
                 search_api_request = request
                 break
+    
+    if search_api_request is None:
+        raise Exception("未找到有效的搜索API请求")
+    
+    return search_api_request
 
-    if search_api_request:
-        # response_body = search_api_request.response.body.decode('utf-8')
-        # response_json = json.loads(response_body)
-        # items = response_json.get('data').get('resultList')
+def generate_valid_cookies_headers(driver, keyword):
+    search_api_request = simulate_search_action_by_user(driver, keyword)
+    # response_body = search_api_request.response.body.decode('utf-8')
+    # response_json = json.loads(response_body)
+    # items = response_json.get('data').get('resultList')
 
-        # 获取公共信息
-        cookie_str = search_api_request.headers.get("Cookie")
-        cookies = dict(cookie.split("=", 1) for cookie in cookie_str.split("; "))
-        headers = search_api_request.headers
-        del headers['accept-encoding']
-        headers['pragma'] = 'no-cache'
+    # 获取公共信息
+    cookie_str = search_api_request.headers.get("Cookie")
+    cookies = dict(cookie.split("=", 1) for cookie in cookie_str.split("; "))
+    headers = search_api_request.headers
+    del headers['accept-encoding']
+    headers['pragma'] = 'no-cache'
 
-        recommendation_system = DealRecommendationSystem(
-            feishu_webhook=feishu_webhook,
-            min_seller_score=70,  # 可以根据需要调整阈值
-            min_matching_score=75
-        )
-        pageNumber = 1
-        # 获取搜索结果
-        while result := get_home_search_result(cookies, headers, keyword, pageNumber):
-            items, hasMore = result
-            print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
-            res = recommned_product_if_needed(recommendation_system, 
-                                              items, 
-                                              cookies, 
-                                              headers,
-                                              expected_price, 
-                                              pageNumber,
-                                              in_days)
-            if res == -1:
-                break
+    return cookies, headers
 
-            if hasMore:
-                pageNumber += 1
-        # 如果提供了期望价格，则使用推荐系统
-    else:
-        print("未找到搜索API请求")
-        return 0
+def filter_by_keyword_lastest(driver,
+                              keyword,
+                              expected_price=None,
+                              feishu_webhook=None,
+                              in_days=2):
+    """
+    根据关键词过滤最新商品，并保存到数据库
+    使用连接池优化数据库性能
+    
+    新增功能：
+    - 支持商品推荐系统
+    - 可通过飞书推送通知
+    """
+    cookies, headers = generate_valid_cookies_headers(driver, keyword)
+
+    recommendation_system = DealRecommendationSystem(
+        feishu_webhook=feishu_webhook,
+        min_seller_score=70,  # 可以根据需要调整阈值
+        min_matching_score=75
+    )
+
+    pageNumber = 1
+    # 获取搜索结果
+    while result := get_home_search_result(cookies, headers, keyword, pageNumber):
+        cookies, headers = generate_valid_cookies_headers(driver, keyword)
+        items, hasMore = result
+        print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
+        res = recommned_product_if_needed(recommendation_system, 
+                                            items, 
+                                            cookies, 
+                                            headers,
+                                            expected_price, 
+                                            pageNumber,
+                                            in_days)
+        if res == -1:
+            break
+
+        if hasMore:
+            pageNumber += 1
 
 def recommned_product_if_needed(recommendation_system,
                                 items,

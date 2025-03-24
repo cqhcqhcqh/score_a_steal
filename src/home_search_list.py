@@ -143,14 +143,15 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
     #     'data': '{"itemId":"897358282666"}',
     # }
 
-    responseJson = requests.post(
-        'https://h5api.m.goofish.com/h5/mtop.taobao.idlemtopsearch.pc.search/1.0/',
+    response = requests.post(
+        f'https://h5api.m.goofish.com/h5/{api}/1.0/',
         params=params,
         cookies=cookies,
         headers=headers,
         data=data,
-    ).json()
-
+    )
+    
+    responseJson = response.json()
     import os
     if not os.path.exists('sessions/mtop.taobao.idlemtopsearch.pc.search_.json'):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
