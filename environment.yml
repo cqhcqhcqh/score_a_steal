@@ -1,4 +1,4 @@
-name: SAM2
+name: goofish
 channels:
   - pytorch
   - conda-forge
