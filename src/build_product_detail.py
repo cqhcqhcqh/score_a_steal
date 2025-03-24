@@ -29,8 +29,14 @@ def build_product_detail(data):
     zhima_level_name = zhimaLevelInfo.get('levelName')
 
     # 图片信息
-    pic_url = itemDO.get('imageInfos')[0].get('url')
-    image_infos = json.dumps(itemDO.get('imageInfos', []), ensure_ascii=False)
+    image_infos = itemDO.get('imageInfos')
+    if image_infos:
+        pic_url = itemDO.get('imageInfos')[0].get('url')
+    else:
+        pic_url = data.get('trackParams').get('mainPic')
+    if not pic_url:
+        print(f'build_product_detail 主图找不到: {data}')
+    image_infos = json.dumps(image_infos, ensure_ascii=False)
     # has_video = False  # 从详情页暂时无法确定是否有视频
     
     # 状态信息

@@ -58,6 +58,10 @@ def index():
                         <input type="text" id="prices" name="prices" placeholder="如: 5000,3000,2000">
                     </div>
                     <div class="form-group">
+                        <label for="days">发布多少天内（单位是天，多个用逗号分隔）:</label>
+                        <input type="text" id="days" name="days" placeholder="如: 2, 3, 1">
+                    </div>
+                    <div class="form-group">
                         <label for="webhook">飞书Webhook URL（可选）:</label>
                         <input type="text" id="webhook" name="webhook">
                     </div>
@@ -181,12 +185,14 @@ def index():
             function submitTask() {
                 const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim());
                 const prices = document.getElementById('prices').value ? document.getElementById('prices').value.split(',').map(p => parseFloat(p.trim())) : [];
+                const days = document.getElementById('days').value ? document.getElementById('days').value.split(',').map(p => parseFloat(p.trim())) : [];
                 const webhook = document.getElementById('webhook').value.trim();
                 const headless = document.getElementById('headless').checked;
                 
                 const data = {
                     keywords: keywords,
                     prices: prices.length > 0 ? prices : null,
+                    days: days.length > 0 ? days : null,
                     webhook: webhook || null,
                     headless: headless
                 };
@@ -378,6 +384,7 @@ def create_task():
     result = batch_search(
         data['keywords'],
         expected_prices=data.get('prices'),
+        in_days=data.get('days'),
         feishu_webhook=data.get('webhook'),
         headless=data.get('headless', True),
         async_mode=True

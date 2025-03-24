@@ -15,10 +15,12 @@ def build_card_list(data, seller_id):
             
         detail_params = card_data.get('detailParams', {})
         other_title = detail_params.get('title', '')
-        print(card_data.get('priceInfo'), '-', detail_params.get('soldPrice'))
-        priceInfo = card_data.get('priceInfo').get('price')
-        other_sold_price = float(detail_params.get('soldPrice', 0))
-        print(f'priceInfo: {priceInfo} other_sold_price: {other_sold_price}')
+        # print(card_data.get('priceInfo'), '-', detail_params.get('soldPrice'))
+        # priceInfo = card_data.get('priceInfo').get('price')
+        other_sold_price = detail_params.get('soldPrice', 0) or ''
+        if '万' in other_sold_price:
+            other_sold_price = float(other_sold_price.replace('万', '')) * 10000
+        # print(f'priceInfo: {priceInfo} other_sold_price: {other_sold_price}')
         other_detail_url = card_data.get('detailUrl', '')
         other_category_id = str(card_data.get('categoryId', ''))
         other_auction_type = card_data.get('auctionType', '')

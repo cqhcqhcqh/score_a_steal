@@ -49,19 +49,22 @@ def setup_driver(headless=False):
 
 @app.task(bind=True)
 def batch_search_task(self, 
-                      keywords, 
-                      expected_prices=None, 
+                      keywords,
+                      expected_prices=None,
+                      in_days=None,
                       feishu_webhook=None,
                       headless=True):
     return _batch_search_task(self,
                               keywords,
                               expected_prices,
+                              in_days,
                               feishu_webhook,
                               headless)
 
 def _batch_search_task(task, 
                        keywords, 
                        expected_prices=None, 
+                       in_days=None,
                        feishu_webhook=None,
                        headless=True):
     """
@@ -99,7 +102,7 @@ def _batch_search_task(task,
             for i, keyword in enumerate(keywords):
                 # 获取当前关键词的参数
                 expected_price = None if expected_prices is None else expected_prices[i] if i < len(expected_prices) else None
-                
+                in_days = None if in_days is None else in_days[i] if i < len(in_days) else None
                 print(f"\n=== [{i+1}/{total_keywords}] 搜索关键词: {keyword} ===")
                 if expected_price:
                     print(f"期望价格: {expected_price}")
@@ -121,7 +124,9 @@ def _batch_search_task(task,
                     processed = login_with_qr(
                         keyword, 
                         expected_price=expected_price,
+                        in_days=in_days,
                         feishu_webhook=feishu_webhook,
+                        headless=headless,
                     ) or 1
                     total_processed += 1
                     processed_keywords += 1
@@ -177,9 +182,11 @@ def _batch_search_task(task,
         raise Ignore()
     
 def batch_search(keywords, 
-                 expected_prices=None, 
+                 expected_prices=None,
+                 in_days=None,
                  feishu_webhook=None, 
-                 headless=False, async_mode=True):
+                 headless=False,
+                 async_mode=True):
     """
     批量搜索工具入口函数，支持同步/异步模式
     
@@ -197,8 +204,9 @@ def batch_search(keywords,
     if async_mode:
         # 使用Celery异步执行
         task = batch_search_task.delay(
-            keywords, 
+            keywords,
             expected_prices=expected_prices,
+            in_days=in_days,
             feishu_webhook=feishu_webhook,
             headless=headless
         )
@@ -210,8 +218,9 @@ def batch_search(keywords,
     else:
         # 直接执行(同步)
         return batch_search_task(
-            keywords, 
+            keywords,
             expected_prices=expected_prices,
+            in_days=in_days,
             feishu_webhook=feishu_webhook,
             headless=headless
         )
@@ -292,6 +301,7 @@ def main():
     result = batch_search(
         args.keywords, 
         expected_prices=args.prices,
+        in_days=args.days,
         feishu_webhook=args.webhook,
         headless=args.headless,
         async_mode=args.async_mode

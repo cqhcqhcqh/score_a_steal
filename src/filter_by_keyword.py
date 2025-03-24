@@ -3,7 +3,7 @@ import time
 import json
 import requests
 from PIL import Image
-from datetime import datetime
+from datetime import datetime, timedelta
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -17,7 +17,11 @@ from .user_page_nav import goto_user_nav_page
 from .user_page_product_list import fetch_user_product_list
 from .deal_recommendation import DealRecommendationSystem
 
-def filter_by_keyword_lastest(driver, keyword, expected_price=None, feishu_webhook=None, until_date=None):
+def filter_by_keyword_lastest(driver,
+                              keyword,
+                              expected_price=None,
+                              feishu_webhook=None,
+                              in_days=2):
     """
     根据关键词过滤最新商品，并保存到数据库
     使用连接池优化数据库性能
@@ -82,17 +86,31 @@ def filter_by_keyword_lastest(driver, keyword, expected_price=None, feishu_webho
         # 获取搜索结果
         while result := get_home_search_result(cookies, headers, keyword, pageNumber):
             items, hasMore = result
+            print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
+            res = recommned_product_if_needed(recommendation_system, 
+                                              items, 
+                                              cookies, 
+                                              headers,
+                                              expected_price, 
+                                              pageNumber,
+                                              in_days)
+            if res == -1:
+                break
+
             if hasMore:
                 pageNumber += 1
-            
-            print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
-            recommned_product_if_needed(recommendation_system, items, cookies, headers, expected_price)
         # 如果提供了期望价格，则使用推荐系统
     else:
         print("未找到搜索API请求")
         return 0
 
-def recommned_product_if_needed(recommendation_system, items, cookies, headers, expected_price):
+def recommned_product_if_needed(recommendation_system,
+                                items,
+                                cookies,
+                                headers,
+                                expected_price,
+                                pageNumber,
+                                in_days):
     processed_count = 0
     if expected_price is not None:
         print(f"使用推荐系统，期望价格: {expected_price}")
@@ -100,19 +118,25 @@ def recommned_product_if_needed(recommendation_system, items, cookies, headers, 
         for i, item_wrapper in enumerate(items):
             try:
                 item_data = item_wrapper.get('data', {}).get('item', {}).get('main', {}).get('clickParam', {}).get('args', {})
-                
+                publishTime = item_data.get('publishTime')
+                published_time = datetime.fromtimestamp(float(publishTime) / 1000)
+                current_time = datetime.now()
+                desc = f'Page:{pageNumber} [{i+1}/{len(items)}] PT: {published_time.strftime("%Y-%m-%d %H:%M")}'
+                if published_time + timedelta(days=in_days) < current_time:
+                    return -1
+
                 # 提取商品ID
                 item_id = str(item_data.get('item_id', ''))
                 if not item_id:
-                    print(f"[{i+1}/{len(items)}] 商品ID不存在，跳过")
+                    print(f"{desc} 商品ID不存在，跳过")
                     continue
                 
                 # 如果已经推送过，跳过
                 if item_id in recommendation_system.notified_items:
-                    print(f"[{i+1}/{len(items)}] 商品 {item_id} 已推送过，跳过")
+                    print(f"{desc} 商品ID {item_id} 已推送过，跳过")
                     continue
                 
-                print(f"\n[{i+1}/{len(items)}] 评估商品: {item_id}")
+                print(f"{desc} 评估商品: {item_id}")
                 
                 # 获取商品详情
                 product_detail = get_product_detail(cookies, headers, item_id)
@@ -142,18 +166,23 @@ def recommned_product_if_needed(recommendation_system, items, cookies, headers, 
                 # 确保在会话上下文中调用
                 # cache_feed_filtered_result(product_detail, user_info, user_card_list)
                 price = product_detail.price + product_detail.transportFee
-                if (product_detail.repair_function == '无任何维修' or not product_detail.repair_function
-                    or product_detail.quality == '几乎全新' or not product_detail.quality) and price < expected_price:
-                        print(f'价格低于期望价格，而且还是全新无维修，大概率是假的，跳过 {user_info.display_name}')
+                if (product_detail.repair_function == '无任何维修' 
+                    or product_detail.repair_function == ''
+                    or product_detail.quality == '几乎全新' 
+                    or product_detail.quality == '') and price < expected_price:
+                        print(f'价格低于期望价格，而且还是全新无维修 [成色: {product_detail.quality} 拆修和功能: {product_detail.repair_function}]，大概率是假的，跳过 {user_info.display_name}')
                 elif not item_has_recommend(item_id) and price <= expected_price:
                     print(f'找到期望价格的商品')
                     recommend_product(item_id)
+                    recommendation_system.notified_items.add(item_id)
                     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
                 else:
                     print(f'价格高于期望价格，跳过')
                 # 添加短暂延迟，避免请求过于频繁
                 time.sleep(1)
             except Exception as db_err:
+                import traceback
+                traceback.print_exc()
                 print(f"保存数据到数据库时出错: {str(db_err)}")
             finally:
                 processed_count += 1
@@ -171,7 +200,7 @@ def recommned_product_if_needed(recommendation_system, items, cookies, headers, 
                     print("商品ID不存在，跳过")
                     continue
                 
-                print(f"\n[{processed_count+1}/{len(items)}] 处理商品: {item_id}")
+                print(f"p: {pageNumber} n[{processed_count+1}/{len(items)}] 处理商品: {item_id}")
                 
                 # 获取商品详情
                 product_detail = get_product_detail(cookies, headers, item_id).get('data', {})

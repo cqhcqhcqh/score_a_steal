@@ -1,9 +1,51 @@
 {
-  "ret": [
-    "FAIL_SYS_USER_VALIDATE",
-    "RGV587_ERROR::SM::哎哟喂,被挤爆啦,请稍后重试"
-  ],
+  "api": "mtop.idle.web.user.page.head",
   "data": {
-    "url": "https://h5api.m.goofish.com:443//h5/mtop.idle.web.user.page.head/1.0/_____tmd_____/punish?x5secdata=xdeac8a9a01fd4c866f21423eae4a7ce952ffb4c6fa91bdc291742618762a-717315356a2020848841abaac3ek3921919291a__bx__h5api.m.goofish.com%3A443%2Fh5%2Fmtop.idle.web.user.page.head%2F1.0&x5step=2&action=captcha&pureCaptcha="
-  }
+    "baseInfo": {
+      "encryptedUserId": "/g5F7d3CMBJI3Cj0TxYdrw==",
+      "iosVerify": false,
+      "kcUserId": "2218876323739",
+      "self": false,
+      "tags": {
+        "real_name_certification_77": true,
+        "usertag12#576460752303423488": false,
+        "xianyu_user_upgrade": true,
+        "idle_zhima_zheng": false,
+        "tb_xianyu_user": false,
+        "alibaba_idle_playboy": false
+      }
+    },
+    "module": {
+      "social": {
+        "followStatus": 1,
+        "followers": "4",
+        "following": "2",
+        "attentionPrivacyProtected": "false"
+      },
+      "tabs": {
+        "item": {
+          "number": 5,
+          "name": "宝贝"
+        },
+        "rate": {
+          "number": "2",
+          "name": "信用及评价"
+        }
+      },
+      "base": {
+        "ipLocation": "江苏省",
+        "displayName": "过好今天",
+        "avatar": {
+          "avatar": "http://img.alicdn.com/bao/uploaded/i4/O1CN01Kl9SuI1dUVthTORNE_!!4611686018427381659-0-mtopupload.jpg"
+        },
+        "ylzTags": [],
+        "introduction": "卖二手机的小哥哥"
+      }
+    }
+  },
+  "ret": [
+    "SUCCESS::调用成功"
+  ],
+  "traceId": "213e366017428148851382068e896d",
+  "v": "1.0"
 }

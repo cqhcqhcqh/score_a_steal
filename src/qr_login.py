@@ -34,10 +34,11 @@ os.environ["https_proxy"] = ""
     # del driver.requests
     # return driver
 
-def setup_driver():
+def setup_driver(headless):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    chrome_options.add_argument('--headless')  # Enable headless mode
+    if headless:
+        chrome_options.add_argument('--headless')  # Enable headless mode
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
     # chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -70,14 +71,14 @@ def setup_driver():
     })
     return driver
 
-def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
+def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=None, headless=True):
     """
     二维码登录并自动搜索
     keyword: 搜索关键词，例如'iPhone14Pro美版'
     expected_price: 期望价格，例如5000
     feishu_webhook: 飞书机器人Webhook地址
     """
-    driver = setup_driver()
+    driver = setup_driver(headless)
     driver.get('https://www.goofish.com/')
     ActionChains(driver).move_by_offset(100, 100).perform()  # 模拟鼠标移动
     load_persistent_cookies(driver)
@@ -94,11 +95,11 @@ def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
         login_button.click()
     except TimeoutException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
         return
     except NoSuchElementException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
         return
 
     print('等待iframe 弹出...')
@@ -123,7 +124,7 @@ def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
 
                 persist_driver_cookies(driver)
                 if keyword:
-                    filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
+                    filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
                 break
             except Exception as e:
                 print(e)
@@ -146,7 +147,7 @@ def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
             # print("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
             if keyword:
-                filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
+                filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
             return
         else:
             print(f"找到 {len(iframes)} 个 iframe，尝试切换")
@@ -189,7 +190,7 @@ def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
         driver.refresh()
 
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
 
 def start_search_with_recommendation(keyword, expected_price, product_type='iPhone', feishu_webhook=None):
     """
