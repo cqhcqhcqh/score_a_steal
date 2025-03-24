@@ -1,0 +1,16 @@
+PONG
+Redis 服务正常运行
+启动Celery Worker...
+SRC_DIR: /Users/versa/Workspaces/PythonWorkspace/score_a_steal/src
+启动Web服务...
+BASE_DIR: /Users/versa/Workspaces/PythonWorkspace/score_a_steal
+
+系统已启动!
+Web服务：http://localhost:8119
+日志位置：
+  Celery日志: logs/celery.log
+  Web服务日志: logs/web.log
+
+使用以下命令停止服务：
+  pkill -f 'celery worker'
+  pkill -f 'gunicorn'

@@ -4,7 +4,7 @@ import json
 import requests
 from PIL import Image
 from datetime import datetime
-from filter_by_keyword import filter_by_keyword_lastest
+from .filter_by_keyword import filter_by_keyword_lastest
 # from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -15,6 +15,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from seleniumwire import webdriver
+from .setup import load_persistent_cookies, persist_driver_cookies
 
 os.environ["no_proxy"] = ""
 os.environ["http_proxy"] = ""
@@ -36,7 +37,7 @@ os.environ["https_proxy"] = ""
 def setup_driver():
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    # chrome_options.add_argument('--headless')  # Enable headless mode
+    chrome_options.add_argument('--headless')  # Enable headless mode
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
     # chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -50,7 +51,7 @@ def setup_driver():
     
     service = Service(executable_path='./resources/chromedriver')
     seleniumwire_options = {
-        'disable_encoding': True,  # 避免编码干扰
+        # 'disable_encoding': True,  # 避免编码干扰
         'verify_ssl': False,       # 忽略 SSL 验证问题
     }
     
@@ -60,21 +61,20 @@ def setup_driver():
         service=service
     )
     
-    # driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
-    #     'source': '''
-    #         Object.defineProperty(navigator, 'webdriver', {
-    #             get: () => undefined
-    #         });
-    #     '''
-    # })
+    driver.execute_cdp_cmd('Page.addScriptToEvaluateOnNewDocument', {
+        'source': '''
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+        '''
+    })
     return driver
 
-def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feishu_webhook=None):
+def login_with_qr(keyword=None, expected_price=None, feishu_webhook=None):
     """
     二维码登录并自动搜索
     keyword: 搜索关键词，例如'iPhone14Pro美版'
     expected_price: 期望价格，例如5000
-    product_type: 产品类型，例如'iPhone'
     feishu_webhook: 飞书机器人Webhook地址
     """
     driver = setup_driver()
@@ -94,11 +94,11 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
         login_button.click()
     except TimeoutException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
         return
     except NoSuchElementException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
         return
 
     print('等待iframe 弹出...')
@@ -108,8 +108,10 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
     iframes = driver.find_elements(By.TAG_NAME, "iframe")
     quick_enter_button = None
     if iframes:
+        print('找到 iframes')
         for iframe in iframes:
             driver.switch_to.frame(iframe)
+            print(f'switch_to frame: {iframe}')
             try:
                 quick_enter_button = WebDriverWait(driver, 3).until(
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))
@@ -121,13 +123,16 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
 
                 persist_driver_cookies(driver)
                 if keyword:
-                    filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
+                    filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
                 break
             except Exception as e:
                 print(e)
                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
+    else:
+        print('没找到 iframes')
 
     if not quick_enter_button:
+        print('没找到 quick_enter_button')
         qr_code_container = None
         # 有提醒登录弹框
         if not iframes:
@@ -141,7 +146,7 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
             # print("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
             if keyword:
-                filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
+                filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
             return
         else:
             print(f"找到 {len(iframes)} 个 iframe，尝试切换")
@@ -184,7 +189,7 @@ def login_with_qr(keyword=None, expected_price=None, product_type='iPhone', feis
         driver.refresh()
 
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, product_type, feishu_webhook)
+            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook)
 
 def start_search_with_recommendation(keyword, expected_price, product_type='iPhone', feishu_webhook=None):
     """
@@ -206,8 +211,8 @@ if __name__ == '__main__':
         
         # 2. 登录并使用推荐系统搜索
         keyword = 'iPhone 14 Pro'
-        expected_price = 5000  # 元
-        feishu_webhook = None  # 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx'
+        expected_price = 2500  # 元
+        feishu_webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815'
         
         start_search_with_recommendation(keyword, expected_price, 'iPhone', feishu_webhook)
     except Exception as e:

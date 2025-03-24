@@ -1,5 +1,7 @@
 import json
 from datetime import datetime
+import re
+from collections import defaultdict
 
 def evaluate_seller_credibility(user_info):
     """
@@ -15,6 +17,7 @@ def evaluate_seller_credibility(user_info):
         base_info = user_info.get('data', {}).get('baseInfo', {})
         tags = base_info.get('tags', {})
         module = user_info.get('data', {}).get('module', {})
+        ylz_tags = module.get('base', {}).get('ylzTags', [])
         
         # 检查实名认证
         if tags.get('real_name_certification_77', False):
@@ -41,6 +44,18 @@ def evaluate_seller_credibility(user_info):
         if tags.get('alibaba_idle_playboy', False):
             credibility_score -= 10
             analysis.append("高风险标签: alibaba_idle_playboy (-10)")
+        
+        # 分析ylzTags中的信用等级
+        for tag in ylz_tags:
+            if tag.get('type') == 'ylzLevel':
+                role = tag.get('attributes', {}).get('role')
+                level = tag.get('attributes', {}).get('level', 0)
+                if role == 'seller':
+                    credibility_score += level * 2  # 假设每个等级加2分
+                    analysis.append(f"卖家信用等级: {level} (+{level * 2})")
+                elif role == 'buyer':
+                    credibility_score += level  # 假设每个等级加1分
+                    analysis.append(f"买家信用等级: {level} (+{level})")
             
     except Exception as e:
         analysis.append(f"评估过程出错: {str(e)}")
@@ -156,4 +171,55 @@ def calculate_item_matching_score(current_item, expected_price=None, product_typ
     return {
         "score": max(0, min(100, matching_score)),  # 确保分数在0-100之间
         "analysis": analysis
-    } 
+    }
+
+def extract_product_info(title):
+    """
+    从商品标题中提取成色、型号、版本和存储信息
+    """
+    # 使用正则表达式提取信息
+    model_match = re.search(r'(\b(?:iPhone|苹果)\s?\d+\s?\w*\b)', title, re.IGNORECASE)
+    storage_match = re.search(r'(\d+G)', title, re.IGNORECASE)
+    version_match = re.search(r'(国行|有锁|无锁)', title, re.IGNORECASE)
+    quality_match = re.search(r'(全新|几乎全新|良好|一般)', title, re.IGNORECASE)
+    
+    model = model_match.group(1) if model_match else None
+    storage = storage_match.group(1) if storage_match else None
+    version = version_match.group(1) if version_match else None
+    quality = quality_match.group(1) if quality_match else None
+    
+    return model, storage, version, quality
+
+def calculate_average_prices_from_listings(listings):
+    """
+    根据商品列表计算不同组合下的平均价格
+    """
+    price_data = defaultdict(list)
+    
+    for listing in listings:
+        title = listing.get('title', '')
+        price = float(listing.get('price', 0))
+        
+        model, storage, version, quality = extract_product_info(title)
+        
+        if model and storage and version and quality:
+            key = (model, storage, version, quality)
+            price_data[key].append(price)
+    
+    average_prices = {}
+    for key, prices in price_data.items():
+        average_prices[key] = sum(prices) / len(prices)
+    
+    return average_prices
+
+# 示例用法
+listings = [
+    {"title": "苹果14pro国行128g全原装无拆修", "price": 5000},
+    {"title": "苹果14pro国行128g全新", "price": 5200},
+    {"title": "苹果14pro港版128g几乎全新", "price": 4800},
+    # 添加更多商品数据
+]
+
+average_prices = calculate_average_prices_from_listings(listings)
+for key, avg_price in average_prices.items():
+    print(f"组合: {key}, 平均价格: ¥{avg_price:.2f}") 

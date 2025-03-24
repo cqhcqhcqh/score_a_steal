@@ -1,5 +1,5 @@
 import requests
-from sign import calculate_sign
+from .sign import calculate_sign
 
 cookies = {
     'cookie2': '11628b63f61c2559435d782fb1bce891',

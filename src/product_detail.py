@@ -1,7 +1,8 @@
 import time
 import json
 import requests
-from sign import calculate_sign
+from .sign import calculate_sign
+from .build_product_detail import build_product_detail
 
 def get_product_detail(cookies, headers, itemId):
     _m_h5_tk = cookies.get('_m_h5_tk')
@@ -103,7 +104,7 @@ def get_product_detail(cookies, headers, itemId):
     # }
 
     responseJson = requests.post(
-        'https://h5api.m.goofish.com/h5/mtop.taobao.idle.pc.detail/1.0/',
+        f'https://h5api.m.goofish.com/h5/{api}/1.0/',
         params=params,
         cookies=cookies,
         headers=headers,
@@ -111,7 +112,10 @@ def get_product_detail(cookies, headers, itemId):
     ).json()
 
     import os
-    if not os.path.exists('sessions/mtop.taobao.idle.pc.detail_.json'):
-        with open('sessions/mtop.taobao.idle.pc.detail_.json', 'w') as file:
+    if not os.path.exists(f'sessions/{api}_.json'):
+        with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    return responseJson
+    item_detail = build_product_detail(responseJson['data'])
+    if item_detail.item_id != itemId:
+        raise Exception(f"mtop.taobao.idle.pc.detail 接口调用报错 item_id {itemId} not in responseJson['data']")
+    return item_detail

@@ -8,7 +8,10 @@ Flask Web服务，用于提交批量搜索任务和查看任务进度
 import os
 import json
 from flask import Flask, request, jsonify, render_template
-from batch_search import batch_search, get_task_status
+from .celery_app import app as celery_app
+from .batch_search import batch_search, get_task_status
+from celery.result import AsyncResult
+from celery import states
 
 app = Flask(__name__)
 
@@ -53,10 +56,6 @@ def index():
                     <div class="form-group">
                         <label for="prices">期望价格（与关键词对应，多个用逗号分隔）:</label>
                         <input type="text" id="prices" name="prices" placeholder="如: 5000,3000,2000">
-                    </div>
-                    <div class="form-group">
-                        <label for="types">产品类型（与关键词对应，多个用逗号分隔）:</label>
-                        <input type="text" id="types" name="types" placeholder="如: iPhone,iPad,MacBook">
                     </div>
                     <div class="form-group">
                         <label for="webhook">飞书Webhook URL（可选）:</label>
@@ -155,6 +154,19 @@ def index():
                                 window.location.href = `/task/${task.task_id}`;
                             };
                             cell.appendChild(detailsBtn);
+
+                            const terminateBtn = document.createElement('button');
+                            terminateBtn.textContent = '终止';
+                            terminateBtn.className = 'terminate-btn';
+                            // 如果任务已完成或失败，则禁用终止按钮
+                            terminateBtn.disabled = (task.status.state === 'SUCCESS' || task.status.state === 'FAILURE');
+                            terminateBtn.onclick = function() {
+                                if (confirm(`确定要终止任务 ${task.task_id} 吗？`)) {
+                                     window.location.href = `/task/${task.task_id}/terminate`;
+                                }
+                            };
+                            cell.appendChild(terminateBtn);
+
                             row.appendChild(cell);
                             
                             tbody.appendChild(row);
@@ -169,14 +181,12 @@ def index():
             function submitTask() {
                 const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim());
                 const prices = document.getElementById('prices').value ? document.getElementById('prices').value.split(',').map(p => parseFloat(p.trim())) : [];
-                const types = document.getElementById('types').value ? document.getElementById('types').value.split(',').map(t => t.trim()) : [];
                 const webhook = document.getElementById('webhook').value.trim();
                 const headless = document.getElementById('headless').checked;
                 
                 const data = {
                     keywords: keywords,
                     prices: prices.length > 0 ? prices : null,
-                    types: types.length > 0 ? types : null,
                     webhook: webhook || null,
                     headless: headless
                 };
@@ -323,6 +333,20 @@ def task_details(task_id):
     </html>
     '''
 
+@app.route('/task/<task_id>/terminate', methods=['GET'])
+def terminate_task(task_id):
+    try:
+        # 这里添加实际的终止任务逻辑
+        # terminate=True 相当于系统调用 kill -9
+        celery_app.control.revoke(task_id, terminate=True)
+        success = True  # 替换为实际终止结果
+        if success:
+            return jsonify({'success': True, 'message': '任务已终止'})
+        else:
+            return jsonify({'success': False, 'message': '无法终止任务'})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    
 @app.route('/api/tasks', methods=['GET'])
 def list_tasks():
     """列出所有任务"""
@@ -354,7 +378,6 @@ def create_task():
     result = batch_search(
         data['keywords'],
         expected_prices=data.get('prices'),
-        product_types=data.get('types'),
         feishu_webhook=data.get('webhook'),
         headless=data.get('headless', True),
         async_mode=True
@@ -365,7 +388,6 @@ def create_task():
     tasks_store[task_id] = {
         'keywords': data['keywords'],
         'prices': data.get('prices'),
-        'types': data.get('types'),
         'webhook': data.get('webhook'),
         'created_at': os.path.getmtime(__file__)  # 使用文件修改时间作为创建时间
     }
@@ -373,4 +395,4 @@ def create_task():
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8119) 
+    app.run(debug=True, host='0.0.0.0', port=8119, use_reloader=False) 

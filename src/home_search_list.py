@@ -25,9 +25,9 @@ import requests
 import time
 import json
 import requests
-from sign import calculate_sign
+from .sign import calculate_sign
 
-def get_home_search_result(cookies, headers, keyword):
+def get_home_search_result(cookies, headers, keyword, pageNumber=1):
     _m_h5_tk = cookies.get('_m_h5_tk')
     assert _m_h5_tk != None
 
@@ -39,6 +39,7 @@ def get_home_search_result(cookies, headers, keyword):
     log_id = '25734829IcZ8UM'
     jsv = '2.7.2'
     v = '1.0'
+    rowsPerPage = 30
     # jsv=2.7.2&appKey=34839810&t=1742290911572&sign=1a7f1abda4bdf9ce025c8a1e89d971b2&v=1.0&type=originaljson&accountSite=xianyu&dataType=json&timeout=20000&api=mtop.taobao.idlemtopsearch.pc.search&sessionOption=AutoLoginOnly&spm_cnt=a21ybx.search.0.0&spm_pre=a21ybx.home.searchInput.0
     params = {
         'jsv': jsv,
@@ -56,11 +57,13 @@ def get_home_search_result(cookies, headers, keyword):
         # 'spm_pre': spm_pre,
         # 'log_id': log_id,
     }
+    # "sortValue":"asc", # 按照价格升序
+    # "sortField":"price", # 按照价格排序
     data_item = json.dumps(
-                {"pageNumber":1,
+                {"pageNumber":pageNumber,
                  "keyword": keyword,
                  "fromFilter":True,
-                 "rowsPerPage":30,
+                 "rowsPerPage":rowsPerPage,
                  "sortValue":"desc",
                  "sortField":"create", # 按照发布日期排序
                  "customDistance":"",
@@ -152,4 +155,6 @@ def get_home_search_result(cookies, headers, keyword):
     if not os.path.exists('sessions/mtop.taobao.idlemtopsearch.pc.search_.json'):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    return responseJson
+    resultList = responseJson.get('data').get('resultList')
+    hasMore = len(resultList) == rowsPerPage
+    return resultList, hasMore

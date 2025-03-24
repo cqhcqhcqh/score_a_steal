@@ -10,7 +10,7 @@ SRC_DIR="$BASE_DIR/src"
 mkdir -p logs
 
 # 检查Redis是否运行
-redis-cli ping > /dev/null 2>&1
+redis-cli ping
 if [ $? -ne 0 ]; then
     echo "ERROR: Redis服务未运行，请先启动Redis"
     echo "可以使用以下命令启动Redis:"
@@ -18,6 +18,7 @@ if [ $? -ne 0 ]; then
     echo "  systemctl start redis      # Linux"
     exit 1
 fi
+echo "Redis 服务正常运行"
 
 # 检查是否已安装依赖
 pip list | grep -q "celery"
@@ -26,10 +27,11 @@ if [ $? -ne 0 ]; then
     pip install -r requirements.txt
 fi
 
+cd "$SRC_DIR"
+
 # 启动Celery Worker
 echo "启动Celery Worker..."
-cd "$SRC_DIR"
-celery -A celery_app worker --loglevel=info --logfile="$BASE_DIR/logs/celery.log" --detach
+celery -A src.celery_app worker --loglevel=info --logfile="$BASE_DIR/logs/celery.log" --detach
 
 # 等待Worker启动
 sleep 2

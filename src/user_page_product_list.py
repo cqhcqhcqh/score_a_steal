@@ -1,9 +1,10 @@
 import requests
 import time
 import json
-from sign import calculate_sign
+from .sign import calculate_sign
+from .build_card_list import build_card_list
 
-def fetch_user_product_list(cookies, headers, user_id):
+def fetch_user_product_list(cookies, headers, user_id, item_id=None):
     _m_h5_tk = cookies.get('_m_h5_tk')
     assert _m_h5_tk != None
 
@@ -118,4 +119,9 @@ def fetch_user_product_list(cookies, headers, user_id):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    return responseJson
+    card_list = build_card_list(responseJson['data'], user_id)
+    if item_id:
+        card_list = [card.item_id for card in card_list]
+        if item_id not in card_list:
+            raise Exception(f"mtop.idle.web.xyh.item.list 接口调用报错 item_id {item_id} not in card_list")
+    return card_list

@@ -9,13 +9,14 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from seller_evaluation import evaluate_seller_credibility, detect_lure_seller, calculate_item_matching_score
-from notifier import FeiShuNotifier, console_notify
-from product_detail import get_product_detail
-from user_page_nav import goto_user_nav_page
-from user_page_product_list import fetch_user_product_list
-from home_search_list import get_home_search_result
-from setup import setup_driver, load_persistent_cookies
+from .seller_evaluation import evaluate_seller_credibility, detect_lure_seller, calculate_item_matching_score
+from .notifier import FeiShuNotifier, console_notify
+from .product_detail import get_product_detail
+from .user_page_nav import goto_user_nav_page
+from .user_page_product_list import fetch_user_product_list
+from .home_search_list import get_home_search_result
+from .setup import setup_driver, load_persistent_cookies
+from .save_filtered_result import item_has_recommend
 
 class DealRecommendationSystem:
     """闲鱼好价推荐系统"""
@@ -91,9 +92,10 @@ class DealRecommendationSystem:
             headers = search_api_request.headers
             
             # 获取搜索结果
-            items = get_home_search_result(cookies, headers, keyword).get('data', {}).get('resultList', [])
+            items, hasMore = get_home_search_result(cookies, headers, keyword)
             print(f'找到 {len(items)} 个搜索结果')
             
+            items = items.sort(key=lambda x: float(x.get('data', {}).get('item', {}).get('main', {}).get('clickParam', {}).get('args', {}).get('price', '')))
             # 限制处理数量
             items = items[:min(max_items, len(items))]
             
@@ -207,7 +209,7 @@ class DealRecommendationSystem:
         
         print(f"\n===== 搜索完成，共找到 {len(found_items)} 个符合条件的商品 =====")
         return found_items
-
+    
 def run_recommendation(keyword, expected_price, feishu_webhook=None, product_type='iPhone'):
     """
     运行推荐系统
@@ -217,14 +219,17 @@ def run_recommendation(keyword, expected_price, feishu_webhook=None, product_typ
     product_type: 产品类型
     """
     system = DealRecommendationSystem(feishu_webhook=feishu_webhook)
-    return system.search_and_evaluate(keyword, expected_price, product_type=product_type)
+    from qr_login import start_search_with_recommendation
+    start_search_with_recommendation(keyword, expected_price, product_type=product_type)
+    # return system.search_and_evaluate(keyword, expected_price, product_type=product_type)
+
 
 if __name__ == '__main__':
     # 示例使用
     keyword = 'iPhone 14 Pro'
-    expected_price = 5000  # 期望价格5000元
+    expected_price = 2500  # 期望价格5000元
     
     # 可以设置飞书Webhook，若不设置则使用控制台输出
-    feishu_webhook = None  # 'https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx'
+    feishu_webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815'
     
     run_recommendation(keyword, expected_price, feishu_webhook) 

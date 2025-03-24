@@ -16,3 +16,5 @@ gunicorn==20.1.0
 # 可能需要的其他包
 cryptography==41.0.1
 python-dotenv==1.0.0 
+
+blinker==1.7.0

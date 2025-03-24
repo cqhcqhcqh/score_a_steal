@@ -1,50 +1,9 @@
 {
-  "api": "mtop.idle.web.user.page.head",
-  "data": {
-    "baseInfo": {
-      "encryptedUserId": "e9T0FNedEBu4nzF9bcFmiA==",
-      "iosVerify": false,
-      "kcUserId": "2219380717672",
-      "self": false,
-      "tags": {
-        "real_name_certification_77": true,
-        "usertag12#576460752303423488": false,
-        "xianyu_user_upgrade": true,
-        "idle_zhima_zheng": true,
-        "tb_xianyu_user": false,
-        "alibaba_idle_playboy": false
-      }
-    },
-    "module": {
-      "social": {
-        "followStatus": 1,
-        "followers": "0",
-        "following": "2",
-        "attentionPrivacyProtected": "false"
-      },
-      "tabs": {
-        "item": {
-          "number": 2,
-          "name": "宝贝"
-        },
-        "rate": {
-          "number": "3",
-          "name": "信用及评价"
-        }
-      },
-      "base": {
-        "ipLocation": "",
-        "displayName": "板球场奶油味的乐豆",
-        "avatar": {
-          "avatar": "http://img.alicdn.com/bao/uploaded/i4/O1CN01QXd0Nk26XpenxuBdt_!!4611686018427385960-0-mtopupload.jpg"
-        },
-        "ylzTags": []
-      }
-    }
-  },
   "ret": [
-    "SUCCESS::调用成功"
+    "FAIL_SYS_USER_VALIDATE",
+    "RGV587_ERROR::SM::哎哟喂,被挤爆啦,请稍后重试"
   ],
-  "traceId": "2150430017425419526887650e605a",
-  "v": "1.0"
+  "data": {
+    "url": "https://h5api.m.goofish.com:443//h5/mtop.idle.web.user.page.head/1.0/_____tmd_____/punish?x5secdata=xdeac8a9a01fd4c866f21423eae4a7ce952ffb4c6fa91bdc291742618762a-717315356a2020848841abaac3ek3921919291a__bx__h5api.m.goofish.com%3A443%2Fh5%2Fmtop.idle.web.user.page.head%2F1.0&x5step=2&action=captcha&pureCaptcha="
+  }
 }

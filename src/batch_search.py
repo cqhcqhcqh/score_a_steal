@@ -17,10 +17,12 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from seleniumwire import webdriver as wire_webdriver
-from filter_by_keyword import filter_by_keyword_lastest
-from db_manager import db_manager
-from save_filtered_result import Base
-from celery_app import app
+from .qr_login import login_with_qr
+from .db_manager import db_manager
+from .celery_app import app
+from .models import Base
+from celery.exceptions import TaskRevokedError
+from celery.result import AsyncResult
 
 def setup_driver(headless=False):
     """配置浏览器驱动"""
@@ -45,33 +47,41 @@ def setup_driver(headless=False):
     driver.set_page_load_timeout(30)
     return driver
 
-@shared_task(bind=True)
-def batch_search_task(self, keywords, expected_prices=None, product_types=None, feishu_webhook=None, base_url="https://www.goofish.com", headless=True):
+@app.task(bind=True)
+def batch_search_task(self, 
+                      keywords, 
+                      expected_prices=None, 
+                      feishu_webhook=None,
+                      headless=True):
+    return _batch_search_task(self,
+                              keywords,
+                              expected_prices,
+                              feishu_webhook,
+                              headless)
+
+def _batch_search_task(task, 
+                       keywords, 
+                       expected_prices=None, 
+                       feishu_webhook=None,
+                       headless=True):
     """
     批量搜索多个关键词并保存结果的Celery任务
     
     参数:
     keywords - 要搜索的关键词列表
     expected_prices - 对应每个关键词的期望价格列表(可选)
-    product_types - 对应每个关键词的产品类型列表(可选)
     feishu_webhook - 飞书通知webhook地址(可选)
-    base_url - 闲鱼网站URL
     headless - 是否使用无头模式
     """
     try:
-        # 确保数据库表已创建
-        db_manager.create_all_tables(Base)
-        
-        # 初始化浏览器
-        driver = setup_driver(headless)
-        
+
         # 初始化进度信息
         total_keywords = len(keywords)
         processed_keywords = 0
         found_items = []
         
         # 设置初始进度
-        self.update_state(
+        task.update_state(
             state=states.STARTED,
             meta={
                 'current': 0,
@@ -82,10 +92,6 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
         )
         
         try:
-            # 访问闲鱼首页
-            driver.get(base_url)
-            time.sleep(3)  # 等待页面加载
-            
             total_processed = 0
             print(f"开始批量搜索，共 {total_keywords} 个关键词")
             
@@ -93,15 +99,14 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
             for i, keyword in enumerate(keywords):
                 # 获取当前关键词的参数
                 expected_price = None if expected_prices is None else expected_prices[i] if i < len(expected_prices) else None
-                product_type = 'iPhone' if product_types is None else product_types[i] if i < len(product_types) else 'iPhone'
                 
                 print(f"\n=== [{i+1}/{total_keywords}] 搜索关键词: {keyword} ===")
                 if expected_price:
-                    print(f"期望价格: {expected_price}, 产品类型: {product_type}")
+                    print(f"期望价格: {expected_price}")
                 
                 try:
                     # 更新任务状态
-                    self.update_state(
+                    task.update_state(
                         state=states.STARTED,
                         meta={
                             'current': i,
@@ -113,19 +118,16 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
                     )
                     
                     # 搜索并处理结果
-                    processed = filter_by_keyword_lastest(
-                        driver, 
+                    processed = login_with_qr(
                         keyword, 
                         expected_price=expected_price,
-                        product_type=product_type,
-                        feishu_webhook=feishu_webhook
-                    )
-                    
-                    total_processed += processed
+                        feishu_webhook=feishu_webhook,
+                    ) or 1
+                    total_processed += 1
                     processed_keywords += 1
                     
                     # 更新任务状态
-                    self.update_state(
+                    task.update_state(
                         state='PROGRESS',
                         meta={
                             'current': processed_keywords,
@@ -135,14 +137,11 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
                             'found_items': len(found_items)
                         }
                     )
-                    
-                    # 返回首页继续下一次搜索
-                    driver.get(base_url)
-                    time.sleep(2)
                 except Exception as e:
+                    import traceback
+                    traceback.print_exc()
                     print(f"处理关键词 '{keyword}' 时出错: {str(e)}")
                     # 返回首页，尝试继续下一个关键词
-                    driver.get(base_url)
                     time.sleep(2)
                     continue
             
@@ -161,11 +160,12 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
             
         finally:
             # 关闭浏览器
-            driver.quit()
+            # driver.quit()
+            pass
             
     except Exception as e:
         # 任务出错
-        self.update_state(
+        task.update_state(
             state=states.FAILURE,
             meta={
                 'exc_type': type(e).__name__,
@@ -175,17 +175,18 @@ def batch_search_task(self, keywords, expected_prices=None, product_types=None, 
             }
         )
         raise Ignore()
-
-def batch_search(keywords, expected_prices=None, product_types=None, feishu_webhook=None, base_url="https://www.goofish.com", headless=False, async_mode=True):
+    
+def batch_search(keywords, 
+                 expected_prices=None, 
+                 feishu_webhook=None, 
+                 headless=False, async_mode=True):
     """
     批量搜索工具入口函数，支持同步/异步模式
     
     参数:
     keywords - 要搜索的关键词列表
     expected_prices - 对应每个关键词的期望价格列表(可选)
-    product_types - 对应每个关键词的产品类型列表(可选)
     feishu_webhook - 飞书通知webhook地址(可选)
-    base_url - 闲鱼网站URL
     headless - 是否使用无头模式
     async_mode - 是否使用异步模式(Celery)
     
@@ -198,9 +199,7 @@ def batch_search(keywords, expected_prices=None, product_types=None, feishu_webh
         task = batch_search_task.delay(
             keywords, 
             expected_prices=expected_prices,
-            product_types=product_types,
             feishu_webhook=feishu_webhook,
-            base_url=base_url,
             headless=headless
         )
         return {
@@ -211,12 +210,9 @@ def batch_search(keywords, expected_prices=None, product_types=None, feishu_webh
     else:
         # 直接执行(同步)
         return batch_search_task(
-            None,  # self参数在直接调用时不需要
             keywords, 
             expected_prices=expected_prices,
-            product_types=product_types,
             feishu_webhook=feishu_webhook,
-            base_url=base_url,
             headless=headless
         )
 
@@ -279,9 +275,7 @@ def main():
     parser = argparse.ArgumentParser(description='批量搜索闲鱼商品并保存数据')
     parser.add_argument('keywords', nargs='+', help='要搜索的关键词，可提供多个')
     parser.add_argument('--prices', nargs='+', type=float, help='对应每个关键词的期望价格')
-    parser.add_argument('--types', nargs='+', help='对应每个关键词的产品类型，默认为iPhone')
     parser.add_argument('--headless', action='store_true', help='启用无头模式')
-    parser.add_argument('--url', default='https://www.goofish.com', help='闲鱼网站URL')
     parser.add_argument('--webhook', help='飞书机器人Webhook地址')
     parser.add_argument('--async', dest='async_mode', action='store_true', help='使用Celery异步执行')
     parser.add_argument('--task-id', help='获取指定ID的任务状态')
@@ -298,9 +292,7 @@ def main():
     result = batch_search(
         args.keywords, 
         expected_prices=args.prices,
-        product_types=args.types,
         feishu_webhook=args.webhook,
-        base_url=args.url, 
         headless=args.headless,
         async_mode=args.async_mode
     )

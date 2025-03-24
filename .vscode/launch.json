@@ -5,8 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug src/web_server",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "src.web_server",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Debug Celery Worker",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "args": [
+                "-A",
+                "src.celery_app",
+                "worker",
+                "--loglevel=info",
+                "--pool=solo" // 使用 solo 模式便于调试
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "./src/qr_login.py",
             "console": "integratedTerminal",

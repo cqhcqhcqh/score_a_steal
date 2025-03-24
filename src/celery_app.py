@@ -11,6 +11,8 @@ app = Celery('score_a_steal')
 # 这里使用Redis作为broker和backend，也可以使用其他的如RabbitMQ
 app.conf.broker_url = 'redis://localhost:6379/0'
 app.conf.result_backend = 'redis://localhost:6379/1'
+# app.conf.broker_url = 'redis://127.0.0.1:6379/0'
+# app.conf.result_backend = 'redis://127.0.0.1:6379/1'
 
 # 配置Celery
 app.conf.update(
@@ -22,10 +24,11 @@ app.conf.update(
     task_track_started=True,  # 追踪任务的开始状态
     task_time_limit=3600,  # 任务的硬时间限制（秒）
     worker_max_tasks_per_child=200,  # 每个worker执行多少个任务后自动重启
+    broker_connection_retry_on_startup=True,
 )
 
 # 自动发现和注册任务
-app.autodiscover_tasks(['src'])
+app.autodiscover_tasks(['src'], related_name='batch_search')
 
 if __name__ == '__main__':
     app.start() 

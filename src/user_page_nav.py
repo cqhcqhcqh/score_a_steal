@@ -1,7 +1,8 @@
 import requests
 import time
 import json
-from sign import calculate_sign
+from .sign import calculate_sign
+from .build_user_info import build_seller_info
 
 def goto_user_nav_page(cookies, headers, user_id):
     _m_h5_tk = cookies.get('_m_h5_tk')
@@ -115,4 +116,7 @@ def goto_user_nav_page(cookies, headers, user_id):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    return responseJson
+    user_info = build_seller_info(responseJson['data'], user_id)
+    if user_info.seller_id != user_id:
+        raise Exception(f"mtop.idle.web.user.page.head 接口调用报错 user_id {user_id} not in responseJson['data']")
+    return user_info
