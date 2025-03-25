@@ -12,10 +12,9 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
             # 因为 ItemDetail 有一个外键 seller_id 指向 SellerInfo，所以需要先合并 SellerInfo
             try:
                 print(f"准备添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
-                # newSeller = session.merge(seller_info)
                 if not session.query(SellerInfo).filter_by(seller_id=seller_info.seller_id).first():
                     session.add(seller_info)
-                print(f"添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
+                print(f"已添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
             except Exception as e:
                 print(f"添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库失败: {str(e)}")
             finally:
@@ -24,78 +23,9 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
             try:
                 print(f"准备添加新商品 {item_data.item_id} 到数据库")
                 if existing_item_detail := session.query(ItemDetail).filter_by(item_id=item_data.item_id).first():
-                    # 检查关键字段是否发生变化
-                    fields_changed = []
-                    if existing_item_detail.price != item_data.price:
-                        fields_changed.append(f"价格从 {existing_item_detail.price} 变为 {item_data.price}")
-                        existing_item_detail.price = item_data.price
-                    if existing_item_detail.want_count != item_data.want_count:
-                        fields_changed.append(f"想要人数从 {existing_item_detail.want_count} 变为 {item_data.want_count}")
-                        existing_item_detail.want_count = item_data.want_count
-                    if existing_item_detail.collect_count != item_data.collect_count:
-                        fields_changed.append(f"收藏数量从 {existing_item_detail.collect_count} 变为 {item_data.collect_count}")
-                        existing_item_detail.collect_count = item_data.collect_count
-                    if existing_item_detail.transportFee != item_data.transportFee:
-                        fields_changed.append(f"运费从 {existing_item_detail.transportFee} 变为 {item_data.transportFee}")
-                        existing_item_detail.transportFee = item_data.transportFee
-                    if existing_item_detail.description != item_data.description:
-                        fields_changed.append("商品描述已更新")
-                        existing_item_detail.description = item_data.description
-                    if existing_item_detail.title != item_data.title:
-                        fields_changed.append("商品标题已更新")
-                        existing_item_detail.title = item_data.title
-                    
-                    # 检查商品属性是否发生变化
-                    if existing_item_detail.brand != item_data.brand:
-                        fields_changed.append(f"品牌从 {existing_item_detail.brand} 变为 {item_data.brand}")
-                        existing_item_detail.brand = item_data.brand
-                    if existing_item_detail.model != item_data.model:
-                        fields_changed.append(f"型号从 {existing_item_detail.model} 变为 {item_data.model}")
-                        existing_item_detail.model = item_data.model
-                    if existing_item_detail.storage != item_data.storage:
-                        fields_changed.append(f"存储容量从 {existing_item_detail.storage} 变为 {item_data.storage}")
-                        existing_item_detail.storage = item_data.storage
-                    if existing_item_detail.RAM != item_data.RAM:
-                        fields_changed.append(f"运行内存从 {existing_item_detail.RAM} 变为 {item_data.RAM}")
-                        existing_item_detail.RAM = item_data.RAM
-                    if existing_item_detail.version != item_data.version:
-                        fields_changed.append(f"版本从 {existing_item_detail.version} 变为 {item_data.version}")
-                        existing_item_detail.version = item_data.version
-                    if existing_item_detail.quality != item_data.quality:
-                        fields_changed.append(f"成色从 {existing_item_detail.quality} 变为 {item_data.quality}")
-                        existing_item_detail.quality = item_data.quality
-                    if existing_item_detail.repair_function != item_data.repair_function:
-                        fields_changed.append(f"拆修功能从 {existing_item_detail.repair_function} 变为 {item_data.repair_function}")
-                        existing_item_detail.repair_function = item_data.repair_function
-                    
-                    # 检查分享信息是否发生变化
-                    if existing_item_detail.share_url != item_data.share_url:
-                        fields_changed.append("分享链接已更新")
-                        existing_item_detail.share_url = item_data.share_url
-                    if existing_item_detail.share_info != json.dumps(item_data.share_info, ensure_ascii=False):
-                        fields_changed.append("分享信息已更新")
-                        existing_item_detail.share_info = json.dumps(item_data.share_info, ensure_ascii=False)
-                    
-                    # 图片信息更新
-                    if existing_item_detail.pic_url != item_data.pic_url:
-                        fields_changed.append("商品主图已更新")
-                        existing_item_detail.pic_url = item_data.pic_url
-                        
-                    # 商品状态更新
-                    if existing_item_detail.item_status != item_data.item_status:
-                        fields_changed.append(f"商品状态从 {existing_item_detail.item_status} 变为 {item_data.item_status}")
-                        existing_item_detail.item_status = item_data.item_status
-                        
-                    if fields_changed:
-                        print(f"更新商品 {item_data.item_id} 的信息：")
-                        for change in fields_changed:
-                            print(f"- {change}")
-                        # recommend_product_did_changed(item_data.item_id)
-                        existing_item_detail.recommend_status = 0
-                else:
-                    session.add(item_data)
-                    # existing_item_detail = item_data
-                    
+                    item_data.id = existing_item_detail.id
+                session.merge(item_data)
+                print(f"已添加新商品 {item_data.item_id} 到数据库")
             except Exception as e:
                 print(f"添加新商品 {item_data.item_id} 到数据库失败: {str(e)}")
             finally:
@@ -110,6 +40,7 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
                     if exist_card_item := session.query(ItemDetail).filter_by(item_id=item.item_id).first():
                         item.id = exist_card_item.id
                     session.merge(item)
+                print(f"已添加用户商品卡片列表 到数据库")
             except Exception as e:
                 print(f"添加用户商品卡片列表 到数据库失败: {str(e)}")
             finally:
@@ -149,6 +80,75 @@ def item_has_recommend(item_id):
         else:
             return False
 
+# item_data 是否需要入库，或者是否需要更新
+def is_item_detail_need_add_or_update_in_db(item_data):
+    with db_manager.session_scope() as session:
+        try:
+            print(f"准备添加新商品 {item_data.item_id} 到数据库")
+            if existing_item_detail := session.query(ItemDetail).filter_by(item_id=item_data.item_id).first():
+                # 检查关键字段是否发生变化
+                fields_changed = []
+                if existing_item_detail.price != item_data.price:
+                    fields_changed.append(f"价格从 {existing_item_detail.price} 变为 {item_data.price}")
+                if existing_item_detail.want_count != item_data.want_count:
+                    fields_changed.append(f"想要人数从 {existing_item_detail.want_count} 变为 {item_data.want_count}")
+                if existing_item_detail.collect_count != item_data.collect_count:
+                    fields_changed.append(f"收藏数量从 {existing_item_detail.collect_count} 变为 {item_data.collect_count}")
+                if existing_item_detail.transportFee != item_data.transportFee:
+                    fields_changed.append(f"运费从 {existing_item_detail.transportFee} 变为 {item_data.transportFee}")
+                if existing_item_detail.description != item_data.description:
+                    fields_changed.append("商品描述已更新")
+                if existing_item_detail.title != item_data.title:
+                    fields_changed.append("商品标题已更新")
+                
+                # 检查商品属性是否发生变化
+                if existing_item_detail.brand != item_data.brand:
+                    fields_changed.append(f"品牌从 {existing_item_detail.brand} 变为 {item_data.brand}")
+                if existing_item_detail.model != item_data.model:
+                    fields_changed.append(f"型号从 {existing_item_detail.model} 变为 {item_data.model}")
+                if existing_item_detail.storage != item_data.storage:
+                    fields_changed.append(f"存储容量从 {existing_item_detail.storage} 变为 {item_data.storage}")
+                if existing_item_detail.RAM != item_data.RAM:
+                    fields_changed.append(f"运行内存从 {existing_item_detail.RAM} 变为 {item_data.RAM}")
+                    existing_item_detail.RAM = item_data.RAM
+                if existing_item_detail.version != item_data.version:
+                    fields_changed.append(f"版本从 {existing_item_detail.version} 变为 {item_data.version}")
+                if existing_item_detail.quality != item_data.quality:
+                    fields_changed.append(f"成色从 {existing_item_detail.quality} 变为 {item_data.quality}")
+                if existing_item_detail.repair_function != item_data.repair_function:
+                    fields_changed.append(f"拆修功能从 {existing_item_detail.repair_function} 变为 {item_data.repair_function}")
+                
+                # 检查分享信息是否发生变化
+                if existing_item_detail.share_url != item_data.share_url:
+                    fields_changed.append("分享链接已更新")
+                if existing_item_detail.share_info != json.dumps(item_data.share_info, ensure_ascii=False):
+                    fields_changed.append("分享信息已更新")
+                
+                # 图片信息更新
+                if existing_item_detail.pic_url != item_data.pic_url:
+                    fields_changed.append("商品主图已更新")
+                    
+                # 商品状态更新
+                if existing_item_detail.item_status != item_data.item_status:
+                    fields_changed.append(f"商品状态从 {existing_item_detail.item_status} 变为 {item_data.item_status}")
+                
+                if existing_item_detail.recommend_status != item_data.recommend_status:
+                    fields_changed.append(f"商品推荐从 {existing_item_detail.recommend_status} 变为 {item_data.recommend_status}")
+
+                if fields_changed:
+                    print(f"更新商品 {item_data.item_id} 的信息：")
+                    for change in fields_changed:
+                        print(f"- {change}")
+                    # recommend_product_did_changed(item_data.item_id)
+                    # existing_item_detail.recommend_status = 0
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        except Exception as e:
+            print(e)
+        
 def find_similar_products_by_seller(item_id):
     """
     根据商品ID查询卖家的所有类似商品，使用db_manager进行连接管理

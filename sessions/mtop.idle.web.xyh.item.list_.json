@@ -7,17 +7,17 @@
           "auctionType": "b",
           "categoryId": 50025386,
           "detailParams": {
-            "picWidth": "1080",
-            "itemId": "902762580470",
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01olJ7kr1dUVvv3zif8_!!4611686018427381659-0-fleamarket.jpg",
-            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01olJ7kr1dUVvv3zif8_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01yInQ3h1dUVvvDMG7p_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01kTekUE1dUVvoEpekb_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1080}]",
-            "picHeight": "1440",
-            "soldPrice": "3000",
+            "picWidth": "1444",
+            "itemId": "901849703073",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01kz9H0E1NVOqY9SxuY_!!4611686018427382039-53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01kz9H0E1NVOqY9SxuY_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1444},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01upAorK1NVOqY9Spbn_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1444},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01roIwIm1NVOqagGKQB_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1444},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01szx6yM1NVOqZwnBhp_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1444},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01ABVnNB1NVOqZwnWUE_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":864},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01B6qqI51NVOqZHSbay_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":864}]",
+            "picHeight": "1920",
+            "soldPrice": "2200",
             "isVideo": "false",
-            "title": "自出一个14por"
+            "title": "小米14pro 12+256,裸机没有盒子充电器，账号已退了"
           },
-          "detailUrl": "fleamarket://awesome_detail?itemId=902762580470&hitNativeDetail=true&flutter=true",
-          "id": "902762580470",
+          "detailUrl": "fleamarket://awesome_detail?itemId=901849703073&hitNativeDetail=true&flutter=true",
+          "id": "901849703073",
           "itemLabelDataVO": {
             "labelBucketId": "12",
             "labelData": {
@@ -61,52 +61,25 @@
                   "mutualLabelBizGroup": "false"
                 }
               },
-              "r3": {
-                "tagList": [
-                  {
-                    "data": {
-                      "color": "#999999",
-                      "size": "11",
-                      "labelId": "9",
-                      "isStrikeThrough": "false",
-                      "lineHeight": "1.5",
-                      "bold": "false",
-                      "type": "text",
-                      "content": "3人想要",
-                      "marginLeft": "2"
-                    },
-                    "utParams": {
-                      "args": {
-                        "LabelSystem2.0": "1",
-                        "content": "3人想要"
-                      },
-                      "arg1": "46_tag_r3_9"
-                    }
-                  }
-                ],
-                "config": {
-                  "mutualLabelBizGroup": "false"
-                }
-              },
               "r1": {
                 "tagList": [
                   {
                     "data": {
                       "marginRight": "4",
-                      "labelId": "13",
-                      "width": "28",
+                      "labelId": "472",
+                      "width": "41",
                       "type": "img",
                       "alignment": "middle",
-                      "content": "freeShippingIcon",
-                      "url": "https://gw.alicdn.com/imgextra/i3/O1CN01PuymOm1I7yIlVyFV9_!!6000000000847-2-tps-84-48.png",
+                      "content": "验货宝",
+                      "url": "https://gw.alicdn.com/imgextra/i3/O1CN01gVzTNw1nMrFzcRUFt_!!6000000005076-2-tps-123-48.png",
                       "height": "16"
                     },
                     "utParams": {
                       "args": {
                         "LabelSystem2.0": "1",
-                        "content": "freeShippingIcon"
+                        "content": "验货宝"
                       },
-                      "arg1": "46_tag_r1_13"
+                      "arg1": "46_tag_r1_472"
                     }
                   }
                 ],
@@ -115,83 +88,7 @@
                 }
               }
             },
-            "serviceUtParams": "[{\"arg1\":\"46_tag_r2_492\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"24小时内发布\"}},{\"arg1\":\"46_tag_r3_9\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"3人想要\"}},{\"arg1\":\"46_tag_r1_13\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"freeShippingIcon\"}}]",
-            "trackParams": {
-              "zhimaOffline": "false",
-              "oldZhima": "false",
-              "zhimaLogBucketId": "12"
-            },
-            "unShowLabelUtParams": "{}"
-          },
-          "itemStatus": 0,
-          "picInfo": {
-            "hasVideo": false,
-            "height": 1440,
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01olJ7kr1dUVvv3zif8_!!4611686018427381659-0-fleamarket.jpg",
-            "width": 1080
-          },
-          "priceInfo": {
-            "preText": "¥",
-            "price": "3000"
-          },
-          "title": "自出一个14por",
-          "trackParams": {
-            "isShopUser": "0",
-            "XyhBucketInfo": "db",
-            "labelBucketId": "12",
-            "serviceUtParams": "[{\"arg1\":\"46_tag_r2_492\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"24小时内发布\"}},{\"arg1\":\"46_tag_r3_9\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"3人想要\"}},{\"arg1\":\"46_tag_r1_13\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"freeShippingIcon\"}}]",
-            "XyhBucketId": "3"
-          }
-        },
-        "cardType": 1003
-      },
-      {
-        "cardData": {
-          "auctionType": "b",
-          "categoryId": 50023914,
-          "detailParams": {
-            "picWidth": "864",
-            "itemId": "897098898707",
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01QcmlIW1dUVvjZvjFb_!!4611686018427381659-0-fleamarket.jpg",
-            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01QcmlIW1dUVvjZvjFb_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":864},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01URL2YC1dUVviRkfen_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01zT3DT91dUVviDVpEJ_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01NNAPUX1dUVvhkijgA_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440}]",
-            "picHeight": "1920",
-            "soldPrice": "100",
-            "isVideo": "false",
-            "title": "买来用过两次 所以包装都有"
-          },
-          "detailUrl": "fleamarket://awesome_detail?itemId=897098898707&hitNativeDetail=true&flutter=true",
-          "id": "897098898707",
-          "itemLabelDataVO": {
-            "labelBucketId": "12",
-            "labelData": {
-              "r1": {
-                "tagList": [
-                  {
-                    "data": {
-                      "marginRight": "4",
-                      "labelId": "13",
-                      "width": "28",
-                      "type": "img",
-                      "alignment": "middle",
-                      "content": "freeShippingIcon",
-                      "url": "https://gw.alicdn.com/imgextra/i3/O1CN01PuymOm1I7yIlVyFV9_!!6000000000847-2-tps-84-48.png",
-                      "height": "16"
-                    },
-                    "utParams": {
-                      "args": {
-                        "LabelSystem2.0": "1",
-                        "content": "freeShippingIcon"
-                      },
-                      "arg1": "46_tag_r1_13"
-                    }
-                  }
-                ],
-                "config": {
-                  "mutualLabelBizGroup": "true"
-                }
-              }
-            },
-            "serviceUtParams": "[{\"arg1\":\"46_tag_r1_13\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"freeShippingIcon\"}}]",
+            "serviceUtParams": "[{\"arg1\":\"46_tag_r2_492\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"24小时内发布\"}},{\"arg1\":\"46_tag_r1_472\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"验货宝\"}}]",
             "trackParams": {
               "zhimaOffline": "false",
               "oldZhima": "false",
@@ -203,19 +100,19 @@
           "picInfo": {
             "hasVideo": false,
             "height": 1920,
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01QcmlIW1dUVvjZvjFb_!!4611686018427381659-0-fleamarket.jpg",
-            "width": 864
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01kz9H0E1NVOqY9SxuY_!!4611686018427382039-53-fleamarket.heic",
+            "width": 1444
           },
           "priceInfo": {
             "preText": "¥",
-            "price": "100"
+            "price": "2200"
           },
-          "title": "买来用过两次 所以包装都有",
+          "title": "小米14pro 12+256,裸机没有盒子充电器，账号已退了",
           "trackParams": {
             "isShopUser": "0",
             "XyhBucketInfo": "db",
             "labelBucketId": "12",
-            "serviceUtParams": "[{\"arg1\":\"46_tag_r1_13\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"freeShippingIcon\"}}]",
+            "serviceUtParams": "[{\"arg1\":\"46_tag_r2_492\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"24小时内发布\"}},{\"arg1\":\"46_tag_r1_472\",\"args\":{\"LabelSystem2.0\":\"1\",\"content\":\"验货宝\"}}]",
             "XyhBucketId": "3"
           }
         },
@@ -224,19 +121,19 @@
       {
         "cardData": {
           "auctionType": "b",
-          "categoryId": 50023914,
+          "categoryId": 50025387,
           "detailParams": {
             "picWidth": "1920",
-            "itemId": "878029809588",
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01t4XY3X1dUVv3SDq5m_!!4611686018427381659-0-fleamarket.jpg",
-            "imageInfos": "[{\"heightSize\":887,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01t4XY3X1dUVv3SDq5m_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01FLNwvd1dUVv2oaiU4_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01yLlm791dUVuvNEvkW_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01s1Rz7w1dUVuziNS77_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN018RWJo01dUVv2XRu7T_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01AT2def1dUVv2vEuy1_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01yZlSiw1dUVv1nqK0V_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":887,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01WOULv11dUVv2vG7rf_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01Am8i4E1dUVvakdHE8_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":887}]",
-            "picHeight": "887",
-            "soldPrice": "180",
+            "itemId": "875712894206",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01Ad5VXn1NVOpcNRCMK_!!4611686018427382039-53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01Ad5VXn1NVOpcNRCMK_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01Y5e0NX1NVOpe1n5q1_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01vk2yBv1NVOpe1uTZe_!!4611686018427382039-53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080}]",
+            "picHeight": "1440",
+            "soldPrice": "950",
             "isVideo": "false",
-            "title": "出一个苹果QQ吃鸡小号"
+            "title": "昂达6600le神盾白色，鲁大师30万左右，海景房搭配，原盒"
           },
-          "detailUrl": "fleamarket://awesome_detail?itemId=878029809588&hitNativeDetail=true&flutter=true",
-          "id": "878029809588",
+          "detailUrl": "fleamarket://awesome_detail?itemId=875712894206&hitNativeDetail=true&flutter=true",
+          "id": "875712894206",
           "itemLabelDataVO": {
             "labelBucketId": "12",
             "labelData": {},
@@ -251,15 +148,15 @@
           "itemStatus": 1,
           "picInfo": {
             "hasVideo": false,
-            "height": 887,
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01t4XY3X1dUVv3SDq5m_!!4611686018427381659-0-fleamarket.jpg",
+            "height": 1440,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01Ad5VXn1NVOpcNRCMK_!!4611686018427382039-53-fleamarket.heic",
             "width": 1920
           },
           "priceInfo": {
             "preText": "¥",
-            "price": "180"
+            "price": "950"
           },
-          "title": "出一个苹果QQ吃鸡小号",
+          "title": "昂达6600le神盾白色，鲁大师30万左右，海景房搭配，原盒",
           "trackParams": {
             "isShopUser": "0",
             "XyhBucketInfo": "db",
@@ -273,19 +170,19 @@
       {
         "cardData": {
           "auctionType": "b",
-          "categoryId": 50025445,
+          "categoryId": 50025452,
           "detailParams": {
-            "picWidth": "1440",
-            "itemId": "884055703151",
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i4/O1CN01scKpCG1dUVvDGp2UD_!!4611686018427381659-0-fleamarket.jpg",
-            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01scKpCG1dUVvDGp2UD_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01RkqWPO1dUVvBwUBsi_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN019EpQJ91dUVv5nrYnM_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01NtKmA11dUVv5nl7RA_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01mMGNlm1dUVvEmCrVj_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440}]",
+            "picWidth": "1288",
+            "itemId": "805902425403",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01SJaSvo1NVOlgSIGpk_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01SJaSvo1NVOlgSIGpk_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1288},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN014VYwp11NVOlhQ1Y53_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01caONAN1NVOlceP58a_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01N4c6IC1NVOleUCaL3_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440}]",
             "picHeight": "1920",
-            "soldPrice": "680",
+            "soldPrice": "500",
             "isVideo": "false",
-            "title": "才买一周多  不想玩了 垃圾台球这辈子不打了 800块钱才了"
+            "title": "银渐层长毛公猫一岁，性格乖巧，半卖半送，已经打了三针一狂，绝"
           },
-          "detailUrl": "fleamarket://awesome_detail?itemId=884055703151&hitNativeDetail=true&flutter=true",
-          "id": "884055703151",
+          "detailUrl": "fleamarket://awesome_detail?itemId=805902425403&hitNativeDetail=true&flutter=true",
+          "id": "805902425403",
           "itemLabelDataVO": {
             "labelBucketId": "12",
             "labelData": {},
@@ -301,14 +198,14 @@
           "picInfo": {
             "hasVideo": false,
             "height": 1920,
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i4/O1CN01scKpCG1dUVvDGp2UD_!!4611686018427381659-0-fleamarket.jpg",
-            "width": 1440
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01SJaSvo1NVOlgSIGpk_!!53-fleamarket.heic",
+            "width": 1288
           },
           "priceInfo": {
             "preText": "¥",
-            "price": "680"
+            "price": "500"
           },
-          "title": "才买一周多  不想玩了 垃圾台球这辈子不打了 800块钱才了",
+          "title": "银渐层长毛公猫一岁，性格乖巧，半卖半送，已经打了三针一狂，绝",
           "trackParams": {
             "isShopUser": "0",
             "XyhBucketInfo": "db",
@@ -324,17 +221,262 @@
           "auctionType": "b",
           "categoryId": 50025386,
           "detailParams": {
-            "picWidth": "1440",
-            "itemId": "869231577886",
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01CQlsBI1dUVuiYSbUW_!!4611686018427381659-0-fleamarket.jpg",
-            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01CQlsBI1dUVuiYSbUW_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01ClNt6J1dUVukiVjSW_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01rke92l1dUVui8xFN2_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01bH0nke1dUVugx4iiU_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01LPm3pq1dUVujU5NQI_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01Is6rRL1dUVuidY44z_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN016Eq9dP1dUVubteCM2_!!4611686018427381659-0-fleamarket.jpg\",\"videoCover\":false,\"widthSize\":1440}]",
-            "picHeight": "1920",
-            "soldPrice": "800",
+            "picWidth": "720",
+            "itemId": "774926160989",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01wJhxxJ1NVOk05zLQr_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":960,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01wJhxxJ1NVOk05zLQr_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":720},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01vCe6OV1NVOk6medN0_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01DkoLbK1NVOjukf7gc_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01IhUqi71NVOjyqIyyK_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN017jm57w1NVOjuLPPlg_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01bl3adM1NVOjyCoNcl_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01B0O5ZY1NVOk7GJW6E_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01okhLLE1NVOk3LyY2b_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01blySYR1NVOjxT5jAL_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440}]",
+            "picHeight": "960",
+            "soldPrice": "2399",
             "isVideo": "false",
-            "title": "换手机了这个不要了准备卖了"
+            "title": "小米12sultra   12➕512冷杉绿，莱卡影相，升级"
           },
-          "detailUrl": "fleamarket://awesome_detail?itemId=869231577886&hitNativeDetail=true&flutter=true",
-          "id": "869231577886",
+          "detailUrl": "fleamarket://awesome_detail?itemId=774926160989&hitNativeDetail=true&flutter=true",
+          "id": "774926160989",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 960,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01wJhxxJ1NVOk05zLQr_!!53-fleamarket.heic",
+            "width": 720
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "2399"
+          },
+          "title": "小米12sultra   12➕512冷杉绿，莱卡影相，升级",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1080",
+            "itemId": "724700588897",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01julOPO1NVOeZWYlUG_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01julOPO1NVOeZWYlUG_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":458,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN012AmRW01NVOeeGop7L_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080}]",
+            "picHeight": "1440",
+            "soldPrice": "168",
+            "isVideo": "false",
+            "title": "金百达ddr4  3200频率一对，长鑫颗粒c14,新的很,"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=724700588897&hitNativeDetail=true&flutter=true",
+          "id": "724700588897",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 1440,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01julOPO1NVOeZWYlUG_!!53-fleamarket.heic",
+            "width": 1080
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "168"
+          },
+          "title": "金百达ddr4  3200频率一对，长鑫颗粒c14,新的很,",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1080",
+            "itemId": "724259438721",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01R0sZ1X1NVOeWxJ430_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1362,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01R0sZ1X1NVOeWxJ430_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":1920,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01DYpVJx1NVOeROFSjr_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":864}]",
+            "picHeight": "1362",
+            "soldPrice": "1250",
+            "isVideo": "false",
+            "title": "蓝戟A750白色8G,京东官方买来一个礼拜了仅仅拆封上机一次"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=724259438721&hitNativeDetail=true&flutter=true",
+          "id": "724259438721",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 1362,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01R0sZ1X1NVOeWxJ430_!!53-fleamarket.heic",
+            "width": 1080
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "1250"
+          },
+          "title": "蓝戟A750白色8G,京东官方买来一个礼拜了仅仅拆封上机一次",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1920",
+            "itemId": "716213590057",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01Jghvqd1NVOdfQu3VI_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01Jghvqd1NVOdfQu3VI_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01yojeKY1NVOdlBl1ox_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":778,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01DeqlcK1NVOdn7KgQl_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":450,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01hg0BFn1NVOdgqubzF_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080}]",
+            "picHeight": "1440",
+            "soldPrice": "660",
+            "isVideo": "false",
+            "title": "七彩虹1660s 白色涂装带背板带灯效，闲鱼购入几天正常使用"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=716213590057&hitNativeDetail=true&flutter=true",
+          "id": "716213590057",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 1440,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01Jghvqd1NVOdfQu3VI_!!53-fleamarket.heic",
+            "width": 1920
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "660"
+          },
+          "title": "七彩虹1660s 白色涂装带背板带灯效，闲鱼购入几天正常使用",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1920",
+            "itemId": "713511338314",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01XS6ba11NVOdGXxmrI_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01XS6ba11NVOdGXxmrI_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1920},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i1/O1CN01OHXKPA1NVOdPLvE12_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080},{\"heightSize\":1440,\"major\":false,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i4/O1CN01N9UX9X1NVOdX7rhlK_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1920}]",
+            "picHeight": "1440",
+            "soldPrice": "620",
+            "isVideo": "false",
+            "title": "微星6500xt正常使用成色新原盒，购于闲鱼，换卡了出，已是"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=713511338314&hitNativeDetail=true&flutter=true",
+          "id": "713511338314",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 1440,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i1/O1CN01XS6ba11NVOdGXxmrI_!!53-fleamarket.heic",
+            "width": 1920
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "620"
+          },
+          "title": "微星6500xt正常使用成色新原盒，购于闲鱼，换卡了出，已是",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1440",
+            "itemId": "704805544072",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01aTCjWV1NVOccWTDC9_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1920,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i3/O1CN01aTCjWV1NVOccWTDC9_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1440}]",
+            "picHeight": "1920",
+            "soldPrice": "180",
+            "isVideo": "false",
+            "title": "英睿达内存条白色马甲条2666  8gx2,去年闲鱼三百多入"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=704805544072&hitNativeDetail=true&flutter=true",
+          "id": "704805544072",
           "itemLabelDataVO": {
             "labelBucketId": "12",
             "labelData": {},
@@ -350,14 +492,63 @@
           "picInfo": {
             "hasVideo": false,
             "height": 1920,
-            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01CQlsBI1dUVuiYSbUW_!!4611686018427381659-0-fleamarket.jpg",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i3/O1CN01aTCjWV1NVOccWTDC9_!!53-fleamarket.heic",
             "width": 1440
           },
           "priceInfo": {
             "preText": "¥",
-            "price": "800"
+            "price": "180"
           },
-          "title": "换手机了这个不要了准备卖了",
+          "title": "英睿达内存条白色马甲条2666  8gx2,去年闲鱼三百多入",
+          "trackParams": {
+            "isShopUser": "0",
+            "XyhBucketInfo": "db",
+            "labelBucketId": "12",
+            "serviceUtParams": "[]",
+            "XyhBucketId": "3"
+          }
+        },
+        "cardType": 1003
+      },
+      {
+        "cardData": {
+          "auctionType": "b",
+          "categoryId": 50025387,
+          "detailParams": {
+            "picWidth": "1080",
+            "itemId": "702996324273",
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01lUsPN21NVOcE4t3Ru_!!53-fleamarket.heic",
+            "imageInfos": "[{\"heightSize\":1440,\"major\":true,\"type\":0,\"url\":\"http://img.alicdn.com/bao/uploaded/i2/O1CN01lUsPN21NVOcE4t3Ru_!!53-fleamarket.heic\",\"videoCover\":false,\"widthSize\":1080}]",
+            "picHeight": "1440",
+            "soldPrice": "110",
+            "isVideo": "false",
+            "title": "西伯利亚s11l"
+          },
+          "detailUrl": "fleamarket://awesome_detail?itemId=702996324273&hitNativeDetail=true&flutter=true",
+          "id": "702996324273",
+          "itemLabelDataVO": {
+            "labelBucketId": "12",
+            "labelData": {},
+            "serviceUtParams": "[]",
+            "trackParams": {
+              "zhimaOffline": "false",
+              "oldZhima": "false",
+              "zhimaLogBucketId": "12"
+            },
+            "unShowLabelUtParams": "{}"
+          },
+          "itemStatus": 1,
+          "picInfo": {
+            "hasVideo": false,
+            "height": 1440,
+            "picUrl": "http://img.alicdn.com/bao/uploaded/i2/O1CN01lUsPN21NVOcE4t3Ru_!!53-fleamarket.heic",
+            "width": 1080
+          },
+          "priceInfo": {
+            "preText": "¥",
+            "price": "110"
+          },
+          "title": "西伯利亚s11l",
           "trackParams": {
             "isShopUser": "0",
             "XyhBucketInfo": "db",
@@ -374,7 +565,7 @@
     "needDecryptKeysV2": [],
     "nextPage": false,
     "serverDecryptKeys": [],
-    "serverTime": "2025-03-24 19:14:45",
+    "serverTime": "2025-03-25 15:36:16",
     "topItem": {},
     "totalCount": 0
   },

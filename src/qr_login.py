@@ -34,7 +34,7 @@ os.environ["https_proxy"] = ""
     # del driver.requests
     # return driver
 
-def setup_driver(headless):
+def setup_driver(headless=True):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
     if headless:
@@ -172,7 +172,9 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         canvas_element.screenshot(qr_code_image_path)
         print("已截取 <canvas> 中的二维码图片")
 
-        input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
+        # input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
+        print(f'等待扫描二维码...')
+        time.sleep(30)
 
         persist_driver_cookies(driver)
 

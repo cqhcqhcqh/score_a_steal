@@ -30,6 +30,8 @@ class ItemDetail(Base):
     seller_id = Column(String, ForeignKey('seller_info.seller_id'))
     publish_time = Column(DateTime)
     title = Column(String)
+    zhima_level_code = Column(String)
+    zhima_level_name = Column(String)
     # seller_city = Column(String)
     # seller_xy_nickname = Column(String)
     # 添加分享相关字段
@@ -77,6 +79,8 @@ class SellerInfo(Base):
     attentionPrivacyProtected = Column(Boolean)
     item_count = Column(Integer)
     rate = Column(String)
+    zhima_level_code = Column(String)
+    zhima_level_name = Column(String)
     seller_level = Column(Integer)
     seller_level_text = Column(String)
     buyer_level = Column(Integer)

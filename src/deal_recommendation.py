@@ -131,6 +131,8 @@ class DealRecommendationSystem:
                     
                     # 获取卖家信息
                     user_info = goto_user_nav_page(cookies, headers, seller_id)
+                    user_info.zhima_level_code = product_detail.zhima_level_code
+                    user_info.zhima_level_name = product_detail.zhima_level_name
                     
                     # 获取卖家的其他在售商品
                     user_product_list = fetch_user_product_list(cookies, headers, seller_id, max_pages=2)

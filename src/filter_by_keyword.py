@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from .save_filtered_result import cache_feed_filtered_result, item_has_recommend
+from .save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
 from .product_detail import get_product_detail
 from .home_search_list import get_home_search_result
 from .user_page_nav import goto_user_nav_page
@@ -149,6 +149,10 @@ def recommned_product_if_needed(recommendation_system,
                 if not product_detail:
                     print(f"无法获取商品 {item_id} 的详情，跳过")
                     continue
+
+                if not is_item_detail_need_add_or_update_in_db(product_detail):
+                    print(f"商品 {item_id} 已经落库，没有更新，无需再次评估")
+                    continue
                 
                 # 提取卖家ID
                 seller_id = product_detail.seller_id
@@ -159,7 +163,9 @@ def recommned_product_if_needed(recommendation_system,
 
                 # 获取卖家信息
                 user_info = goto_user_nav_page(cookies, headers, seller_id)
-                
+                user_info.zhima_level_code = product_detail.zhima_level_code
+                user_info.zhima_level_name = product_detail.zhima_level_name
+
                 if not user_info:
                     print(f"无法获取卖家 {seller_id} 的信息，跳过")
                     continue
@@ -197,7 +203,7 @@ def recommned_product_if_needed(recommendation_system,
                 processed_count += 1
             
             # 添加短暂延迟，避免请求过于频繁
-            time.sleep(1)
+            time.sleep(random.uniform(2, 5))
     else:
         # 原有的处理逻辑(不使用推荐系统)
         for item_warpper in items:

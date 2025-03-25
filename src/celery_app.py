@@ -29,6 +29,6 @@ app.conf.update(
 
 # 自动发现和注册任务
 app.autodiscover_tasks(['src'], related_name='batch_search')
-
+app.control.purge()
 if __name__ == '__main__':
     app.start() 

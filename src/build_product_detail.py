@@ -98,5 +98,7 @@ def build_product_detail(data):
             image_infos=image_infos,
             item_status=item_status,
             auction_type=auction_type,
+            zhima_level_code=zhima_level_code,
+            zhima_level_name=zhima_level_name,
             updated_at=datetime.now()
         )

@@ -47,7 +47,18 @@ def setup_driver(headless=False):
     driver.set_page_load_timeout(30)
     return driver
 
+from functools import wraps
+def repeat_every_5_minutes(func):
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        while True:  # 检查任务是否被撤销
+            func(self, *args, **kwargs)
+            for _ in range(300):  # 5分钟 = 300秒
+                time.sleep(1)
+    return wrapper
+
 @app.task(bind=True)
+@repeat_every_5_minutes
 def batch_search_task(self, 
                       keywords,
                       expected_prices=None,

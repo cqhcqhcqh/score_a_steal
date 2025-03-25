@@ -2,9 +2,9 @@
   "api": "mtop.idle.web.user.page.head",
   "data": {
     "baseInfo": {
-      "encryptedUserId": "/g5F7d3CMBJI3Cj0TxYdrw==",
+      "encryptedUserId": "qiVlOruqC3jwqJ86as6YZg==",
       "iosVerify": false,
-      "kcUserId": "2218876323739",
+      "kcUserId": "2214483511575",
       "self": false,
       "tags": {
         "real_name_certification_77": true,
@@ -18,34 +18,58 @@
     "module": {
       "social": {
         "followStatus": 1,
-        "followers": "4",
-        "following": "2",
+        "followers": "0",
+        "following": "4",
         "attentionPrivacyProtected": "false"
       },
       "tabs": {
         "item": {
-          "number": 5,
+          "number": 10,
           "name": "宝贝"
         },
         "rate": {
-          "number": "2",
+          "number": "13",
           "name": "信用及评价"
         }
       },
       "base": {
-        "ipLocation": "江苏省",
-        "displayName": "过好今天",
+        "ipLocation": "福建省",
+        "displayName": "装机少年",
         "avatar": {
-          "avatar": "http://img.alicdn.com/bao/uploaded/i4/O1CN01Kl9SuI1dUVthTORNE_!!4611686018427381659-0-mtopupload.jpg"
+          "avatar": "http://img.alicdn.com/bao/uploaded/i1/O1CN01chCuru1NVOZl9RsZn_!!0-mtopupload.jpg"
         },
-        "ylzTags": [],
-        "introduction": "卖二手机的小哥哥"
+        "ylzTags": [
+          {
+            "attributes": {
+              "role": "seller",
+              "level": 4
+            },
+            "code": "cs_seller_level",
+            "icon": "https://gw.alicdn.com/imgextra/i4/O1CN01x4xWOR1gpWohaht8p_!!6000000004191-2-tps-318-66.png",
+            "lottie": "https://g.alicdn.com/eva-assets/b4ca1415b90f5a46e5ec39feef06cdd6/0.0.1/tmp/366411d/2e8a7321-6cd2-461e-bc5e-ff6a16681cf5.json",
+            "text": "卖家信用优秀",
+            "type": "ylzLevel",
+            "url": ""
+          },
+          {
+            "attributes": {
+              "role": "buyer",
+              "level": 5
+            },
+            "code": "cs_buyer_level",
+            "icon": "https://gw.alicdn.com/imgextra/i4/O1CN014q8CFX1k2l6k5Yxz0_!!6000000004626-2-tps-318-66.png",
+            "lottie": "https://g.alicdn.com/eva-assets/0238f90ff53fc44f34604678d241a367/0.0.1/tmp/0861f53/ac1e4e1e-41d0-4255-8e54-1e9a5cafd50e.json",
+            "text": "买家信用极好",
+            "type": "ylzLevel",
+            "url": ""
+          }
+        ]
       }
     }
   },
   "ret": [
     "SUCCESS::调用成功"
   ],
-  "traceId": "213e366017428148851382068e896d",
+  "traceId": "213e363f17428881758791365ec0c9",
   "v": "1.0"
 }

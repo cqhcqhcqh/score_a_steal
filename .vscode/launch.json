@@ -22,8 +22,23 @@
                 "-A",
                 "src.celery_app",
                 "worker",
+                "--loglevel=WARNING",
+                // "--pool=solo" // 使用 solo 模式便于调试
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Debug Test Celery Worker",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "celery",
+            "args": [
+                "-A",
+                "src.test_celery_task_state",
+                "worker",
                 "--loglevel=info",
-                "--pool=solo" // 使用 solo 模式便于调试
+                // "--pool=solo" // 使用 solo 模式便于调试
             ],
             "console": "integratedTerminal",
             "justMyCode": true
