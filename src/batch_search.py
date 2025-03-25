@@ -53,8 +53,11 @@ def repeat_every_5_minutes(func):
     def wrapper(self, *args, **kwargs):
         while True:  # 检查任务是否被撤销
             func(self, *args, **kwargs)
-            for _ in range(300):  # 5分钟 = 300秒
-                time.sleep(1)
+            print(f'{func} 任务执行一次结束....')
+            for i in range(60):  # 5分钟 = 300秒
+                print(f'{func} 任务休眠中... 持续...{(i+1) * 5} 秒')
+                time.sleep(5)
+            print(f'{func} 任务开启一次轮询....')
     return wrapper
 
 @app.task(bind=True)
