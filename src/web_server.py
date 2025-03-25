@@ -51,19 +51,19 @@ def index():
                 <form id="searchForm">
                     <div class="form-group">
                         <label for="keywords">关键词（多个关键词用逗号分隔）:</label>
-                        <textarea id="keywords" name="keywords" rows="3" required></textarea>
+                        <textarea id="keywords" name="keywords" rows="3" required>苹果14Pro256有锁</textarea>
                     </div>
                     <div class="form-group">
                         <label for="prices">期望价格（与关键词对应，多个用逗号分隔）:</label>
-                        <input type="text" id="prices" name="prices" placeholder="如: 5000,3000,2000">
+                        <input type="text" id="prices" name="prices" value=3000 placeholder="如: 5000,3000,2000", required>
                     </div>
                     <div class="form-group">
                         <label for="days">发布多少天内（单位是天，多个用逗号分隔）:</label>
-                        <input type="text" id="days" name="days" placeholder="如: 2, 3, 1">
+                        <input type="text" id="days" name="days" value=2 placeholder="如: 2, 3, 1">
                     </div>
                     <div class="form-group">
                         <label for="webhook">飞书Webhook URL（可选）:</label>
-                        <input type="text" id="webhook" name="webhook">
+                        <input type="text" id="webhook" value="https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815" name="webhook">
                     </div>
                     <div class="form-group">
                         <label for="headless">
@@ -166,7 +166,21 @@ def index():
                             terminateBtn.disabled = (task.status.state === 'SUCCESS' || task.status.state === 'FAILURE');
                             terminateBtn.onclick = function() {
                                 if (confirm(`确定要终止任务 ${task.task_id} 吗？`)) {
-                                     window.location.href = `/task/${task.task_id}/terminate`;
+                                     fetch(`/task/${task.task_id}/terminate`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            }
+                                        })
+                                        .then(response => response.json())
+                                        .then(result => {
+                                            alert(`ID: ${task.task_id} message: ${result.message}`);
+                                            loadTasks();  // 刷新任务列表
+                                        })
+                                        .catch(error => {
+                                            console.error('Error submitting task:', error);
+                                            alert('终止任务时出错，请查看控制台');
+                                        });
                                 }
                             };
                             cell.appendChild(terminateBtn);
@@ -339,7 +353,7 @@ def task_details(task_id):
     </html>
     '''
 
-@app.route('/task/<task_id>/terminate', methods=['GET'])
+@app.route('/task/<task_id>/terminate', methods=['POST'])
 def terminate_task(task_id):
     try:
         # 这里添加实际的终止任务逻辑

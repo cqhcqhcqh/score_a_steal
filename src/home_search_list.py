@@ -156,6 +156,9 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
     if not os.path.exists('sessions/mtop.taobao.idlemtopsearch.pc.search_.json'):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    resultList = responseJson.get('data').get('resultList')
-    hasMore = len(resultList) == rowsPerPage
-    return resultList, hasMore
+    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+        resultList = responseJson.get('data').get('resultList')
+        hasMore = len(resultList) == rowsPerPage
+        return resultList, hasMore
+    else:
+        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

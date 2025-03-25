@@ -116,7 +116,10 @@ def goto_user_nav_page(cookies, headers, user_id):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    user_info = build_seller_info(responseJson['data'], user_id)
-    if user_info.seller_id != user_id:
-        raise Exception(f"mtop.idle.web.user.page.head 接口调用报错 user_id {user_id} not in responseJson['data']")
-    return user_info
+    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+        user_info = build_seller_info(responseJson['data'], user_id)
+        if user_info.seller_id != user_id:
+            raise Exception(f"mtop.idle.web.user.page.head 接口调用报错 user_id {user_id} not in responseJson['data']")
+        return user_info
+    else:
+        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

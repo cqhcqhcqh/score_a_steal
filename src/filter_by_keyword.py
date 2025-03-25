@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from .save_filtered_result import cache_feed_filtered_result, item_has_recommend, recommend_product
+from .save_filtered_result import cache_feed_filtered_result, item_has_recommend
 from .product_detail import get_product_detail
 from .home_search_list import get_home_search_result
 from .user_page_nav import goto_user_nav_page
@@ -94,7 +94,7 @@ def filter_by_keyword_lastest(driver,
     pageNumber = 1
     # 获取搜索结果
     while result := get_home_search_result(cookies, headers, keyword, pageNumber):
-        cookies, headers = generate_valid_cookies_headers(driver, keyword)
+        # cookies, headers = generate_valid_cookies_headers(driver, keyword)
         items, hasMore = result
         print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
         res = recommned_product_if_needed(recommendation_system, 
@@ -168,22 +168,25 @@ def recommned_product_if_needed(recommendation_system,
                 
                 # 获取卖家的其他在售商品
                 user_card_list = fetch_user_product_list(cookies, headers, seller_id)
-
-                # 确保在会话上下文中调用
-                # cache_feed_filtered_result(product_detail, user_info, user_card_list)
+                repair_function = product_detail.repair_function
+                quality = product_detail.quality
                 price = product_detail.price + product_detail.transportFee
-                if (product_detail.repair_function == '无任何维修' 
-                    or product_detail.repair_function == ''
-                    or product_detail.quality == '几乎全新' 
-                    or product_detail.quality == '') and price < expected_price:
-                        print(f'价格低于期望价格，而且还是全新无维修 [成色: {product_detail.quality} 拆修和功能: {product_detail.repair_function}]，大概率是假的，跳过 {user_info.display_name}')
+                display_name = user_info.display_name
+                if (repair_function == '无任何维修' 
+                    or repair_function == ''
+                    or quality == '几乎全新' 
+                    or quality == '') and price < expected_price:
+                        print(f'价格低于期望价格，而且还是全新无维修 [成色: {quality} 拆修和功能: {repair_function}]，大概率是假的，跳过 display_name: [{display_name}]')
                 elif not item_has_recommend(item_id) and price <= expected_price:
-                    print(f'找到期望价格的商品')
-                    recommend_product(item_id)
+                    print(f'找到期望价格的商品 display_name: [{display_name}]')
+                    product_detail.recommend_status = 1
                     recommendation_system.notified_items.add(item_id)
                     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
                 else:
                     print(f'价格高于期望价格，跳过')
+                
+                # 确保在会话上下文中调用
+                cache_feed_filtered_result(product_detail, user_info, user_card_list)
                 # 添加短暂延迟，避免请求过于频繁
                 time.sleep(1)
             except Exception as db_err:

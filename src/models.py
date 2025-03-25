@@ -51,6 +51,12 @@ class ItemDetail(Base):
     # 关系
     seller = relationship("SellerInfo", back_populates="items")
 
+    def update_from(self, other):
+        """用另一个对象更新当前对象"""
+        for key, value in other.__dict__.items():
+            if key != 'id' and not key.startswith('_'):  # 排除 id 和内部属性
+                setattr(self, key, value)
+                
     def __repr__(self):
         return f"<SearchResult(item_id='{self.item_id}', title='{self.title}', desc='{self.description}, price={self.price}, seller={self.seller_xy_nickname})>"
 
