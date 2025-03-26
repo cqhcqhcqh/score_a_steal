@@ -1,7 +1,8 @@
 import json
 import requests
 from datetime import datetime
-from .models import ItemDetail, SellerInfo
+from src.model.models import ItemDetail, SellerInfo
+
 class FeiShuNotifier:
     """飞书机器人通知类"""
     

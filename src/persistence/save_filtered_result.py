@@ -1,6 +1,6 @@
 import json
-from .db_manager import db_manager
-from .models import ItemDetail, SellerInfo
+from src.persistence.db_manager import db_manager
+from src.model.models import ItemDetail, SellerInfo
 
 def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
     """

@@ -8,12 +8,12 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from .save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
-from .product_detail import get_product_detail
-from .home_search_list import get_home_search_result
-from .user_page_nav import goto_user_nav_page
-from .user_page_product_list import fetch_user_product_list
-from .deal_recommendation import DealRecommendationSystem
+from src.persistence.save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
+from src.api.product_detail import get_product_detail
+from src.api.home_search_list import get_home_search_result
+from src.api.user_page_nav import goto_user_nav_page
+from src.api.user_page_product_list import fetch_user_product_list
+from src.evaluation.deal_recommendation import DealRecommendationSystem
 
 @retry(exceptions=Exception, tries=5, delay=1, backoff=2)
 def simulate_search_action_by_user(driver, keyword):
@@ -66,8 +66,8 @@ def generate_valid_cookies_headers(driver, keyword):
     cookies = dict(cookie.split("=", 1) for cookie in cookie_str.split("; "))
     headers = search_api_request.headers
     del headers['accept-encoding']
-    headers['pragma'] = 'no-cache'
-
+    # del headers['content-length']
+    # del headers['cookie']
     return cookies, headers
 
 def filter_by_keyword_lastest(driver,
@@ -90,7 +90,12 @@ def filter_by_keyword_lastest(driver,
         min_seller_score=70,  # 可以根据需要调整阈值
         min_matching_score=75
     )
-
+    # loaded_cookies = driver.get_cookies()
+    # loaded_cookies = {cookie['name']: cookie['value'] for cookie in loaded_cookies}
+    # for key, value in cookies.items():
+    #     if key not in loaded_cookies:
+    #         loaded_cookies[key] = value
+    # cookies = loaded_cookies
     pageNumber = 1
     # 获取搜索结果
     while result := get_home_search_result(cookies, headers, keyword, pageNumber):

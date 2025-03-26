@@ -1,5 +1,5 @@
-from .models import SellerInfo
 from datetime import datetime
+from src.model.models import SellerInfo
 
 def build_seller_info(user_info, seller_id):
     if user_info:

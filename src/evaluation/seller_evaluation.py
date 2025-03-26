@@ -1,6 +1,6 @@
+import re
 import json
 from datetime import datetime
-import re
 from collections import defaultdict
 
 def evaluate_seller_credibility(user_info):

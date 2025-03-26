@@ -1,7 +1,7 @@
+import time
 from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-import time
 
 def test_seleniumwire():
     chrome_options = Options()
@@ -10,7 +10,7 @@ def test_seleniumwire():
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
     chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
     
-    service = Service(executable_path='./resources/chromedriver')
+    service = Service(executable_path='../resources/chromedriver')
     driver = webdriver.Chrome(options=chrome_options, service=service)    
     # 清空请求
     del driver.requests

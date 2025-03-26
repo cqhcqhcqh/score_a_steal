@@ -8,7 +8,7 @@
             "name": "Debug src/web_server",
             "type": "debugpy",
             "request": "launch",
-            "module": "src.web_server",
+            "module": "src.web.app",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "justMyCode": true
@@ -20,10 +20,11 @@
             "module": "celery",
             "args": [
                 "-A",
-                "src.celery_app",
+                "src.polling.app",
                 "worker",
-                "--loglevel=WARNING",
-                // "--pool=solo" // 使用 solo 模式便于调试
+                // "--loglevel=WARNING",
+                "--loglevel=INFO",
+                "--pool=solo" // 使用 solo 模式便于调试
             ],
             "console": "integratedTerminal",
             "justMyCode": true
@@ -46,8 +47,9 @@
         {
             "name": "Python: Current File",
             "type": "debugpy",
+            "module": "src.qr_login",
             "request": "launch",
-            "program": "./src/qr_login.py",
+            // "program": "./src/qr_login.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["-Xfrozen_modules=off"],

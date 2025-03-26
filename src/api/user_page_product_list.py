@@ -1,8 +1,8 @@
 import requests
 import time
 import json
-from .sign import calculate_sign
-from .build_card_list import build_card_list
+from src.tool.sign import calculate_sign
+from src.model.build_card_list import build_card_list
 
 def fetch_user_product_list(cookies, headers, user_id, item_id=None):
     _m_h5_tk = cookies.get('_m_h5_tk')

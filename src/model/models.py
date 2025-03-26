@@ -1,9 +1,8 @@
-import json
 from datetime import datetime
-from .db_manager import db_manager
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, DECIMAL, Boolean, DateTime, Text, ForeignKey
+from src.persistence.db_manager import db_manager
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DECIMAL, Boolean, DateTime, Text, ForeignKey
 
 # 定义数据库模型
 Base = declarative_base()

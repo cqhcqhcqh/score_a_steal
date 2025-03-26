@@ -6,12 +6,9 @@ Flask Web服务，用于提交批量搜索任务和查看任务进度
 """
 
 import os
-import json
-from flask import Flask, request, jsonify, render_template
-from .celery_app import app as celery_app
-from .batch_search import batch_search, get_task_status
-from celery.result import AsyncResult
-from celery import states
+from flask import Flask, request, jsonify
+from src.polling.app import app as celery_app
+from src.polling.batch_search import batch_search, get_task_status
 
 app = Flask(__name__)
 

@@ -1,6 +1,6 @@
 import json
-from .models import ItemDetail
 from datetime import datetime
+from src.model.models import ItemDetail
 
 def build_product_detail(data):
     itemDO = data['itemDO']

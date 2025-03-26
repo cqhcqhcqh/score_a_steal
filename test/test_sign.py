@@ -1,5 +1,5 @@
 import requests
-from .sign import calculate_sign
+from src.tool.sign import calculate_sign
 
 cookies = {
     'mtop_partitioned_detect': '1',

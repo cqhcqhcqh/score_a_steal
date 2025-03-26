@@ -9,7 +9,7 @@ python search_similar_items.py 商品ID
 
 import sys
 import argparse
-from save_filtered_result import find_similar_products_by_seller
+from src.persistence.save_filtered_result import find_similar_products_by_seller
 
 def main():
     # 解析命令行参数

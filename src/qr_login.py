@@ -1,21 +1,17 @@
 import os
 import time
-import json
-import requests
-from PIL import Image
-from datetime import datetime
-from .filter_by_keyword import filter_by_keyword_lastest
 # from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
-from seleniumwire import webdriver
-from .setup import load_persistent_cookies, persist_driver_cookies
+from selenium.webdriver.support.ui import WebDriverWait
+from .filter_by_keyword import filter_by_keyword_lastest
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+from src.setup import load_persistent_cookies, persist_driver_cookies
 
 os.environ["no_proxy"] = ""
 os.environ["http_proxy"] = ""
@@ -37,7 +33,7 @@ os.environ["https_proxy"] = ""
 def setup_driver(headless=True):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    if headless:
+    if not headless:
         chrome_options.add_argument('--headless')  # Enable headless mode
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
@@ -109,10 +105,10 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
     iframes = driver.find_elements(By.TAG_NAME, "iframe")
     quick_enter_button = None
     if iframes:
-        print('找到 iframes')
+        print('find quick_enter_button 找到 iframes')
         for iframe in iframes:
             driver.switch_to.frame(iframe)
-            print(f'switch_to frame: {iframe}')
+            print(f'find quick_enter_button switch_to frame: {iframe}')
             try:
                 quick_enter_button = WebDriverWait(driver, 3).until(
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))
@@ -130,7 +126,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
                 print(e)
                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
     else:
-        print('没找到 iframes')
+        print('find quick_enter_button 没找到 iframes')
 
     if not quick_enter_button:
         print('没找到 quick_enter_button')
@@ -174,7 +170,62 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
 
         # input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
         print(f'等待扫描二维码...')
-        time.sleep(30)
+        time.sleep(15)
+
+        keep_login_button = None
+        # while not keep_login_button:
+        #     try:
+        #         keep_login_button = WebDriverWait(driver, 1).until(
+        #             EC.element_to_be_clickable((By.XPATH, "//button[contains(., '保持')]"))
+        #         )
+        #         keep_login_button.click()
+        #         print("在 iframe 中定位到 `保持`按钮")
+        #     except:
+        #         print('keep find go on button.')
+        #     time.sleep(1.0)
+
+        # while not keep_login_button:
+        #     driver.switch_to.default_content()
+        #     iframes = driver.find_elements(By.TAG_NAME, "iframe")
+        #     if iframes:
+        #         print('find keep_login_button 找到 iframes')
+        #         for iframe in iframes:
+        #             driver.switch_to.frame(iframe)
+        #             print(f'switch_to frame: {iframe}')
+        #             try:
+        #                 keep_login_button = WebDriverWait(driver, 1).until(
+        #                     EC.presence_of_element_located((By.XPATH, "//button[contains(., '保持')]"))
+        #                 )
+        #                 # 打印详细信息
+        #                 print("按钮是否存在:", keep_login_button is not None)
+        #                 print("按钮可见性:", keep_login_button.is_displayed())
+        #                 print("按钮启用状态:", keep_login_button.is_enabled())
+        #                 print("按钮位置:", keep_login_button.location)
+        #                 print("按钮大小:", keep_login_button.size)
+        #                 print("按钮 HTML:", keep_login_button.get_attribute("outerHTML"))
+        #                 print("当前 URL:", driver.current_url)
+        #                 print("当前 iframe:", driver.current_frame if hasattr(driver, 'current_frame') else "主文档")
+        #                 WebDriverWait(driver, 30).until(
+        #                     lambda driver: keep_login_button.is_displayed() and keep_login_button.is_enabled()
+        #                 )
+        #                 print("按钮可见性:", keep_login_button.is_displayed())
+        #                 print("按钮启用状态:", keep_login_button.is_enabled())
+        #                 print("在 ifrafme 中定位到 `保持`按钮")
+        #                 driver.execute_script("arguments[0].click();", keep_login_button)
+                        
+        #                 driver.switch_to.default_content()
+
+        #                 persist_driver_cookies(driver)
+        #                 if keyword:
+        #                     filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+        #                 break
+        #             except Exception as e:
+        #                 print(e)
+        #                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
+        #                 break
+        #     else:
+        #         print('find keep_login_button  没找到 iframes')
+        #     time.sleep(1)
 
         persist_driver_cookies(driver)
 
@@ -194,7 +245,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         if keyword:
             filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
 
-def start_search_with_recommendation(keyword, expected_price, product_type='iPhone', feishu_webhook=None):
+def start_search_with_recommendation(keyword, expected_price, in_days, feishu_webhook=None):
     """
     使用推荐系统开始搜索，提供更加直观的入口
     
@@ -203,8 +254,8 @@ def start_search_with_recommendation(keyword, expected_price, product_type='iPho
     product_type: 产品类型，例如'iPhone'
     feishu_webhook: 飞书通知Webhook地址，不提供则使用控制台输出
     """
-    print(f"开始搜索: {keyword}, 期望价格: {expected_price}, 产品类型: {product_type}")
-    login_with_qr(keyword, expected_price, product_type, feishu_webhook)
+    print(f"开始搜索: {keyword}, 期望价格: {expected_price}, 搜索时间范围: {in_days} 天")
+    login_with_qr(keyword, expected_price, in_days, feishu_webhook)
 
 if __name__ == '__main__':
     try:
@@ -217,7 +268,10 @@ if __name__ == '__main__':
         expected_price = 2500  # 元
         feishu_webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815'
         
-        start_search_with_recommendation(keyword, expected_price, 'iPhone', feishu_webhook)
+        start_search_with_recommendation(keyword, expected_price, 2, feishu_webhook)
     except Exception as e:
         print(e)
         pass
+
+# if __name__ == "__main__":
+#     some_function()

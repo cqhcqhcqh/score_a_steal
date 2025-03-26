@@ -1,22 +1,14 @@
-import os
 import time
-import json
-import requests
-from datetime import datetime
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from src.api.user_page_nav import goto_user_nav_page
+from src.api.product_detail import get_product_detail
 from selenium.webdriver.support.ui import WebDriverWait
+from src.api.home_search_list import get_home_search_result
+from src.setup import setup_driver, load_persistent_cookies
+from src.tool.notifier import FeiShuNotifier, console_notify
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from .seller_evaluation import evaluate_seller_credibility, detect_lure_seller, calculate_item_matching_score
-from .notifier import FeiShuNotifier, console_notify
-from .product_detail import get_product_detail
-from .user_page_nav import goto_user_nav_page
-from .user_page_product_list import fetch_user_product_list
-from .home_search_list import get_home_search_result
-from .setup import setup_driver, load_persistent_cookies
-from .save_filtered_result import item_has_recommend
+from src.api.user_page_product_list import fetch_user_product_list
+from src.evaluation.seller_evaluation import evaluate_seller_credibility, detect_lure_seller, calculate_item_matching_score
 
 class DealRecommendationSystem:
     """闲鱼好价推荐系统"""
@@ -133,7 +125,7 @@ class DealRecommendationSystem:
                     user_info = goto_user_nav_page(cookies, headers, seller_id)
                     user_info.zhima_level_code = product_detail.zhima_level_code
                     user_info.zhima_level_name = product_detail.zhima_level_name
-                    
+
                     # 获取卖家的其他在售商品
                     user_product_list = fetch_user_product_list(cookies, headers, seller_id, max_pages=2)
                     

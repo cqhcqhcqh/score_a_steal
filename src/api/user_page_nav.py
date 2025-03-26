@@ -1,8 +1,8 @@
 import requests
 import time
 import json
-from .sign import calculate_sign
-from .build_user_info import build_seller_info
+from src.tool.sign import calculate_sign
+from src.model.build_user_info import build_seller_info
 
 def goto_user_nav_page(cookies, headers, user_id):
     _m_h5_tk = cookies.get('_m_h5_tk')

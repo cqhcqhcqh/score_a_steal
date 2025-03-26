@@ -31,7 +31,7 @@ cd "$SRC_DIR"
 
 # 启动Celery Worker
 echo "启动Celery Worker..."
-celery -A src.celery_app worker --loglevel=info --logfile="$BASE_DIR/logs/celery.log" --detach
+celery -A src.celery.app worker --loglevel=info --logfile="$BASE_DIR/logs/celery.log" --detach
 
 # 等待Worker启动
 sleep 2
@@ -39,7 +39,7 @@ sleep 2
 # 启动Web服务
 echo "启动Web服务..."
 cd "$BASE_DIR"
-gunicorn --bind 0.0.0.0:8119 --workers 2 --threads 4 --timeout 120 "src.web_server:app" > logs/web.log 2>&1 &
+gunicorn --bind 0.0.0.0:8119 --workers 2 --threads 4 --timeout 120 "src.flask:app" > logs/web.log 2>&1 &
 
 # 显示访问信息
 echo ""

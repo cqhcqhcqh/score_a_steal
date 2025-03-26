@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-from contextlib import contextmanager
 import threading
+from sqlalchemy import create_engine
+from contextlib import contextmanager
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 class DatabaseManager:
     """

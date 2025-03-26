@@ -1,5 +1,5 @@
 from datetime import datetime
-from .models import ItemDetail
+from src.model.models import ItemDetail
 
 def build_card_list(data, seller_id):
     card_list = data['cardList']

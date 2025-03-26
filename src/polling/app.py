@@ -1,5 +1,5 @@
-from celery import Celery
 import os
+from celery import Celery
 
 # 设置默认的Django设置模块
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myapp.settings')
@@ -22,13 +22,14 @@ app.conf.update(
     timezone='Asia/Shanghai',  # 时区设置
     enable_utc=False,
     task_track_started=True,  # 追踪任务的开始状态
-    task_time_limit=3600,  # 任务的硬时间限制（秒）
+    task_time_limit=60*60*24*360,  # 任务的硬时间限制（秒）
     worker_max_tasks_per_child=200,  # 每个worker执行多少个任务后自动重启
     broker_connection_retry_on_startup=True,
 )
 
 # 自动发现和注册任务
-app.autodiscover_tasks(['src'], related_name='batch_search')
+# app.autodiscover_tasks(['src.celery'])
+import src.polling.batch_search
 app.control.purge()
 if __name__ == '__main__':
     app.start() 

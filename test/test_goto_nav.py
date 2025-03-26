@@ -1,6 +1,6 @@
 import time
 import json
-from sign import calculate_sign
+from src.tool.sign import calculate_sign
 
 def test_goto_nav_page(user_id=None):
     import requests

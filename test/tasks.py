@@ -1,5 +1,5 @@
 from celery import shared_task, states
-from src.celery_app import app
+from src.celery.app import app
 
 @app.task(bind=True)
 def test_batch_search_task(self, keywords):

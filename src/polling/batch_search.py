@@ -7,22 +7,15 @@
 支持Celery后台任务和进度追踪
 """
 
-import sys
 import time
-import argparse
 import json
-from celery import shared_task, states
+import argparse
+from celery import states
+from src.polling.app import app
 from celery.exceptions import Ignore
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+from src.qr_login import login_with_qr
 from seleniumwire import webdriver as wire_webdriver
-from .qr_login import login_with_qr
-from .db_manager import db_manager
-from .celery_app import app
-from .models import Base
-from celery.exceptions import TaskRevokedError
-from celery.result import AsyncResult
+from selenium.webdriver.chrome.options import Options
 
 def setup_driver(headless=False):
     """配置浏览器驱动"""
