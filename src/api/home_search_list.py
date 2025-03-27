@@ -1,5 +1,5 @@
+import json
 import requests
-
 # cookies = {
 #     'mtop_partitioned_detect': '1',
 #     'havana_lgc_exp': '1745019190281',
@@ -34,9 +34,8 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
     t = str(int(time.time() * 1000))
     api = 'mtop.taobao.idlemtopsearch.pc.search'
     appKey = '34839810'
-    spm_cnt = 'a21ybx.item.0.0'
-    spm_pre = 'a21ybx.search.searchFeedList.1.25734829IcZ8UM'
-    log_id = '25734829IcZ8UM'
+    spm_cnt = 'a21ybx.search.0.0' # 这个参数不传递的会报错，服务器被挤爆了
+    spm_pre = 'a21ybx.search.searchInput.0'
     jsv = '2.7.2'
     v = '1.0'
     rowsPerPage = 30
@@ -53,9 +52,8 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
         'timeout': '20000',
         'api': api,
         'sessionOption': 'AutoLoginOnly',
-        # 'spm_cnt': spm_cnt,
-        # 'spm_pre': spm_pre,
-        # 'log_id': log_id,
+        'spm_cnt': spm_cnt,
+        'spm_pre': spm_pre,
     }
     # "sortValue":"asc", # 按照价格升序
     # "sortField":"price", # 按照价格排序
@@ -156,9 +154,20 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
     if not os.path.exists('sessions/mtop.taobao.idlemtopsearch.pc.search_.json'):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
+    
+    print(f'reponseJson ret: {responseJson.get('ret')}')
     if responseJson.get('ret') == ['SUCCESS::调用成功']:
         resultList = responseJson.get('data').get('resultList')
         hasMore = len(resultList) == rowsPerPage
         return resultList, hasMore
     else:
+        with open('./test/test_home_list_filter_error.json', 'w+') as f:
+            headers = {key: value for key, value in headers._headers}
+            json.dump({'cookies': cookies,
+                       'headers': headers, 
+                       'data': data, 
+                       'params': params}, 
+                       f, 
+                       indent=2, 
+                       ensure_ascii=False)
         raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

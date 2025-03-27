@@ -11,9 +11,9 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
     t = str(int(time.time() * 1000))
     api = 'mtop.idle.web.xyh.item.list'
     appKey = '34839810'
-    spm_cnt = 'a21ybx.item.0.0'
-    spm_pre = 'a21ybx.search.searchFeedList.1.25734829IcZ8UM'
-    log_id = '25734829IcZ8UM'
+    spm_cnt = 'a21ybx.personal.0.0'
+    spm_pre = 'a21ybx.item.itemHeader.1.13d83da6UAseGQ'
+    log_id = '13d83da6UAseGQ'
     jsv = '2.7.2'
     v = '1.0'
     # jsv=2.7.2&appKey=34839810&t=1742290911572&sign=1a7f1abda4bdf9ce025c8a1e89d971b2&v=1.0&type=originaljson&accountSite=xianyu&dataType=json&timeout=20000&api=mtop.taobao.idlemtopsearch.pc.search&sessionOption=AutoLoginOnly&spm_cnt=a21ybx.search.0.0&spm_pre=a21ybx.home.searchInput.0
@@ -29,7 +29,7 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
         'timeout': '20000',
         'api': api,
         'sessionOption': 'AutoLoginOnly',
-        # 'spm_cnt': spm_cnt,
+        'spm_cnt': spm_cnt,
         # 'spm_pre': spm_pre,
         # 'log_id': log_id,
     }

@@ -45,7 +45,7 @@
             "justMyCode": true
         },
         {
-            "name": "Python: Current File",
+            "name": "Python: qr_login",
             "type": "debugpy",
             "module": "src.qr_login",
             "request": "launch",

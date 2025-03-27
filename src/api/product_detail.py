@@ -29,7 +29,7 @@ def get_product_detail(cookies, headers, itemId):
         'timeout': '20000',
         'api': api,
         'sessionOption': 'AutoLoginOnly',
-        # 'spm_cnt': spm_cnt,
+        'spm_cnt': spm_cnt,
         # 'spm_pre': spm_pre,
         # 'log_id': log_id,
     }
