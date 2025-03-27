@@ -84,7 +84,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
     driver.refresh()
     time.sleep(3)
     # for request in driver.requests:
-    #     print(f"URL: {request.url}, Status: {request.response.status_code if request.response else 'No response'}")
+    #     logger.info(f"URL: {request.url}, Status: {request.response.status_code if request.response else 'No response'}")
     try:
         login_button = WebDriverWait(driver, 3).until(
             EC.element_to_be_clickable((By.XPATH, "//a[contains(., '登录')]"))
@@ -115,7 +115,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))
                 )
                 quick_enter_button.click()
-                print("在 iframe 中定位到 `快速进入`按钮")
+                logger.info("在 iframe 中定位到 `快速进入`按钮")
                 
                 driver.switch_to.default_content()
 
@@ -124,7 +124,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
                     filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
                 break
             except Exception as e:
-                print(e)
+                logger.info(e)
                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
     else:
         logger.info(f'find quick_enter_button 没找到 iframes')
@@ -137,29 +137,29 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
             # 无提醒登录弹框
             # cookie 中存储了登录态，并且网页中无需点击`快速登录`按钮，
             # 若无 iframe，尝试主文档
-            # print("未找到 iframe，尝试在主文档中定位")
+            # logger.info("未找到 iframe，尝试在主文档中定位")
             # qr_code_container = WebDriverWait(driver, 15).until(
             #     EC.presence_of_element_located((By.ID, "qrcode-img"))
             # )
-            # print("在主文档中定位到 <div id='qrcode-img'>")
+            # logger.info("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
             if keyword:
                 filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
             return
         else:
-            print(f"找到 {len(iframes)} 个 iframe，尝试切换")
+            logger.info(f"找到 {len(iframes)} 个 iframe，尝试切换")
             for iframe in iframes:
                 driver.switch_to.frame(iframe)
                 try:
                     qr_code_container = WebDriverWait(driver, 5).until(
                         EC.presence_of_element_located((By.ID, "qrcode-img"))
                     )
-                    print("在 iframe 中定位到 <div id='qrcode-img'>")
+                    logger.info("在 iframe 中定位到 <div id='qrcode-img'>")
                     break
                 except:
                     driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
             if not qr_code_container:
-                print("未在任何 iframe 中找到 'qrcode-img'")
+                logger.info("未在任何 iframe 中找到 'qrcode-img'")
                 driver.quit()
                 exit(1)
 
@@ -167,7 +167,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         canvas_element = qr_code_container.find_element(By.TAG_NAME, "canvas")
         qr_code_image_path = "qr_code.png"
         canvas_element.screenshot(qr_code_image_path)
-        print("已截取 <canvas> 中的二维码图片")
+        logger.info("已截取 <canvas> 中的二维码图片")
 
         # input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
         logger.info(f'等待扫描二维码...')
@@ -180,7 +180,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         #             EC.element_to_be_clickable((By.XPATH, "//button[contains(., '保持')]"))
         #         )
         #         keep_login_button.click()
-        #         print("在 iframe 中定位到 `保持`按钮")
+        #         logger.info("在 iframe 中定位到 `保持`按钮")
         #     except:
         #         logger.info(f'keep find go on button.')
         #     time.sleep(1.0)
@@ -198,20 +198,20 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         #                     EC.presence_of_element_located((By.XPATH, "//button[contains(., '保持')]"))
         #                 )
         #                 # 打印详细信息
-        #                 print("按钮是否存在:", keep_login_button is not None)
-        #                 print("按钮可见性:", keep_login_button.is_displayed())
-        #                 print("按钮启用状态:", keep_login_button.is_enabled())
-        #                 print("按钮位置:", keep_login_button.location)
-        #                 print("按钮大小:", keep_login_button.size)
-        #                 print("按钮 HTML:", keep_login_button.get_attribute("outerHTML"))
-        #                 print("当前 URL:", driver.current_url)
-        #                 print("当前 iframe:", driver.current_frame if hasattr(driver, 'current_frame') else "主文档")
+        #                 logger.info("按钮是否存在:", keep_login_button is not None)
+        #                 logger.info("按钮可见性:", keep_login_button.is_displayed())
+        #                 logger.info("按钮启用状态:", keep_login_button.is_enabled())
+        #                 logger.info("按钮位置:", keep_login_button.location)
+        #                 logger.info("按钮大小:", keep_login_button.size)
+        #                 logger.info("按钮 HTML:", keep_login_button.get_attribute("outerHTML"))
+        #                 logger.info("当前 URL:", driver.current_url)
+        #                 logger.info("当前 iframe:", driver.current_frame if hasattr(driver, 'current_frame') else "主文档")
         #                 WebDriverWait(driver, 30).until(
         #                     lambda driver: keep_login_button.is_displayed() and keep_login_button.is_enabled()
         #                 )
-        #                 print("按钮可见性:", keep_login_button.is_displayed())
-        #                 print("按钮启用状态:", keep_login_button.is_enabled())
-        #                 print("在 ifrafme 中定位到 `保持`按钮")
+        #                 logger.info("按钮可见性:", keep_login_button.is_displayed())
+        #                 logger.info("按钮启用状态:", keep_login_button.is_enabled())
+        #                 logger.info("在 ifrafme 中定位到 `保持`按钮")
         #                 driver.execute_script("arguments[0].click();", keep_login_button)
                         
         #                 driver.switch_to.default_content()
@@ -221,7 +221,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         #                     filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
         #                 break
         #             except Exception as e:
-        #                 print(e)
+        #                 logger.info(e)
         #                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
         #                 break
         #     else:
@@ -255,7 +255,7 @@ def start_search_with_recommendation(keyword, expected_price, in_days, feishu_we
     product_type: 产品类型，例如'iPhone'
     feishu_webhook: 飞书通知Webhook地址，不提供则使用控制台输出
     """
-    print(f"开始搜索: {keyword}, 期望价格: {expected_price}, 搜索时间范围: {in_days} 天")
+    logger.info(f"开始搜索: {keyword}, 期望价格: {expected_price}, 搜索时间范围: {in_days} 天")
     login_with_qr(keyword, expected_price, in_days, feishu_webhook)
 
 if __name__ == '__main__':
@@ -271,7 +271,7 @@ if __name__ == '__main__':
         
         start_search_with_recommendation(keyword, expected_price, 2, feishu_webhook)
     except Exception as e:
-        print(e)
+        logger.info(e)
         pass
 
 # if __name__ == "__main__":

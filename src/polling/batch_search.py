@@ -14,7 +14,7 @@ from celery import states
 from src.polling.app import app
 from celery.exceptions import Ignore
 from src.qr_login import login_with_qr
-from logger.app_logger import app_logger as logger
+from src.logger.app_logger import app_logger as logger
 from seleniumwire import webdriver as wire_webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -104,16 +104,16 @@ def _batch_search_task(task,
         
         try:
             total_processed = 0
-            print(f"开始批量搜索，共 {total_keywords} 个关键词")
+            logger.info(f"开始批量搜索，共 {total_keywords} 个关键词")
             
             # 循环处理每个关键词
             for i, keyword in enumerate(keywords):
                 # 获取当前关键词的参数
                 expected_price = None if expected_prices is None else expected_prices[i] if i < len(expected_prices) else None
                 in_days = None if in_days is None else in_days[i] if i < len(in_days) else None
-                print(f"\n=== [{i+1}/{total_keywords}] 搜索关键词: {keyword} ===")
+                logger.info(f"\n=== [{i+1}/{total_keywords}] 搜索关键词: {keyword} ===")
                 if expected_price:
-                    print(f"期望价格: {expected_price}")
+                    logger.info(f"期望价格: {expected_price}")
                 
                 try:
                     # 更新任务状态
@@ -153,12 +153,12 @@ def _batch_search_task(task,
                 except Exception as e:
                     import traceback
                     traceback.print_exc()
-                    print(f"处理关键词 '{keyword}' 时出错: {str(e)}")
+                    logger.info(f"处理关键词 '{keyword}' 时出错: {str(e)}")
                     # 返回首页，尝试继续下一个关键词
                     time.sleep(2)
                     continue
             
-            print(f"\n批量搜索完成，共处理 {total_processed} 个商品")
+            logger.info(f"\n批量搜索完成，共处理 {total_processed} 个商品")
             
             # 任务完成
             return {
@@ -302,7 +302,7 @@ def main():
     # 获取任务状态
     if args.task_id:
         status = get_task_status(args.task_id)
-        print(json.dumps(status, indent=2))
+        logger.info(json.dumps(status, indent=2))
         return
     
     # 执行批量搜索
@@ -316,11 +316,11 @@ def main():
     )
     
     if args.async_mode:
-        print(f"任务已排队，任务ID: {result['task_id']}")
-        print(f"使用以下命令查看任务状态:")
-        print(f"python batch_search.py --task-id {result['task_id']}")
+        logger.info(f"任务已排队，任务ID: {result['task_id']}")
+        logger.info(f"使用以下命令查看任务状态:")
+        logger.info(f"python batch_search.py --task-id {result['task_id']}")
     else:
-        print(json.dumps(result, indent=2))
+        logger.info(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
     main() 

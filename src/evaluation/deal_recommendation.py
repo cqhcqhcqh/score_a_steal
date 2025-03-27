@@ -40,7 +40,7 @@ class DealRecommendationSystem:
         product_type: 产品类型，默认为iPhone
         max_items: 最大处理商品数量
         """
-        print(f"开始搜索: {keyword}, 期望价格: {expected_price}")
+        logger.info(f"开始搜索: {keyword}, 期望价格: {expected_price}")
         
         # 初始化浏览器
         driver = setup_driver()
@@ -99,26 +99,26 @@ class DealRecommendationSystem:
                     # 提取商品ID
                     item_id = str(item_data.get('item_id', ''))
                     if not item_id:
-                        print(f"[{i+1}/{len(items)}] 商品ID不存在，跳过")
+                        logger.info(f"[{i+1}/{len(items)}] 商品ID不存在，跳过")
                         continue
                     
                     # 如果已经推送过，跳过
                     if item_id in self.notified_items:
-                        print(f"[{i+1}/{len(items)}] 商品 {item_id} 已推送过，跳过")
+                        logger.info(f"[{i+1}/{len(items)}] 商品 {item_id} 已推送过，跳过")
                         continue
                     
-                    print(f"\n[{i+1}/{len(items)}] 评估商品: {item_id}")
+                    logger.info(f"\n[{i+1}/{len(items)}] 评估商品: {item_id}")
                     
                     # 获取商品详情
                     product_detail = get_product_detail(cookies, headers, item_id).get('data', {})
                     if not product_detail:
-                        print(f"无法获取商品 {item_id} 的详情，跳过")
+                        logger.info(f"无法获取商品 {item_id} 的详情，跳过")
                         continue
                     
                     # 提取卖家ID
                     seller_id = str(product_detail.get('sellerDO', {}).get('sellerId', ''))
                     if not seller_id:
-                        print(f"商品 {item_id} 无卖家信息，跳过")
+                        logger.info(f"商品 {item_id} 无卖家信息，跳过")
                         continue
                     
                     # 获取卖家信息
@@ -162,9 +162,9 @@ class DealRecommendationSystem:
                     }
                     
                     # 显示评估结果
-                    print(f"卖家可信度: {seller_score}/100")
-                    print(f"商品匹配度: {matching_score}/100")
-                    print(f"引流风险: {'是' if is_lure else '否'}")
+                    logger.info(f"卖家可信度: {seller_score}/100")
+                    logger.info(f"商品匹配度: {matching_score}/100")
+                    logger.info(f"引流风险: {'是' if is_lure else '否'}")
                     
                     # 判断是否符合推荐条件
                     if (not is_lure and 
@@ -187,21 +187,21 @@ class DealRecommendationSystem:
                         # 记录已通知的商品ID
                         self.notified_items.add(item_id)
                         
-                        print(f"发现优质商品: {product_detail.get('title', '未知商品')}")
+                        logger.info(f"发现优质商品: {product_detail.get('title', '未知商品')}")
                     else:
-                        print(f"商品不满足推荐条件，跳过")
+                        logger.info(f"商品不满足推荐条件，跳过")
                     
                     # 添加短暂延迟，避免请求过于频繁
                     time.sleep(1)
                     
                 except Exception as e:
-                    print(f"处理商品时出错: {str(e)}")
+                    logger.info(f"处理商品时出错: {str(e)}")
                     continue
         
         # 关闭浏览器
         driver.quit()
         
-        print(f"\n===== 搜索完成，共找到 {len(found_items)} 个符合条件的商品 =====")
+        logger.info(f"\n===== 搜索完成，共找到 {len(found_items)} 个符合条件的商品 =====")
         return found_items
     
 def run_recommendation(keyword, expected_price, feishu_webhook=None, product_type='iPhone'):

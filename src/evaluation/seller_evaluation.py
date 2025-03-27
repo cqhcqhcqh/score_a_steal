@@ -2,6 +2,7 @@ import re
 import json
 from datetime import datetime
 from collections import defaultdict
+from src.logger.app_logger import app_logger as logger
 
 def evaluate_seller_credibility(user_info):
     """
@@ -222,4 +223,4 @@ listings = [
 
 average_prices = calculate_average_prices_from_listings(listings)
 for key, avg_price in average_prices.items():
-    print(f"组合: {key}, 平均价格: ¥{avg_price:.2f}") 
+    logger.info(f"组合: {key}, 平均价格: ¥{avg_price:.2f}") 

@@ -16,7 +16,7 @@ def build_card_list(data, seller_id):
             
         detail_params = card_data.get('detailParams', {})
         other_title = detail_params.get('title', '')
-        # print(card_data.get('priceInfo'), '-', detail_params.get('soldPrice'))
+        # logger.info(card_data.get('priceInfo'), '-', detail_params.get('soldPrice'))
         # priceInfo = card_data.get('priceInfo').get('price')
         other_sold_price = detail_params.get('soldPrice', 0) or ''
         if '万' in other_sold_price:

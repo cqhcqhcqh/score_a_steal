@@ -42,7 +42,7 @@ def simulate_search_action_by_user(driver, keyword):
     search_api_request = None
     for request in driver.requests:
         # h5api.m.goofish.com/h5/mtop.taobao.idlemtopsearch.pc.search/1.0
-        print(request)
+        logger.info(request)
         if '/h5/mtop.taobao.idlemtopsearch.pc.search/1.0' in request.path and request.response:
             if request.response.status_code == 200 and 'application/json' in request.response.headers.get('Content-Type', ''):
                 search_api_request = request
@@ -122,7 +122,7 @@ def recommned_product_if_needed(recommendation_system,
                                 in_days):
     processed_count = 0
     if expected_price is not None:
-        print(f"使用推荐系统，期望价格: {expected_price}")
+        logger.info(f"使用推荐系统，期望价格: {expected_price}")
         # 处理每个商品
         for i, item_wrapper in enumerate(items):
             try:
@@ -137,31 +137,31 @@ def recommned_product_if_needed(recommendation_system,
                 # 提取商品ID
                 item_id = str(item_data.get('item_id', ''))
                 if not item_id:
-                    print(f"{desc} 商品ID不存在，跳过")
+                    logger.info(f"{desc} 商品ID不存在，跳过")
                     continue
                 
                 # 如果已经推送过，跳过
                 if item_id in recommendation_system.notified_items:
-                    print(f"{desc} 商品ID {item_id} 已推送过，跳过")
+                    logger.info(f"{desc} 商品ID {item_id} 已推送过，跳过")
                     continue
                 
-                print(f"{desc} 评估商品: {item_id}")
+                logger.info(f"{desc} 评估商品: {item_id}")
                 
                 # 获取商品详情
                 product_detail = get_product_detail(cookies, headers, item_id)
                 if not product_detail:
-                    print(f"无法获取商品 {item_id} 的详情，跳过")
+                    logger.info(f"无法获取商品 {item_id} 的详情，跳过")
                     continue
 
                 if not is_item_detail_need_add_or_update_in_db(product_detail):
-                    print(f"商品 {item_id} 已经落库，没有更新，无需再次评估")
+                    logger.info(f"商品 {item_id} 已经落库，没有更新，无需再次评估")
                     continue
                 
                 # 提取卖家ID
                 seller_id = product_detail.seller_id
                 
                 if not seller_id:
-                    print(f"商品 {item_id} 无卖家信息，跳过")
+                    logger.info(f"商品 {item_id} 无卖家信息，跳过")
                     continue
 
                 # 获取卖家信息
@@ -170,7 +170,7 @@ def recommned_product_if_needed(recommendation_system,
                 user_info.zhima_level_name = product_detail.zhima_level_name
 
                 if not user_info:
-                    print(f"无法获取卖家 {seller_id} 的信息，跳过")
+                    logger.info(f"无法获取卖家 {seller_id} 的信息，跳过")
                     continue
                 else:
                     logger.info(f'kc_user_id: {user_info.kc_user_id} user_name: {user_info.display_name}')
@@ -201,7 +201,7 @@ def recommned_product_if_needed(recommendation_system,
             except Exception as db_err:
                 import traceback
                 traceback.print_exc()
-                print(f"保存数据到数据库时出错: {str(db_err)}")
+                logger.info(f"保存数据到数据库时出错: {str(db_err)}")
             finally:
                 processed_count += 1
             
@@ -215,20 +215,20 @@ def recommned_product_if_needed(recommendation_system,
                 # 提取字段
                 item_id = str(item_data.get('item_id', ''))
                 if not item_id:
-                    print("商品ID不存在，跳过")
+                    logger.info(f"商品ID不存在，跳过")
                     continue
                 
-                print(f"p: {pageNumber} n[{processed_count+1}/{len(items)}] 处理商品: {item_id}")
+                logger.info(f"p: {pageNumber} n[{processed_count+1}/{len(items)}] 处理商品: {item_id}")
                 
                 # 获取商品详情
                 product_detail = get_product_detail(cookies, headers, item_id).get('data', {})
                 if not product_detail:
-                    print(f"无法获取商品 {item_id} 的详情，跳过")
+                    logger.info(f"无法获取商品 {item_id} 的详情，跳过")
                     continue
                 
                 seller_id = str(product_detail.get('sellerDO', {}).get('sellerId', ''))
                 if not seller_id:
-                    print(f"商品 {item_id} 无卖家信息，跳过")
+                    logger.info(f"商品 {item_id} 无卖家信息，跳过")
                     continue
                 
                 # 获取卖家个人页面信息
@@ -241,17 +241,17 @@ def recommned_product_if_needed(recommendation_system,
                 try:
                     cache_feed_filtered_result(product_detail, user_info, user_product_list)
                 except Exception as db_err:
-                    print(f"保存数据到数据库时出错: {str(db_err)}")
+                    logger.info(f"保存数据到数据库时出错: {str(db_err)}")
                 
                 processed_count += 1
-                print(f"成功处理商品 {item_id}")
+                logger.info(f"成功处理商品 {item_id}")
                 
                 # 添加短暂延迟，避免请求过于频繁
                 time.sleep(1)
                 
             except Exception as e:
-                print(f"处理商品时出错: {str(e)}")
+                logger.info(f"处理商品时出错: {str(e)}")
                 continue
     
-    print(f"\n===== 搜索完成，共处理 {processed_count}/{len(items)} 个商品 =====")
+    logger.info(f"\n===== 搜索完成，共处理 {processed_count}/{len(items)} 个商品 =====")
     return processed_count

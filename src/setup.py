@@ -3,6 +3,7 @@ import json
 from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from src.logger.app_logger import app_logger as logger
 
 def setup_driver():
     chrome_options = Options()
@@ -43,14 +44,14 @@ def setup_driver():
 def persist_driver_cookies(driver):
     # Step 7: 提取 cookies
     cookies = driver.get_cookies()
-    # print("已提取浏览器中的 cookies:")
+    # logger.info("已提取浏览器中的 cookies:")
     # for cookie in cookies:
-    #     print(cookie)
+    #     logger.info(cookie)
 
     # Step 8: 保存 cookies 到文件
     with open("goofish_cookies.json", "w") as f:
         json.dump(cookies, f, indent=2)
-    print("Cookies 已保存到 goofish_cookies.json")
+    logger.info("Cookies 已保存到 goofish_cookies.json")
 
 def load_persistent_cookies(driver):
     if not os.path.exists('goofish_cookies.json'):
@@ -61,5 +62,5 @@ def load_persistent_cookies(driver):
             if cookie['domain'] == '.goofish.com':
                 driver.add_cookie(cookie)
             else:
-                print(f"domain not correct: {cookie['domain']}")
-        print("已加载保存的 cookies")
+                logger.info(f"domain not correct: {cookie['domain']}")
+        logger.info("已加载保存的 cookies")

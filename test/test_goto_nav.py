@@ -153,7 +153,7 @@ seller_ids = [row[0] for row in cursor.fetchall()]
 cursor.close()
 conn.close()
 
-# print(seller_ids)  # 输出所有 seller_id 列表
+# logger.info(seller_ids)  # 输出所有 seller_id 列表
 
 for idx, seller_id in enumerate(seller_ids):
     logger.info(f'test_goto_nav_page {idx} enter : {seller_id}')

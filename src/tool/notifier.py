@@ -2,6 +2,7 @@ import json
 import requests
 from datetime import datetime
 from src.model.models import ItemDetail, SellerInfo
+from src.logger.app_logger import app_logger as logger
 
 class FeiShuNotifier:
     """飞书机器人通知类"""
@@ -118,31 +119,31 @@ class FeiShuNotifier:
             )
             
             if response.status_code == 200:
-                print(f"成功发送通知: {title}")
+                logger.info(f"成功发送通知: {title}")
                 return True
             else:
-                print(f"发送通知失败: {response.status_code} - {response.text}")
+                logger.info(f"发送通知失败: {response.status_code} - {response.text}")
                 return False
                 
         except Exception as e:
-            print(f"发送通知时出错: {str(e)}")
+            logger.info(f"发送通知时出错: {str(e)}")
             return False
 
 # 简单的控制台通知(用于测试)
 def console_notify(item_info, seller_info, evaluation_result=None):
     """在控制台打印通知信息(测试用)"""
     
-    print("\n" + "="*50)
-    print(f"【好价预警】{item_info.get('title', '未知商品')}")
-    print(f"价格: ¥{item_info.get('price', '0')}")
-    print(f"卖家: {seller_info.get('data', {}).get('module', {}).get('base', {}).get('displayName', '未知卖家')}")
-    print(f"商品ID: {item_info.get('itemId', '')}")
-    print("-"*50)
-    print(f"评估结果:")
-    print(f"卖家可信度: {evaluation_result.get('seller_score', 0)}/100")
-    print(f"商品匹配度: {evaluation_result.get('matching_score', 0)}/100")
-    print(f"引流风险: {'是' if evaluation_result.get('is_lure', False) else '否'}")
-    print("="*50 + "\n")
+    logger.info(f"\n" + "="*50)
+    logger.info(f"【好价预警】{item_info.get('title', '未知商品')}")
+    logger.info(f"价格: ¥{item_info.get('price', '0')}")
+    logger.info(f"卖家: {seller_info.get('data', {}).get('module', {}).get('base', {}).get('displayName', '未知卖家')}")
+    logger.info(f"商品ID: {item_info.get('itemId', '')}")
+    logger.info(f"-"*50)
+    logger.info(f"评估结果:")
+    logger.info(f"卖家可信度: {evaluation_result.get('seller_score', 0)}/100")
+    logger.info(f"商品匹配度: {evaluation_result.get('matching_score', 0)}/100")
+    logger.info(f"引流风险: {'是' if evaluation_result.get('is_lure', False) else '否'}")
+    logger.info(f"="*50 + "\n")
     
     return True 
 
@@ -206,5 +207,5 @@ def convert_url_to_img_key(url):
         
         return image_key
     except Exception as e:
-        print(f"转换图片URL失败: {str(e)}")
+        logger.info(f"转换图片URL失败: {str(e)}")
         return None

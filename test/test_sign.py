@@ -1,5 +1,6 @@
 import requests
 from src.tool.sign import calculate_sign
+from src.logger.app_logger import app_logger as logger
 
 cookies = {
     'mtop_partitioned_detect': '1',
@@ -61,7 +62,7 @@ data = {
 }
 
 s = calculate_sign('0205fb81c63e4e357d47003aa2fdc9ce', '1742428029512', '34839810', data.get('data'))
-print(s)
+logger.info(s)
 
 response = requests.post(
     'https://h5api.m.goofish.com/h5/mtop.taobao.idlemtopsearch.pc.search/1.0/',

@@ -1,7 +1,8 @@
 from celery import shared_task, states
-from src.celery.app import app
+from src.polling.app import app
+from src.logger.app_logger import app_logger as logger
 
 @app.task(bind=True)
 def test_batch_search_task(self, keywords):
-    print(f"Task received: {keywords}")
+    logger.info(f"Task received: {keywords}")
     return "Task completed"

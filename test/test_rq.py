@@ -2,6 +2,7 @@ import time
 from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from src.logger.app_logger import app_logger as logger
 
 def test_seleniumwire():
     chrome_options = Options()
@@ -21,12 +22,12 @@ def test_seleniumwire():
     
     # 检查是否捕获到请求
     if not driver.requests:
-        print("No requests captured.")
+        logger.info("No requests captured.")
     else:
-        print(f"Captured {len(driver.requests)} requests:")
+        logger.info(f"Captured {len(driver.requests)} requests:")
         for request in driver.requests:
-            print(f"URL: {request.url}")
-            print(f"Response: {request.response.status_code if request.response else 'No response'}")
+            logger.info(f"URL: {request.url}")
+            logger.info(f"Response: {request.response.status_code if request.response else 'No response'}")
     
     driver.quit()
 

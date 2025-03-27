@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
+from src.logger.app_logger import app_logger as logger
 from sqlalchemy import Column, Integer, String, DECIMAL, Boolean, DateTime, Text, ForeignKey
 
 engine = create_engine('sqlite:///test_seach_result.db')
@@ -38,7 +39,7 @@ for i in range(0, 2):
 
 session.commit()
 
-print(seller.seller_id)
+logger.info(seller.seller_id)
 
 
 session = Session()
@@ -49,4 +50,4 @@ for j in range(0, 3):
     session.merge(item)
 session.commit()
 
-print(item.seller)
+logger.info(item.seller)

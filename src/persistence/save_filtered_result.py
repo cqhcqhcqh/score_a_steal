@@ -12,28 +12,28 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
         with db_manager.session_scope() as session:
             # 因为 ItemDetail 有一个外键 seller_id 指向 SellerInfo，所以需要先合并 SellerInfo
             try:
-                print(f"准备添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
+                logger.info(f"准备添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
                 if not session.query(SellerInfo).filter_by(seller_id=seller_info.seller_id).first():
                     session.add(seller_info)
-                print(f"已添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
+                logger.info(f"已添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库")
             except Exception as e:
-                print(f"添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库失败: {str(e)}")
+                logger.info(f"添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库失败: {str(e)}")
             finally:
-                print(f"准备添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库结束")
+                logger.info(f"准备添加用户信息 {seller_info.seller_id} {seller_info.display_name} 到数据库结束")
 
             try:
-                print(f"准备添加新商品 {item_data.item_id} 到数据库")
+                logger.info(f"准备添加新商品 {item_data.item_id} 到数据库")
                 if existing_item_detail := session.query(ItemDetail).filter_by(item_id=item_data.item_id).first():
                     item_data.id = existing_item_detail.id
                 session.merge(item_data)
-                print(f"已添加新商品 {item_data.item_id} 到数据库")
+                logger.info(f"已添加新商品 {item_data.item_id} 到数据库")
             except Exception as e:
-                print(f"添加新商品 {item_data.item_id} 到数据库失败: {str(e)}")
+                logger.info(f"添加新商品 {item_data.item_id} 到数据库失败: {str(e)}")
             finally:
-                print(f"添加新商品 {item_data.item_id} 到数据库结束")
+                logger.info(f"添加新商品 {item_data.item_id} 到数据库结束")
 
             try:
-                print(f"准备添加用户商品卡片列表 到数据库")
+                logger.info(f"准备添加用户商品卡片列表 到数据库")
                 for item in user_items:
                     logger.info(f'准备添加用户商品卡片 item_id: {item.item_id}到数据库')
                     if item_data.item_id == item.item_id:
@@ -41,15 +41,15 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
                     if exist_card_item := session.query(ItemDetail).filter_by(item_id=item.item_id).first():
                         item.id = exist_card_item.id
                     session.merge(item)
-                print(f"已添加用户商品卡片列表 到数据库")
+                logger.info(f"已添加用户商品卡片列表 到数据库")
             except Exception as e:
-                print(f"添加用户商品卡片列表 到数据库失败: {str(e)}")
+                logger.info(f"添加用户商品卡片列表 到数据库失败: {str(e)}")
             finally:
-                print(f"添加用户商品卡片列表 到数据库结束")
+                logger.info(f"添加用户商品卡片列表 到数据库结束")
     except Exception as e:
         import traceback
         traceback.print_exc()
-        print(f"发生错误: {str(e)}")
+        logger.info(f"发生错误: {str(e)}")
         # 异常处理已在session_scope中完成，无需额外处理
 
 # item_id 之前是否被标记为推荐商品，但是商品信息发生变化了，重新标记为可推荐商品
@@ -57,7 +57,7 @@ def recommend_product_did_changed(item_id):
     with db_manager.session_scope() as session:
         item_detail = session.query(ItemDetail).filter_by(item_id=item_id).first()
         if item_detail:
-            print(f"recommend_product_did_changed item_id: {item_id} share_url: {item_detail.share_url}  商品信息发生变化了，重新标记为推荐商品")
+            logger.info(f"recommend_product_did_changed item_id: {item_id} share_url: {item_detail.share_url}  商品信息发生变化了，重新标记为推荐商品")
             item_detail.recommend_status = 0
         else:
             raise Exception(f"recommend_product_did_changed 未找到商品ID为 {item_id} 的商品")
@@ -68,9 +68,9 @@ def recommend_product(item_id):
         item_detail = session.query(ItemDetail).filter_by(item_id=item_id).first()
         if item_detail:
             item_detail.recommend_status = 1
-            print(f"recommend_product item_id: {item_id} share_url: {item_detail.share_url}  已经被标记为推荐商品")
+            logger.info(f"recommend_product item_id: {item_id} share_url: {item_detail.share_url}  已经被标记为推荐商品")
         else:
-            print(f"recommend_product 未找到商品ID为 {item_id} 的商品")
+            logger.info(f"recommend_product 未找到商品ID为 {item_id} 的商品")
 
 # item_id 之前是否被标记为推荐商品
 def item_has_recommend(item_id):
@@ -85,7 +85,7 @@ def item_has_recommend(item_id):
 def is_item_detail_need_add_or_update_in_db(item_data):
     with db_manager.session_scope() as session:
         try:
-            print(f"准备添加新商品 {item_data.item_id} 到数据库")
+            logger.info(f"准备添加新商品 {item_data.item_id} 到数据库")
             if existing_item_detail := session.query(ItemDetail).filter_by(item_id=item_data.item_id).first():
                 # 检查关键字段是否发生变化
                 fields_changed = []
@@ -137,9 +137,9 @@ def is_item_detail_need_add_or_update_in_db(item_data):
                     fields_changed.append(f"商品推荐从 {existing_item_detail.recommend_status} 变为 {item_data.recommend_status}")
 
                 if fields_changed:
-                    print(f"更新商品 {item_data.item_id} 的信息：")
+                    logger.info(f"更新商品 {item_data.item_id} 的信息：")
                     for change in fields_changed:
-                        print(f"- {change}")
+                        logger.info(f"- {change}")
                     # recommend_product_did_changed(item_data.item_id)
                     # existing_item_detail.recommend_status = 0
                     return True
@@ -148,7 +148,7 @@ def is_item_detail_need_add_or_update_in_db(item_data):
             else:
                 return True
         except Exception as e:
-            print(e)
+            logger.info(e)
         
 def find_similar_products_by_seller(item_id):
     """
@@ -165,23 +165,23 @@ def find_similar_products_by_seller(item_id):
             # 查询当前商品信息
             current_item = session.query(ItemDetail).filter_by(item_id=item_id).first()
             if not current_item:
-                print(f"未找到商品ID为 {item_id} 的商品")
+                logger.info(f"未找到商品ID为 {item_id} 的商品")
                 return []
                 
             # 获取卖家ID
             seller_id = current_item.seller_id
             if not seller_id:
-                print(f"商品 {item_id} 没有关联卖家信息")
+                logger.info(f"商品 {item_id} 没有关联卖家信息")
                 return []
                 
             # 获取卖家信息
             seller = session.query(SellerInfo).filter_by(seller_id=seller_id).first()
             if seller:
-                print(f"卖家: {seller.display_name}, 商铺ID: {seller.seller_id}")
+                logger.info(f"卖家: {seller.display_name}, 商铺ID: {seller.seller_id}")
             
             # 查询该卖家的所有商品
             all_seller_items = session.query(ItemDetail).filter_by(seller_id=seller_id).all()
-            print(f"卖家 {seller_id} 共有 {len(all_seller_items)} 件商品")
+            logger.info(f"卖家 {seller_id} 共有 {len(all_seller_items)} 件商品")
             
             # 提取当前商品的关键特征用于相似度匹配
             current_brand = current_item.brand
@@ -246,11 +246,11 @@ def find_similar_products_by_seller(item_id):
                     'url': item.share_url
                 })
                 
-            print(f"找到 {len(result)} 件与商品 {item_id} 类似的商品")
+            logger.info(f"找到 {len(result)} 件与商品 {item_id} 类似的商品")
             return result
             
     except Exception as e:
-        print(f"查询类似商品时发生错误: {str(e)}")
+        logger.info(f"查询类似商品时发生错误: {str(e)}")
         return []
 
 # 示例用法
@@ -261,29 +261,29 @@ def search_similar_items_example(item_id):
     similar_items = find_similar_products_by_seller(item_id)
     
     if not similar_items:
-        print("未找到类似商品")
+        logger.info("未找到类似商品")
         return
         
-    print("\n========== 类似商品列表 ==========")
+    logger.info("\n========== 类似商品列表 ==========")
     for idx, item in enumerate(similar_items, 1):
         status_text = item['status']
         detail_text = "详细信息" if item['is_detail_info'] else "简略信息"
         
-        print(f"{idx}. {item['title']} ({status_text}, {detail_text})")
-        print(f"   价格: ¥{item['price']:.2f}")
+        logger.info(f"{idx}. {item['title']} ({status_text}, {detail_text})")
+        logger.info(f"   价格: ¥{item['price']:.2f}")
         if item['brand']:
-            print(f"   品牌: {item['brand']}")
+            logger.info(f"   品牌: {item['brand']}")
         if item['model']:
-            print(f"   型号: {item['model']}")
+            logger.info(f"   型号: {item['model']}")
         if item['storage']:
-            print(f"   存储: {item['storage']}")
+            logger.info(f"   存储: {item['storage']}")
         if item['quality']:
-            print(f"   成色: {item['quality']}")
-        print(f"   相似度: {item['similarity_score']}")
-        print(f"   链接: {item['url']}")
-        print("-----------------------------------")
+            logger.info(f"   成色: {item['quality']}")
+        logger.info(f"   相似度: {item['similarity_score']}")
+        logger.info(f"   链接: {item['url']}")
+        logger.info("-----------------------------------")
     
-    print("=================================")
+    logger.info("=================================")
 
 def calculate_average_price(session, model, storage, version, quality):
     """
@@ -341,4 +341,4 @@ def evaluate_seller_items():
         }
         
         is_lure, message = is_lure_seller(session, current_item)
-        print(message)
+        logger.info(message)

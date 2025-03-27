@@ -6,9 +6,8 @@
 用法：
 python search_similar_items.py 商品ID
 """
-
-import sys
 import argparse
+from src.logger.app_logger import app_logger as logger
 from src.persistence.save_filtered_result import find_similar_products_by_seller
 
 def main():
@@ -27,7 +26,7 @@ def main():
     similar_items = find_similar_products_by_seller(args.item_id)
     
     if not similar_items:
-        print("未找到类似商品")
+        logger.info("未找到类似商品")
         return
     
     # 按状态过滤
@@ -47,26 +46,26 @@ def main():
     # 默认已经按相似度排序，不需要再排序
     
     # 打印结果
-    print(f"\n========== 找到 {len(similar_items)} 件类似商品 ==========")
+    logger.info(f"\n========== 找到 {len(similar_items)} 件类似商品 ==========")
     for idx, item in enumerate(similar_items, 1):
         status_text = item['status']
         detail_text = "详细信息" if item['is_detail_info'] else "简略信息"
         
-        print(f"{idx}. {item['title']} ({status_text}, {detail_text})")
-        print(f"   价格: ¥{item['price']:.2f}")
+        logger.info(f"{idx}. {item['title']} ({status_text}, {detail_text})")
+        logger.info(f"   价格: ¥{item['price']:.2f}")
         if item['brand']:
-            print(f"   品牌: {item['brand']}")
+            logger.info(f"   品牌: {item['brand']}")
         if item['model']:
-            print(f"   型号: {item['model']}")
+            logger.info(f"   型号: {item['model']}")
         if item['storage']:
-            print(f"   存储: {item['storage']}")
+            logger.info(f"   存储: {item['storage']}")
         if item['quality']:
-            print(f"   成色: {item['quality']}")
-        print(f"   相似度: {item['similarity_score']}")
-        print(f"   链接: {item['url']}")
-        print("-----------------------------------")
+            logger.info(f"   成色: {item['quality']}")
+        logger.info(f"   相似度: {item['similarity_score']}")
+        logger.info(f"   链接: {item['url']}")
+        logger.info("-----------------------------------")
     
-    print("=================================")
+    logger.info("=================================")
 
 if __name__ == "__main__":
     main() 
