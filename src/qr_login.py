@@ -3,6 +3,7 @@ import time
 # from selenium import webdriver
 from seleniumwire import webdriver
 from selenium.webdriver.common.by import By
+from src.logger.app_logger import app_logger as logger
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import TimeoutException
@@ -98,17 +99,17 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
             filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
         return
 
-    print('等待iframe 弹出...')
+    logger.info(f'等待iframe 弹出...')
     time.sleep(5)
 
     # Step 4: 定位 iframe 并切换上下文
     iframes = driver.find_elements(By.TAG_NAME, "iframe")
     quick_enter_button = None
     if iframes:
-        print('find quick_enter_button 找到 iframes')
+        logger.info(f'find quick_enter_button 找到 iframes')
         for iframe in iframes:
             driver.switch_to.frame(iframe)
-            print(f'find quick_enter_button switch_to frame: {iframe}')
+            logger.info(f'find quick_enter_button switch_to frame: {iframe}')
             try:
                 quick_enter_button = WebDriverWait(driver, 3).until(
                     EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))
@@ -126,10 +127,10 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
                 print(e)
                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
     else:
-        print('find quick_enter_button 没找到 iframes')
+        logger.info(f'find quick_enter_button 没找到 iframes')
 
     if not quick_enter_button:
-        print('没找到 quick_enter_button')
+        logger.info(f'没找到 quick_enter_button')
         qr_code_container = None
         # 有提醒登录弹框
         if not iframes:
@@ -169,7 +170,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         print("已截取 <canvas> 中的二维码图片")
 
         # input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
-        print(f'等待扫描二维码...')
+        logger.info(f'等待扫描二维码...')
         time.sleep(15)
 
         keep_login_button = None
@@ -181,17 +182,17 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         #         keep_login_button.click()
         #         print("在 iframe 中定位到 `保持`按钮")
         #     except:
-        #         print('keep find go on button.')
+        #         logger.info(f'keep find go on button.')
         #     time.sleep(1.0)
 
         # while not keep_login_button:
         #     driver.switch_to.default_content()
         #     iframes = driver.find_elements(By.TAG_NAME, "iframe")
         #     if iframes:
-        #         print('find keep_login_button 找到 iframes')
+        #         logger.info(f'find keep_login_button 找到 iframes')
         #         for iframe in iframes:
         #             driver.switch_to.frame(iframe)
-        #             print(f'switch_to frame: {iframe}')
+        #             logger.info(f'switch_to frame: {iframe}')
         #             try:
         #                 keep_login_button = WebDriverWait(driver, 1).until(
         #                     EC.presence_of_element_located((By.XPATH, "//button[contains(., '保持')]"))
@@ -224,7 +225,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         #                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
         #                 break
         #     else:
-        #         print('find keep_login_button  没找到 iframes')
+        #         logger.info(f'find keep_login_button  没找到 iframes')
         #     time.sleep(1)
 
         persist_driver_cookies(driver)

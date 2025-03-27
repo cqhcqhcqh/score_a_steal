@@ -1,5 +1,6 @@
 import json
 from src.persistence.db_manager import db_manager
+from src.logger.app_logger import app_logger as logger
 from src.model.models import ItemDetail, SellerInfo
 
 def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
@@ -34,7 +35,7 @@ def cache_feed_filtered_result(item_data, seller_info=None, user_items=None):
             try:
                 print(f"准备添加用户商品卡片列表 到数据库")
                 for item in user_items:
-                    print(f'准备添加用户商品卡片 item_id: {item.item_id}到数据库')
+                    logger.info(f'准备添加用户商品卡片 item_id: {item.item_id}到数据库')
                     if item_data.item_id == item.item_id:
                         continue
                     if exist_card_item := session.query(ItemDetail).filter_by(item_id=item.item_id).first():

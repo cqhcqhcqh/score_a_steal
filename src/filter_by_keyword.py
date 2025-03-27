@@ -3,22 +3,20 @@ import random
 from retry import retry
 from datetime import datetime, timedelta
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from src.persistence.save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
-from src.api.product_detail import get_product_detail
-from src.api.home_search_list import get_home_search_result
+from src.logger.app_logger import app_logger as logger
 from src.api.user_page_nav import goto_user_nav_page
-from src.api.user_page_product_list import fetch_user_product_list
+from src.api.product_detail import get_product_detail
+from selenium.webdriver.support.ui import WebDriverWait
+from src.api.home_search_list import get_home_search_result
+from selenium.webdriver.support import expected_conditions as EC
 from src.evaluation.deal_recommendation import DealRecommendationSystem
+from src.persistence.save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
+from src.api.user_page_product_list import fetch_user_product_list
 
 @retry(exceptions=Exception, tries=5, delay=1, backoff=2)
 def simulate_search_action_by_user(driver, keyword):
     time.sleep(random.uniform(3, 5))
-    print('等待搜索框 出现...')
+    logger.info(f'等待搜索框 出现...')
 
     # 方法2：使用 form 内的第一个 input（假设这是搜索框）
     # todo 搜索框可能不出现 这里要加上重试
@@ -31,7 +29,7 @@ def simulate_search_action_by_user(driver, keyword):
     search_button = driver.find_element(By.XPATH, "//button[@type='submit' and .//img]")
     search_button.click()
 
-    print('等待搜索结果...')
+    logger.info(f'等待搜索结果...')
     del driver.requests
 
     time.sleep(random.uniform(3, 5))
@@ -101,7 +99,7 @@ def filter_by_keyword_lastest(driver,
     while result := get_home_search_result(cookies, headers, keyword, pageNumber):
         # cookies, headers = generate_valid_cookies_headers(driver, keyword)
         items, hasMore = result
-        print(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
+        logger.info(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
         res = recommned_product_if_needed(recommendation_system, 
                                             items, 
                                             cookies, 
@@ -175,7 +173,7 @@ def recommned_product_if_needed(recommendation_system,
                     print(f"无法获取卖家 {seller_id} 的信息，跳过")
                     continue
                 else:
-                    print(f'kc_user_id: {user_info.kc_user_id} user_name: {user_info.display_name}')
+                    logger.info(f'kc_user_id: {user_info.kc_user_id} user_name: {user_info.display_name}')
                 
                 # 获取卖家的其他在售商品
                 user_card_list = fetch_user_product_list(cookies, headers, seller_id)
@@ -186,15 +184,15 @@ def recommned_product_if_needed(recommendation_system,
                 if (repair_function == '无任何维修' 
                     or repair_function == ''
                     or quality == '几乎全新' 
-                    or quality == '') and price < expected_price:
-                        print(f'价格低于期望价格，而且还是全新无维修 [成色: {quality} 拆修和功能: {repair_function}]，大概率是假的，跳过 display_name: [{display_name}]')
+                    or quality == '') and price <= expected_price:
+                        logger.info(f'价格低于期望价格，而且还是全新无维修 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}]，大概率是假的，跳过 display_name: [{display_name}]')
                 elif not item_has_recommend(item_id) and price <= expected_price:
-                    print(f'找到期望价格的商品 display_name: [{display_name}]')
+                    logger.info(f'找到期望价格的商品 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
                     product_detail.recommend_status = 1
                     recommendation_system.notified_items.add(item_id)
                     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
                 else:
-                    print(f'价格高于期望价格，跳过')
+                    logger.info(f'价格高于期望价格，跳过')
                 
                 # 确保在会话上下文中调用
                 cache_feed_filtered_result(product_detail, user_info, user_card_list)

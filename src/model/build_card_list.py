@@ -1,5 +1,6 @@
 from datetime import datetime
 from src.model.models import ItemDetail
+from src.logger.app_logger import app_logger as logger
 
 def build_card_list(data, seller_id):
     card_list = data['cardList']
@@ -20,7 +21,7 @@ def build_card_list(data, seller_id):
         other_sold_price = detail_params.get('soldPrice', 0) or ''
         if '万' in other_sold_price:
             other_sold_price = float(other_sold_price.replace('万', '')) * 10000
-        # print(f'priceInfo: {priceInfo} other_sold_price: {other_sold_price}')
+        # logger.info(f'priceInfo: {priceInfo} other_sold_price: {other_sold_price}')
         other_detail_url = card_data.get('detailUrl', '')
         other_category_id = str(card_data.get('categoryId', ''))
         other_auction_type = card_data.get('auctionType', '')

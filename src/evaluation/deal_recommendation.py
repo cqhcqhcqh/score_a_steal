@@ -1,5 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
+from src.logger.app_logger import app_logger as logger
 from src.api.user_page_nav import goto_user_nav_page
 from src.api.product_detail import get_product_detail
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,7 +10,6 @@ from src.tool.notifier import FeiShuNotifier, console_notify
 from selenium.webdriver.support import expected_conditions as EC
 from src.api.user_page_product_list import fetch_user_product_list
 from src.evaluation.seller_evaluation import evaluate_seller_credibility, detect_lure_seller, calculate_item_matching_score
-
 class DealRecommendationSystem:
     """闲鱼好价推荐系统"""
     
@@ -49,7 +49,7 @@ class DealRecommendationSystem:
         driver.refresh()
         time.sleep(3)
         
-        print('等待页面加载完成，准备搜索...')
+        logger.info(f'等待页面加载完成，准备搜索...')
         
         # 定位搜索框并输入关键词
         search_input = WebDriverWait(driver, 10).until(
@@ -61,7 +61,7 @@ class DealRecommendationSystem:
         search_button = driver.find_element(By.XPATH, "//button[@type='submit' and .//img]")
         search_button.click()
         
-        print('等待搜索结果...')
+        logger.info(f'等待搜索结果...')
         time.sleep(2)
         
         # 清除旧请求记录
@@ -85,7 +85,7 @@ class DealRecommendationSystem:
             
             # 获取搜索结果
             items, hasMore = get_home_search_result(cookies, headers, keyword)
-            print(f'找到 {len(items)} 个搜索结果')
+            logger.info(f'找到 {len(items)} 个搜索结果')
             
             items = items.sort(key=lambda x: float(x.get('data', {}).get('item', {}).get('main', {}).get('clickParam', {}).get('args', {}).get('price', '')))
             # 限制处理数量

@@ -14,6 +14,7 @@ from celery import states
 from src.polling.app import app
 from celery.exceptions import Ignore
 from src.qr_login import login_with_qr
+from logger.app_logger import app_logger as logger
 from seleniumwire import webdriver as wire_webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -46,11 +47,11 @@ def repeat_every_5_minutes(func):
     def wrapper(self, *args, **kwargs):
         while True:  # 检查任务是否被撤销
             func(self, *args, **kwargs)
-            print(f'{func} 任务执行一次结束....')
+            logger.info(f'{func} 任务执行一次结束....')
             for i in range(60):  # 5分钟 = 300秒
-                print(f'{func} 任务休眠中... 持续...{(i+1) * 5} 秒')
+                logger.info(f'{func} 任务休眠中... 持续...{(i+1) * 5} 秒')
                 time.sleep(5)
-            print(f'{func} 任务开启一次轮询....')
+            logger.info(f'{func} 任务开启一次轮询....')
     return wrapper
 
 @app.task(bind=True)

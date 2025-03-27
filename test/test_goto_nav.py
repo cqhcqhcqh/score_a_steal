@@ -1,6 +1,7 @@
 import time
 import json
 from src.tool.sign import calculate_sign
+from src.logger.app_logger import app_logger as logger
 
 def test_goto_nav_page(user_id=None):
     import requests
@@ -120,7 +121,7 @@ def test_goto_nav_page(user_id=None):
     sign = calculate_sign(token, t, params['appKey'], data_item)
     params['sign'] = sign
     params['t'] = t
-    print('t:', params['t'])
+    logger.info(f't:', params['t'])
 
     responseJson = requests.post(
         'https://h5api.m.goofish.com/h5/mtop.idle.web.user.page.head/1.0/',
@@ -155,6 +156,6 @@ conn.close()
 # print(seller_ids)  # 输出所有 seller_id 列表
 
 for idx, seller_id in enumerate(seller_ids):
-    print(f'test_goto_nav_page {idx} enter : {seller_id}')
+    logger.info(f'test_goto_nav_page {idx} enter : {seller_id}')
     test_goto_nav_page(seller_id)
     time.sleep(1)

@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from src.model.models import ItemDetail
+from src.logger.app_logger import app_logger as logger
 
 def build_product_detail(data):
     itemDO = data['itemDO']
@@ -35,7 +36,7 @@ def build_product_detail(data):
     else:
         pic_url = data.get('trackParams').get('mainPic')
     if not pic_url:
-        print(f'build_product_detail 主图找不到: {data}')
+        logger.info(f'build_product_detail 主图找不到: {data}')
     image_infos = json.dumps(image_infos, ensure_ascii=False)
     # has_video = False  # 从详情页暂时无法确定是否有视频
     

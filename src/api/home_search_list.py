@@ -1,5 +1,6 @@
 import json
 import requests
+from src.logger.app_logger import app_logger as logger
 # cookies = {
 #     'mtop_partitioned_detect': '1',
 #     'havana_lgc_exp': '1745019190281',
@@ -155,7 +156,7 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
     
-    print(f'reponseJson ret: {responseJson.get('ret')}')
+    logger.info(f'reponseJson ret: {responseJson.get('ret')}')
     if responseJson.get('ret') == ['SUCCESS::调用成功']:
         resultList = responseJson.get('data').get('resultList')
         hasMore = len(resultList) == rowsPerPage
