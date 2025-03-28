@@ -2,6 +2,7 @@ import time
 import json
 import requests
 from src.tool.sign import calculate_sign
+from src.logger.app_logger import app_logger as logger
 from src.model.build_product_detail import build_product_detail
 
 def get_product_detail(cookies, headers, itemId):
@@ -115,7 +116,21 @@ def get_product_detail(cookies, headers, itemId):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    item_detail = build_product_detail(responseJson['data'])
-    if item_detail.item_id != itemId:
-        raise Exception(f"mtop.taobao.idle.pc.detail 接口调用报错 item_id {itemId} not in responseJson['data']")
-    return item_detail
+
+    logger.info(f'{api} reponseJson ret: {responseJson.get('ret')}')
+    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+        item_detail = build_product_detail(responseJson['data'])
+        if item_detail.item_id != itemId:
+            raise Exception(f"{api} 接口调用报错 item_id {itemId} not in responseJson['data']")
+        return item_detail
+    else:
+        with open(f'./test/test_{api}_error.json', 'w+') as f:
+            headers = {key: value for key, value in headers._headers}
+            json.dump({'cookies': cookies,
+                       'headers': headers, 
+                       'data': data, 
+                       'params': params}, 
+                       f, 
+                       indent=2, 
+                       ensure_ascii=False)
+        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

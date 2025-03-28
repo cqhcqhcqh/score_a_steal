@@ -68,11 +68,7 @@ def generate_valid_cookies_headers(driver, keyword):
     # del headers['cookie']
     return cookies, headers
 
-def filter_by_keyword_lastest(driver,
-                              keyword,
-                              expected_price=None,
-                              feishu_webhook=None,
-                              in_days=2):
+def filter_by_keyword_lastest(driver, queryParams):
     """
     根据关键词过滤最新商品，并保存到数据库
     使用连接池优化数据库性能
@@ -81,10 +77,10 @@ def filter_by_keyword_lastest(driver,
     - 支持商品推荐系统
     - 可通过飞书推送通知
     """
-    cookies, headers = generate_valid_cookies_headers(driver, keyword)
+    # cookies, headers = None, None
 
     recommendation_system = DealRecommendationSystem(
-        feishu_webhook=feishu_webhook,
+        feishu_webhook=queryParams.notify_webhook_url,
         min_seller_score=70,  # 可以根据需要调整阈值
         min_matching_score=75
     )
@@ -96,17 +92,18 @@ def filter_by_keyword_lastest(driver,
     # cookies = loaded_cookies
     pageNumber = 1
     # 获取搜索结果
-    while result := get_home_search_result(cookies, headers, keyword, pageNumber):
-        # cookies, headers = generate_valid_cookies_headers(driver, keyword)
+    while True:
+        cookies, headers = generate_valid_cookies_headers(driver, queryParams.keyword)
+        result = get_home_search_result(cookies, headers, queryParams.keyword, pageNumber)
         items, hasMore = result
         logger.info(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
         res = recommned_product_if_needed(recommendation_system, 
                                             items, 
                                             cookies, 
                                             headers,
-                                            expected_price, 
+                                            queryParams.expected_price, 
                                             pageNumber,
-                                            in_days)
+                                            queryParams.within_days)
         if res == -1:
             break
 

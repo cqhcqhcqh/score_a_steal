@@ -3,6 +3,7 @@ import time
 import json
 from src.tool.sign import calculate_sign
 from src.model.build_user_info import build_seller_info
+from src.logger.app_logger import app_logger as logger
 
 def goto_user_nav_page(cookies, headers, user_id):
     _m_h5_tk = cookies.get('_m_h5_tk')
@@ -116,10 +117,21 @@ def goto_user_nav_page(cookies, headers, user_id):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
+
+    logger.info(f'{api} reponseJson ret: {responseJson.get('ret')}')
     if responseJson.get('ret') == ['SUCCESS::调用成功']:
         user_info = build_seller_info(responseJson['data'], user_id)
         if user_info.seller_id != user_id:
-            raise Exception(f"mtop.idle.web.user.page.head 接口调用报错 user_id {user_id} not in responseJson['data']")
+            raise Exception(f"{api} 接口调用报错 user_id {user_id} not in responseJson['data']")
         return user_info
     else:
+        with open(f'./test/test_{api}_error.json', 'w+') as f:
+            headers = {key: value for key, value in headers._headers}
+            json.dump({'cookies': cookies,
+                       'headers': headers, 
+                       'data': data, 
+                       'params': params}, 
+                       f, 
+                       indent=2, 
+                       ensure_ascii=False)
         raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

@@ -14,9 +14,10 @@ from celery import states
 from src.polling.app import app
 from celery.exceptions import Ignore
 from src.qr_login import login_with_qr
-from src.logger.app_logger import app_logger as logger
+from src.model.queryParam import QueryModel
 from seleniumwire import webdriver as wire_webdriver
 from selenium.webdriver.chrome.options import Options
+from src.logger.app_logger import app_logger as logger
 
 def setup_driver(headless=False):
     """配置浏览器驱动"""
@@ -57,23 +58,15 @@ def repeat_every_5_minutes(func):
 @app.task(bind=True)
 @repeat_every_5_minutes
 def batch_search_task(self, 
-                      keywords,
-                      expected_prices=None,
-                      in_days=[2],
-                      feishu_webhook=None,
+                      data,
                       headless=True):
+    
     return _batch_search_task(self,
-                              keywords,
-                              expected_prices,
-                              in_days,
-                              feishu_webhook,
+                              QueryModel(**data),
                               headless)
 
 def _batch_search_task(task, 
-                       keywords, 
-                       expected_prices=None, 
-                       in_days=None,
-                       feishu_webhook=None,
+                       queryParams,
                        headless=True):
     """
     批量搜索多个关键词并保存结果的Celery任务
@@ -86,88 +79,62 @@ def _batch_search_task(task,
     """
     try:
 
-        # 初始化进度信息
-        total_keywords = len(keywords)
-        processed_keywords = 0
-        found_items = []
-        
         # 设置初始进度
         task.update_state(
             state=states.STARTED,
             meta={
-                'current': 0,
-                'total': total_keywords,
+                'current': 1,
+                'total': 1,
                 'status': 'Started batch search',
-                'found_items': 0
             }
         )
         
         try:
-            total_processed = 0
-            logger.info(f"开始批量搜索，共 {total_keywords} 个关键词")
+            # 获取当前关键词的参数
+            keyword = queryParams.keyword
+            logger.info(f'queryParams: {queryParams}')
             
-            # 循环处理每个关键词
-            for i, keyword in enumerate(keywords):
-                # 获取当前关键词的参数
-                expected_price = None if expected_prices is None else expected_prices[i] if i < len(expected_prices) else None
-                in_days = None if in_days is None else in_days[i] if i < len(in_days) else None
-                logger.info(f"\n=== [{i+1}/{total_keywords}] 搜索关键词: {keyword} ===")
-                if expected_price:
-                    logger.info(f"期望价格: {expected_price}")
+            try:
+                # 更新任务状态
+                task.update_state(
+                    state=states.STARTED,
+                    meta={
+                        'current': 1,
+                        'total': 1,
+                        'keyword': keyword,
+                        'status': f'Processing {keyword}',
+                    }
+                )
                 
-                try:
-                    # 更新任务状态
-                    task.update_state(
-                        state=states.STARTED,
-                        meta={
-                            'current': i,
-                            'total': total_keywords,
-                            'keyword': keyword,
-                            'status': f'Processing {keyword}',
-                            'found_items': len(found_items)
-                        }
-                    )
-                    
-                    # 搜索并处理结果
-                    processed = login_with_qr(
-                        keyword, 
-                        expected_price=expected_price,
-                        in_days=in_days,
-                        feishu_webhook=feishu_webhook,
-                        headless=headless,
-                    ) or 1
-                    total_processed += 1
-                    processed_keywords += 1
-                    
-                    # 更新任务状态
-                    task.update_state(
-                        state='PROGRESS',
-                        meta={
-                            'current': processed_keywords,
-                            'total': total_keywords,
-                            'keyword': keyword,
-                            'status': f'Processed {keyword} ({processed} items)',
-                            'found_items': len(found_items)
-                        }
-                    )
-                except Exception as e:
-                    import traceback
-                    traceback.print_exc()
-                    logger.info(f"处理关键词 '{keyword}' 时出错: {str(e)}")
-                    # 返回首页，尝试继续下一个关键词
-                    time.sleep(2)
-                    continue
+                # 搜索并处理结果
+                login_with_qr(queryParams,
+                              headless=headless)
+                
+                # 更新任务状态
+                task.update_state(
+                    state='PROGRESS',
+                    meta={
+                        'current': 1,
+                        'total': 1,
+                        'keyword': keyword,
+                        'status': f'Processed {keyword} item)',
+                    }
+                )
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+                logger.info(f"处理关键词 '{keyword}' 时出错: {str(e)}")
+                # 返回首页，尝试继续下一个关键词
+                time.sleep(2)
             
-            logger.info(f"\n批量搜索完成，共处理 {total_processed} 个商品")
+            logger.info(f"\n搜索完成，共处理 {keyword} 个商品")
             
             # 任务完成
             return {
-                'current': total_keywords,
-                'total': total_keywords,
+                'current': 1,
+                'total': 1,
                 'status': 'Task completed!',
-                'found_items': len(found_items),
-                'total_processed': total_processed,
-                'keywords': keywords,
+                'keywords': keyword,
                 'success': True
             }
             
@@ -189,11 +156,8 @@ def _batch_search_task(task,
         )
         raise Ignore()
     
-def batch_search(keywords, 
-                 expected_prices=None,
-                 in_days=None,
-                 feishu_webhook=None, 
-                 headless=False,
+def batch_search(queryParams, 
+                 headless=True,
                  async_mode=True):
     """
     批量搜索工具入口函数，支持同步/异步模式
@@ -211,27 +175,17 @@ def batch_search(keywords,
     """
     if async_mode:
         # 使用Celery异步执行
-        task = batch_search_task.delay(
-            keywords,
-            expected_prices=expected_prices,
-            in_days=in_days,
-            feishu_webhook=feishu_webhook,
-            headless=headless
-        )
+        task = batch_search_task.delay(queryParams.to_dict(),
+                                       headless=headless)
         return {
             'task_id': task.id,
             'status': 'Task scheduled',
-            'keywords': keywords
+            'keywords': queryParams.keyword
         }
     else:
         # 直接执行(同步)
-        return batch_search_task(
-            keywords,
-            expected_prices=expected_prices,
-            in_days=in_days,
-            feishu_webhook=feishu_webhook,
-            headless=headless
-        )
+        return batch_search_task(queryParams,
+                                 headless=headless)
 
 def get_task_status(task_id):
     """
@@ -268,8 +222,6 @@ def get_task_status(task_id):
             'current': task.info.get('current', 0),
             'total': task.info.get('total', 1),
             'status': task.info.get('status', ''),
-            'found_items': task.info.get('found_items', 0),
-            'total_processed': task.info.get('total_processed', 0)
         }
     elif task.state == states.FAILURE:
         # 任务失败

@@ -1,6 +1,7 @@
 import os
 import time
 # from selenium import webdriver
+from src.model.queryParam import QueryModelFactory, QueryModel
 from seleniumwire import webdriver
 from selenium.webdriver.common.by import By
 from src.logger.app_logger import app_logger as logger
@@ -34,7 +35,7 @@ os.environ["https_proxy"] = ""
 def setup_driver(headless=True):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    if not headless:
+    if headless:
         chrome_options.add_argument('--headless')  # Enable headless mode
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
@@ -68,7 +69,7 @@ def setup_driver(headless=True):
     })
     return driver
 
-def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=None, headless=True):
+def login_with_qr(queryParams, headless=True):
     """
     二维码登录并自动搜索
     keyword: 搜索关键词，例如'iPhone14Pro美版'
@@ -92,11 +93,11 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         login_button.click()
     except TimeoutException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+            filter_by_keyword_lastest(driver, queryParams)
         return
     except NoSuchElementException as e:
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+            filter_by_keyword_lastest(driver, queryParams)
         return
 
     logger.info(f'等待iframe 弹出...')
@@ -121,7 +122,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
 
                 persist_driver_cookies(driver)
                 if keyword:
-                    filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+                    filter_by_keyword_lastest(driver, queryParams)
                 break
             except Exception as e:
                 logger.info(e)
@@ -144,7 +145,7 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
             # logger.info("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
             if keyword:
-                filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+                filter_by_keyword_lastest(driver, queryParams)
             return
         else:
             logger.info(f"找到 {len(iframes)} 个 iframe，尝试切换")
@@ -244,9 +245,9 @@ def login_with_qr(keyword=None, expected_price=None, in_days=2, feishu_webhook=N
         driver.refresh()
 
         if keyword:
-            filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
+            filter_by_keyword_lastest(driver, queryParams)
 
-def start_search_with_recommendation(keyword, expected_price, in_days, feishu_webhook=None):
+def start_search_with_recommendation(queryParams: QueryModel):
     """
     使用推荐系统开始搜索，提供更加直观的入口
     
@@ -255,8 +256,8 @@ def start_search_with_recommendation(keyword, expected_price, in_days, feishu_we
     product_type: 产品类型，例如'iPhone'
     feishu_webhook: 飞书通知Webhook地址，不提供则使用控制台输出
     """
-    logger.info(f"开始搜索: {keyword}, 期望价格: {expected_price}, 搜索时间范围: {in_days} 天")
-    login_with_qr(keyword, expected_price, in_days, feishu_webhook)
+    logger.info(f"开始搜索: {queryParams.keyword}, 期望价格: {queryParams.expected_price}, 搜索时间范围: {queryParams.within_days} 天")
+    login_with_qr(queryParams)
 
 if __name__ == '__main__':
     try:
@@ -269,8 +270,10 @@ if __name__ == '__main__':
         expected_price = 2500  # 元
         feishu_webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815'
         
-        start_search_with_recommendation(keyword, expected_price, 2, feishu_webhook)
+        start_search_with_recommendation(QueryModelFactory.stealiPhone14Pro256())
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         logger.info(e)
         pass
 

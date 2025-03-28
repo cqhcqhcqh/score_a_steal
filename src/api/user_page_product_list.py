@@ -124,7 +124,17 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
         if item_id:
             card_list = [card.item_id for card in card_list]
             if item_id not in card_list:
-                raise Exception(f"mtop.idle.web.xyh.item.list 接口调用报错 item_id {item_id} not in card_list")
+                raise Exception(f"{api} 接口调用报错 item_id {item_id} not in card_list")
         return card_list
     else:
+        with open(f'./test/test_{api}.json', 'w+') as f:
+            headers = {key: value for key, value in headers._headers}
+            json.dump({'cookies': cookies,
+                       'headers': headers, 
+                       'data': data, 
+                       'params': params}, 
+                       f, 
+                       indent=2, 
+                       ensure_ascii=False)
+
         raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')

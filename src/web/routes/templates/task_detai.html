@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}任务详情 - {{ task_id }}{% endblock %}
+{% block content %}
+    <h1>任务详情</h1>
+
+    <div class="info-card">
+        <h2>基本信息</h2>
+        <p><strong>任务ID:</strong> {{ task_id }}</p>
+        <p><strong>关键词:</strong> {{ task_info.get('keywords', ['未知'])|join(', ') }}</p>
+        <p><strong>状态:</strong> <span id="taskState">{{ status.get('state', '未知') }}</span></p>
+    </div>
+
+    <div class="info-card">
+        <h2>进度</h2>
+        <div class="progress-bar">
+            <div id="progressBar" class="progress" style="width: 0%">0%</div>
+        </div>
+        <p id="progressText">等待更新...</p>
+    </div>
+
+    <div class="info-card">
+        <h2>详细状态</h2>
+        <pre id="statusJson">{{ status|tojson(pretty=True) }}</pre>
+    </div>
+
+    <a href="/" class="back-btn">返回任务列表</a>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function updateTaskStatus() {
+            fetch(`/api/tasks/{{ task_id }}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('taskState').textContent = data.state || '未知';
+
+                    let percent = 0;
+                    let progressText = '等待处理...';
+                    if (data.total) {
+                        percent = Math.round((data.current / data.total) * 100);
+                        progressText = `已处理: ${data.current}/${data.total} (${percent}%)`;
+                        if (data.status) progressText += ` - ${data.status}`;
+                    }
+
+                    document.getElementById('progressBar').style.width = `${percent}%`;
+                    document.getElementById('progressBar').textContent = `${percent}%`;
+                    document.getElementById('progressText').textContent = progressText;
+                    document.getElementById('statusJson').textContent = JSON.stringify(data, null, 2);
+
+                    if (data.state === 'SUCCESS' || data.state === 'FAILURE') {
+                        clearInterval(updateInterval);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching task status:', error);
+                    document.getElementById('statusJson').textContent = '获取状态时出错';
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateTaskStatus);
+        const updateInterval = setInterval(updateTaskStatus, 3000);
+    </script>
+{% endblock %}

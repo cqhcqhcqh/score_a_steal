@@ -22,9 +22,9 @@
                 "-A",
                 "src.polling.app",
                 "worker",
-                // "--loglevel=WARNING",
-                "--loglevel=INFO",
-                "--pool=solo" // 使用 solo 模式便于调试
+                "--loglevel=WARNING",
+                // "--loglevel=INFO",
+                // "--pool=solo" // 使用 solo 模式便于调试
             ],
             "console": "integratedTerminal",
             "justMyCode": true
