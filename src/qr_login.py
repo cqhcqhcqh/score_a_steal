@@ -92,11 +92,11 @@ def login_with_qr(queryParams, headless=True):
         )
         login_button.click()
     except TimeoutException as e:
-        if keyword:
+        if queryParams:
             filter_by_keyword_lastest(driver, queryParams)
         return
     except NoSuchElementException as e:
-        if keyword:
+        if queryParams:
             filter_by_keyword_lastest(driver, queryParams)
         return
 
@@ -121,7 +121,7 @@ def login_with_qr(queryParams, headless=True):
                 driver.switch_to.default_content()
 
                 persist_driver_cookies(driver)
-                if keyword:
+                if queryParams:
                     filter_by_keyword_lastest(driver, queryParams)
                 break
             except Exception as e:
@@ -144,7 +144,7 @@ def login_with_qr(queryParams, headless=True):
             # )
             # logger.info("在主文档中定位到 <div id='qrcode-img'>")
             persist_driver_cookies(driver)
-            if keyword:
+            if queryParams:
                 filter_by_keyword_lastest(driver, queryParams)
             return
         else:
@@ -244,7 +244,7 @@ def login_with_qr(queryParams, headless=True):
         # 刷新页面以应用 cookies
         driver.refresh()
 
-        if keyword:
+        if queryParams:
             filter_by_keyword_lastest(driver, queryParams)
 
 def start_search_with_recommendation(queryParams: QueryModel):
@@ -266,10 +266,6 @@ if __name__ == '__main__':
         # login_with_qr()
         
         # 2. 登录并使用推荐系统搜索
-        keyword = 'iPhone 14 Pro'
-        expected_price = 2500  # 元
-        feishu_webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/34e8583a-82e8-4b05-a1f5-6afce6cae815'
-        
         start_search_with_recommendation(QueryModelFactory.stealiPhone14Pro256())
     except Exception as e:
         import traceback
