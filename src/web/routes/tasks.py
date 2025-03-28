@@ -29,7 +29,7 @@ def create_task():
 
 @tasks_bp.route('/tasks/<task_id>/terminate', methods=['POST'])
 def terminate_task_route(task_id):
-    return jsonify(terminate_task(request.app, task_id))
+    return jsonify(terminate_task(task_id))
 
 @tasks_bp.route('/task/<task_id>')
 def task_details(task_id):

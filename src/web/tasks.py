@@ -1,6 +1,6 @@
-from src.polling.batch_search import batch_search, get_task_status
 import os
-
+from src.polling.batch_search import batch_search, get_task_status
+from src.polling.app import app
 # 任务存储
 tasks_store = {}
 
@@ -28,9 +28,9 @@ def get_all_tasks():
         for task_id, info in tasks_store.items()
     ]
 
-def terminate_task(app, task_id):
+def terminate_task(task_id):
     try:
-        app.celery.control.revoke(task_id, terminate=True)
+        app.control.revoke(task_id, terminate=True)
         return {'success': True, 'message': '任务已终止'}
     except Exception as e:
         return {'success': False, 'message': str(e)}

@@ -55,7 +55,7 @@
                     {% for task in tasks %}
                         <tr>
                             <td>{{ task.task_id }}</td>
-                            <td>{{ task.keywords|join(', ') }}</td>
+                            <td>{{ task.keywords }}</td>
                             <td>{{ task.status.state|default('Unknown') }}</td>
                             <td>
                                 {% if task.status.total %}
@@ -68,7 +68,6 @@
                             <td>
                                 <button onclick="window.location.href='/task/{{ task.task_id }}'">详情</button>
                                 <button class="terminate-btn" 
-                                        {% if task.status.state in ['SUCCESS', 'FAILURE', 'REVOKED'] %}disabled{% endif %}
                                         onclick="terminateTask('{{ task.task_id }}')">终止</button>
                             </td>
                         </tr>
@@ -95,10 +94,32 @@
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.querySelector('#tasksTable tbody');
+                    tbody.innerHTML = '';
+                    const activeTasks = data.tasks.filter(task => !['SUCCESS', 'FAILURE', 'REVOKED'].includes(task.status.state));
                     if (data.tasks.length === 0) {
                         tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">无任务</td></tr>';
+                        return
                     }
                     // 动态更新已在Jinja2中处理，这里可以留空或移除
+                    activeTasks.forEach(task => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${task.task_id}</td>
+                            <td>${task.keywords}</td>
+                            <td>${task.status.state || 'Unknown'}</td>
+                            <td>${
+                                task.status.total 
+                                    ? `${Math.round((task.status.current / task.status.total) * 100)}% (${task.status.current}/${task.status.total})` 
+                                    : '待处理'
+                            }</td>
+                            <td>
+                                <button onclick="window.location.href='/task/${task.task_id}'">详情</button>
+                                <button class="terminate-btn" 
+                                        onclick="terminateTask('${task.task_id}')">终止</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
                 })
                 .catch(error => console.error('Error loading tasks:', error));
         }
