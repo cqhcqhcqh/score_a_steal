@@ -15,6 +15,7 @@ from src.api.user_page_product_list import fetch_user_product_list
 
 @retry(exceptions=Exception, tries=5, delay=1, backoff=2)
 def simulate_search_action_by_user(driver, keyword):
+    logger.info('simulate_search_action_by_user')
     # time.sleep(random.uniform(3, 5))
     # logger.info(f'等待搜索框 出现...')
 
