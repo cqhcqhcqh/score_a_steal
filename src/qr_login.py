@@ -205,7 +205,7 @@ def login_with_qr(queryParams, headless=True):
         else:
             # 遍历所有按钮，尝试找到可点击的那个
             for idx, button in enumerate(buttons):
-                print(f"\n检查按钮 {idx + 1}: {button.get_attribute('outerHTML')}")
+                logger.info(f"\n检查按钮 {idx + 1}: {button.get_attribute('outerHTML')}")
 
                 # 检查可见性和启用状态
                 is_displayed = button.is_displayed()
