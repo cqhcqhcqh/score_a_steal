@@ -15,24 +15,35 @@ from src.api.user_page_product_list import fetch_user_product_list
 
 @retry(exceptions=Exception, tries=5, delay=1, backoff=2)
 def simulate_search_action_by_user(driver, keyword):
-    time.sleep(random.uniform(3, 5))
-    logger.info(f'等待搜索框 出现...')
+    # time.sleep(random.uniform(3, 5))
+    # logger.info(f'等待搜索框 出现...')
 
     # 方法2：使用 form 内的第一个 input（假设这是搜索框）
     # todo 搜索框可能不出现 这里要加上重试
-    search_input = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//input[contains(@class, 'search-input')]"))
+    search_input = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+        lambda driver: (
+            logger.info(f'查找`输入搜索框`...'),
+            EC.presence_of_element_located((By.XPATH, "//input[contains(@class, 'search-input')]"))(driver)
+        )[1]
     )
+    logger.info(f'找到`输入搜索框`...')
     search_input.clear()
     search_input.send_keys(keyword)
-
-    search_button = driver.find_element(By.XPATH, "//button[@type='submit' and .//img]")
+    
+    search_button = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+        lambda driver: (
+            logger.info(f'查找`search submit button`...'),
+            EC.presence_of_element_located((By.XPATH, "//button[@type='submit' and .//img]"))(driver)
+        )[1]
+    ) 
+    # driver.find_element(By.XPATH, "//button[@type='submit' and .//img]")
+    logger.info(f'找到`search submit button`...')
     search_button.click()
 
     logger.info(f'等待搜索结果...')
     del driver.requests
 
-    time.sleep(random.uniform(3, 5))
+    time.sleep(random.uniform(2, 4))
     # WebDriverWait(driver, 10).until(
     #     EC.presence_of_element_located((By.TAG_NAME, "body"))
     # )

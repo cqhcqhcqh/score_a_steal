@@ -1,5 +1,6 @@
 import os
 import time
+import random
 # from selenium import webdriver
 from src.model.queryParam import QueryModelFactory, QueryModel
 from seleniumwire import webdriver
@@ -87,24 +88,27 @@ def login_with_qr(queryParams, headless=True):
     # for request in driver.requests:
     #     logger.info(f"URL: {request.url}, Status: {request.response.status_code if request.response else 'No response'}")
     try:
-        login_button = WebDriverWait(driver, 3, poll_frequency=0.5).until(
+        login_button = WebDriverWait(driver, 5, poll_frequency=1.0).until(
             lambda driver: (
                 logger.info(f'find `登录按钮`....'),
                 EC.element_to_be_clickable((By.XPATH, "//a[contains(., '登录')]"))(driver)
             )[1]
         )
+        logger.info(f'`登录按钮`已经找到'),
         login_button.click()
     except TimeoutException as e:
         if queryParams:
+            logger.info(f'没找到`登录按钮`，已经是登录态')
             filter_by_keyword_lastest(driver, queryParams)
         return
     except NoSuchElementException as e:
         if queryParams:
+            logger.info(f'没找到`登录按钮`，已经是登录态')
             filter_by_keyword_lastest(driver, queryParams)
         return
 
     logger.info(f'等待iframe 弹出...')
-    time.sleep(2)
+    time.sleep(random.uniform(2, 4))
 
     # Step 4: 定位 iframe 并切换上下文
     iframes = driver.find_elements(By.TAG_NAME, "iframe")
@@ -113,10 +117,13 @@ def login_with_qr(queryParams, headless=True):
         logger.info(f'find quick_enter_button 找到 iframes')
         for iframe in iframes:
             driver.switch_to.frame(iframe)
-            logger.info(f'find quick_enter_button switch_to frame: {iframe}')
+            # logger.info(f'find quick_enter_button switch_to frame: {iframe}')
             try:
-                quick_enter_button = WebDriverWait(driver, 3).until(
-                    EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))
+                quick_enter_button = WebDriverWait(driver, 3, poll_frequency=1.0).until(
+                    lambda driver: (
+                        logger.info(f'正在查找`快速进入`按钮'),
+                        EC.element_to_be_clickable((By.XPATH, "//button[contains(., '快速进入')]"))(driver)
+                    )[1]
                 )
                 quick_enter_button.click()
                 logger.info("在 iframe 中定位到 `快速进入`按钮")
@@ -155,8 +162,11 @@ def login_with_qr(queryParams, headless=True):
             for iframe in iframes:
                 driver.switch_to.frame(iframe)
                 try:
-                    qr_code_container = WebDriverWait(driver, 5).until(
-                        EC.presence_of_element_located((By.ID, "qrcode-img"))
+                    qr_code_container = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+                        lambda driver: (
+                            logger.info(f'正在查找`二维码`'),
+                            EC.presence_of_element_located((By.ID, "qrcode-img"))(driver)
+                        )[1]
                     )
                     logger.info("在 iframe 中定位到 <div id='qrcode-img'>")
                     break
@@ -207,8 +217,11 @@ def login_with_qr(queryParams, headless=True):
         keep_login_button = None
         while not keep_login_button:
             try:
-                keep_login_button = WebDriverWait(driver, 1).until(
-                    EC.element_to_be_clickable((By.XPATH, f'(//button[text()="保持"])[{idx_found}]'))
+                keep_login_button = WebDriverWait(driver, 1, poll_frequency=1.0).until(
+                    lambda driver: (
+                        logger.info(f'正在查找`保持`按钮'),
+                        EC.element_to_be_clickable((By.XPATH, f'(//button[text()="保持"])[{idx_found}]'))(driver)
+                    )[1]
                 )
                 keep_login_button.click()
                 logger.info("在 iframe 中定位到 `保持`按钮")
