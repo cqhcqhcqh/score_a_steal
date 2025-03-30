@@ -83,12 +83,15 @@ def login_with_qr(queryParams, headless=True):
 
     # 刷新页面以应用 cookies
     driver.refresh()
-    time.sleep(3)
+    # time.sleep(3)
     # for request in driver.requests:
     #     logger.info(f"URL: {request.url}, Status: {request.response.status_code if request.response else 'No response'}")
     try:
-        login_button = WebDriverWait(driver, 3).until(
-            EC.element_to_be_clickable((By.XPATH, "//a[contains(., '登录')]"))
+        login_button = WebDriverWait(driver, 3, poll_frequency=0.5).until(
+            lambda driver: (
+                logger.info(f'find `登录按钮`....'),
+                EC.element_to_be_clickable((By.XPATH, "//a[contains(., '登录')]"))(driver)
+            )[1]
         )
         login_button.click()
     except TimeoutException as e:
@@ -101,7 +104,7 @@ def login_with_qr(queryParams, headless=True):
         return
 
     logger.info(f'等待iframe 弹出...')
-    time.sleep(5)
+    time.sleep(2)
 
     # Step 4: 定位 iframe 并切换上下文
     iframes = driver.find_elements(By.TAG_NAME, "iframe")
@@ -170,79 +173,52 @@ def login_with_qr(queryParams, headless=True):
         canvas_element.screenshot(qr_code_image_path)
         logger.info("已截取 <canvas> 中的二维码图片")
 
+        # driver.switch_to.default_content()
         # input("请在闲鱼 App 中扫描二维码完成登录，然后按回车继续...")
-        logger.info(f'等待扫描二维码...')
-        time.sleep(15)
+        # click_keep_button(driver)
+        # logger.info(f'等待扫描二维码...')
+
+        # time.sleep(15)
+        
+        # source_page = driver.page_source
+        # with open('./page_source.html', 'w+') as f:
+        #     f.write(source_page)
+
+        # 查找所有 "保持" 按钮
+        buttons = driver.find_elements(By.XPATH, '//button[text()="保持"]')
+        logger.info(f"找到 {len(buttons)} 个 '保持' 按钮")
+
+        idx_found = None
+        # 如果没有找到按钮，提前退出
+        if not buttons:
+            logger.info("未找到任何 '保持' 按钮，检查页面状态")
+        else:
+            # 遍历所有按钮，尝试找到可点击的那个
+            for idx, button in enumerate(buttons):
+                print(f"\n检查按钮 {idx + 1}: {button.get_attribute('outerHTML')}")
+
+                # 检查可见性和启用状态
+                is_displayed = button.is_displayed()
+                is_enabled = button.is_enabled()
+                logger.info(f"按钮 {idx + 1} - 可见: {is_displayed}, 启用: {is_enabled}")
+                if is_enabled:
+                    idx_found = idx + 1
 
         keep_login_button = None
-        # while not keep_login_button:
-        #     try:
-        #         keep_login_button = WebDriverWait(driver, 1).until(
-        #             EC.element_to_be_clickable((By.XPATH, "//button[contains(., '保持')]"))
-        #         )
-        #         keep_login_button.click()
-        #         logger.info("在 iframe 中定位到 `保持`按钮")
-        #     except:
-        #         logger.info(f'keep find go on button.')
-        #     time.sleep(1.0)
-
-        # while not keep_login_button:
-        #     driver.switch_to.default_content()
-        #     iframes = driver.find_elements(By.TAG_NAME, "iframe")
-        #     if iframes:
-        #         logger.info(f'find keep_login_button 找到 iframes')
-        #         for iframe in iframes:
-        #             driver.switch_to.frame(iframe)
-        #             logger.info(f'switch_to frame: {iframe}')
-        #             try:
-        #                 keep_login_button = WebDriverWait(driver, 1).until(
-        #                     EC.presence_of_element_located((By.XPATH, "//button[contains(., '保持')]"))
-        #                 )
-        #                 # 打印详细信息
-        #                 logger.info("按钮是否存在:", keep_login_button is not None)
-        #                 logger.info("按钮可见性:", keep_login_button.is_displayed())
-        #                 logger.info("按钮启用状态:", keep_login_button.is_enabled())
-        #                 logger.info("按钮位置:", keep_login_button.location)
-        #                 logger.info("按钮大小:", keep_login_button.size)
-        #                 logger.info("按钮 HTML:", keep_login_button.get_attribute("outerHTML"))
-        #                 logger.info("当前 URL:", driver.current_url)
-        #                 logger.info("当前 iframe:", driver.current_frame if hasattr(driver, 'current_frame') else "主文档")
-        #                 WebDriverWait(driver, 30).until(
-        #                     lambda driver: keep_login_button.is_displayed() and keep_login_button.is_enabled()
-        #                 )
-        #                 logger.info("按钮可见性:", keep_login_button.is_displayed())
-        #                 logger.info("按钮启用状态:", keep_login_button.is_enabled())
-        #                 logger.info("在 ifrafme 中定位到 `保持`按钮")
-        #                 driver.execute_script("arguments[0].click();", keep_login_button)
-                        
-        #                 driver.switch_to.default_content()
-
-        #                 persist_driver_cookies(driver)
-        #                 if keyword:
-        #                     filter_by_keyword_lastest(driver, keyword, expected_price, feishu_webhook, in_days)
-        #                 break
-        #             except Exception as e:
-        #                 logger.info(e)
-        #                 driver.switch_to.default_content()  # 切换回主文档继续尝试下一个 iframe
-        #                 break
-        #     else:
-        #         logger.info(f'find keep_login_button  没找到 iframes')
-        #     time.sleep(1)
+        while not keep_login_button:
+            try:
+                keep_login_button = WebDriverWait(driver, 1).until(
+                    EC.element_to_be_clickable((By.XPATH, f'(//button[text()="保持"])[{idx_found}]'))
+                )
+                keep_login_button.click()
+                logger.info("在 iframe 中定位到 `保持`按钮")
+            except:
+                logger.info(f'keep find go on button.')
+            time.sleep(2.0)
 
         persist_driver_cookies(driver)
 
         driver.switch_to.default_content()
-
-        driver.quit()
-
-        driver: webdriver = setup_driver()
-
-        driver.get("https://www.goofish.com")  # 先访问域名以设置 cookies
-
-        load_persistent_cookies(driver)
-
-        # 刷新页面以应用 cookies
-        driver.refresh()
 
         if queryParams:
             filter_by_keyword_lastest(driver, queryParams)
