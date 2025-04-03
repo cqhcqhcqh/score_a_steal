@@ -49,6 +49,9 @@ class ItemDetail(Base):
     updated_at = Column(DateTime, default=datetime.now)  # 更新时间
     
     recommend_status = Column(Integer)  # 0=未推荐，1=已推荐
+
+    impersonal = Column(Integer)  # 新增字段 0=个人卖家 1=商户店铺
+
     # 关系
     seller = relationship("SellerInfo", back_populates="items")
 

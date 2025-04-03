@@ -199,10 +199,12 @@ def recommned_product_if_needed(recommendation_system,
                                                                                             quality, 
                                                                                             repair_function,
                                                                                             display_name):
-                    logger.info(f'找到期望价格的商品 {model} [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
+                    logger.info(f'找到期望价格的商品 {model} price: {price} [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
                     product_detail.recommend_status = 1
                     recommendation_system.notified_items.add(item_id)
                     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
+                else:
+                    product_detail.impersonal = 1
                 # if (repair_function == '无任何维修' 
                 #     or repair_function == ''
                 #     or quality == '几乎全新' 
