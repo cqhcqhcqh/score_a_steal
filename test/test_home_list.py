@@ -1,5 +1,6 @@
 import json
 import requests
+from src.logger.app_logger import app_logger as logger
 
 def get_home_list():
     cookies = {

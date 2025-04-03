@@ -255,7 +255,7 @@ if __name__ == '__main__':
         # login_with_qr()
         
         # 2. 登录并使用推荐系统搜索
-        start_search_with_recommendation(QueryModelFactory.stealiPhone14Pro256())
+        start_search_with_recommendation(QueryModelFactory.stealiPhonePro256())
     except Exception as e:
         import traceback
         traceback.print_exc()

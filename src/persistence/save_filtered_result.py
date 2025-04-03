@@ -120,10 +120,10 @@ def is_item_detail_need_add_or_update_in_db(item_data):
                     fields_changed.append(f"拆修功能从 {existing_item_detail.repair_function} 变为 {item_data.repair_function}")
                 
                 # 检查分享信息是否发生变化
-                if existing_item_detail.share_url != item_data.share_url:
-                    fields_changed.append("分享链接已更新")
-                if existing_item_detail.share_info != json.dumps(item_data.share_info, ensure_ascii=False):
-                    fields_changed.append("分享信息已更新")
+                # if existing_item_detail.share_url != item_data.share_url:
+                #     fields_changed.append("分享链接已更新")
+                # if existing_item_detail.share_info != json.dumps(item_data.share_info, ensure_ascii=False):
+                #     fields_changed.append("分享信息已更新")
                 
                 # 图片信息更新
                 if existing_item_detail.pic_url != item_data.pic_url:

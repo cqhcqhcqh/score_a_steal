@@ -56,6 +56,19 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
         'spm_cnt': spm_cnt,
         'spm_pre': spm_pre,
     }
+    # 综合   : "sortField": "", "sortValue": ""
+    # 最近活跃: "sortField": "modify", "sortValue": "desc" # 活跃 --小--> 降序
+    # 离我最近: "sortField": "pos", "sortValue": "asc" #距离 ---大---> 升序
+    # 信用排序: "sortField": "credit", "sortValue": "credit_desc" # 信用 ---低于-> 降序
+
+    # 新发布: "sortField": "create", "sortValue": "desc" #发布时间 ---久远-> 降序
+    # 新降价: "sortField": "pos", "sortValue": "desc"  #降价时间 ---久远--> 降序
+    # 价格区间: "propValueStr": {"searchFilter": "priceRange:from,to;"}
+    # 个人闲置: "propValueStr": {"searchFilter": "quickFilter:filterPersonal;"}
+    # 验货宝: "propValueStr": {"searchFilter": "quickFilter:filterAppraise;"}
+    # 包邮: "propValueStr": {"searchFilter": "quickFilter:filterFreePostage;"}
+    # quickFilter 之间可以组合 "propValueStr":{"searchFilter":"quickFilter:filterPersonal,filterAppraise,filterFreePostage;"}
+
     # "sortValue":"asc", # 按照价格升序
     # "sortField":"price", # 按照价格排序
     data_item = json.dumps(
@@ -64,10 +77,10 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
                  "fromFilter":True,
                  "rowsPerPage":rowsPerPage,
                  "sortValue":"desc",
-                 "sortField":"create", # 按照发布日期排序
+                 "sortField":"create",
                  "customDistance":"",
                  "gps":"",
-                 "propValueStr":{"searchFilter":"quickFilter:filterPersonal;"}, # 个人闲置
+                 "propValueStr":{"searchFilter":"priceRange:1000,6500;quickFilter:filterPersonal;"},
                  "customGps":"",
                  "searchReqFromPage":"pcSearch",
                  "extraFilterValue":"{}",

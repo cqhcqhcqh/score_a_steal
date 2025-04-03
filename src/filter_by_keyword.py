@@ -9,9 +9,10 @@ from src.api.product_detail import get_product_detail
 from selenium.webdriver.support.ui import WebDriverWait
 from src.api.home_search_list import get_home_search_result
 from selenium.webdriver.support import expected_conditions as EC
-from src.evaluation.deal_recommendation import DealRecommendationSystem
-from src.persistence.save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
 from src.api.user_page_product_list import fetch_user_product_list
+from src.evaluation.deal_recommendation import DealRecommendationSystem
+from src.evaluation.evaluate_model import evaluate_iPhone_model_price_is_valid
+from src.persistence.save_filtered_result import cache_feed_filtered_result, item_has_recommend, is_item_detail_need_add_or_update_in_db
 
 @retry(exceptions=Exception, tries=5, delay=1, backoff=2)
 def simulate_search_action_by_user(driver, keyword):
@@ -186,22 +187,34 @@ def recommned_product_if_needed(recommendation_system,
                 
                 # 获取卖家的其他在售商品
                 user_card_list = fetch_user_product_list(cookies, headers, seller_id)
+                model = product_detail.model
                 repair_function = product_detail.repair_function
                 quality = product_detail.quality
-                price = product_detail.price + product_detail.transportFee
+                transportFee = product_detail.transportFee
+                price = product_detail.price
                 display_name = user_info.display_name
-                if (repair_function == '无任何维修' 
-                    or repair_function == ''
-                    or quality == '几乎全新' 
-                    or quality == '') and price <= expected_price:
-                        logger.info(f'价格低于期望价格，而且还是全新无维修 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}]，大概率是假的，跳过 display_name: [{display_name}]')
-                elif not item_has_recommend(item_id) and price <= expected_price:
-                    logger.info(f'找到期望价格的商品 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
+                if not item_has_recommend(item_id) and evaluate_iPhone_model_price_is_valid(model, 
+                                                                                            price, 
+                                                                                            transportFee, 
+                                                                                            quality, 
+                                                                                            repair_function,
+                                                                                            display_name):
+                    logger.info(f'找到期望价格的商品 {model} [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
                     product_detail.recommend_status = 1
                     recommendation_system.notified_items.add(item_id)
                     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
-                else:
-                    logger.info(f'价格高于期望价格，跳过')
+                # if (repair_function == '无任何维修' 
+                #     or repair_function == ''
+                #     or quality == '几乎全新' 
+                #     or quality == '') and price <= expected_price:
+                #         logger.info(f'价格低于期望价格，而且还是全新无维修 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}]，大概率是假的，跳过 display_name: [{display_name}]')
+                # elif not item_has_recommend(item_id) and price <= expected_price:
+                #     logger.info(f'找到期望价格的商品 [成色: {quality} 拆修和功能: {repair_function} expected_price: {expected_price} price: {product_detail.price} transportFee: {product_detail.transportFee}] display_name: [{display_name}]')
+                #     product_detail.recommend_status = 1
+                #     recommendation_system.notified_items.add(item_id)
+                #     recommendation_system.notifier.send_deal_notification(product_detail, user_info)
+                # else:
+                #     logger.info(f'价格高于期望价格，跳过')
                 
                 # 确保在会话上下文中调用
                 cache_feed_filtered_result(product_detail, user_info, user_card_list)

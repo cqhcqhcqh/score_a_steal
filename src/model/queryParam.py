@@ -24,6 +24,12 @@ class QueryModel:
 
 class QueryModelFactory:
     DEFAULT_MODELS: Dict[str, dict] = {
+        'steal_iPhone_Pro_256': {
+            'keyword': 'iPhone Pro',
+            'within_days': 14,
+            'average_price': 2499,
+            'expected_price': 1600,
+        },
         'steal_iPhone_14Pro_256': {
             'keyword': 'iPhone 14 Pro',
             'within_days': 14,
@@ -77,6 +83,10 @@ class QueryModelFactory:
     @staticmethod
     def get_all_models() -> Dict[str, QueryModel]:
         return {name : QueryModel(**data) for name, data in QueryModelFactory.DEFAULT_MODELS.items()}
+    
+    @staticmethod
+    def stealiPhonePro256():
+        return QueryModelFactory.create('steal_iPhone_Pro_256')
     
     @staticmethod
     def stealiPhone14Pro256():
