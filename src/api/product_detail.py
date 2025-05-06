@@ -117,8 +117,8 @@ def get_product_detail(cookies, headers, itemId):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
 
-    logger.info(f'{api} reponseJson ret: {responseJson.get('ret')}')
-    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+    logger.info(f'{api} reponseJson ret: {responseJson.get("ret")}')
+    if responseJson.get("ret") == ['SUCCESS::调用成功']:
         item_detail = build_product_detail(responseJson['data'])
         if item_detail.item_id != itemId:
             raise Exception(f"{api} 接口调用报错 item_id {itemId} not in responseJson['data']")
@@ -133,4 +133,4 @@ def get_product_detail(cookies, headers, itemId):
                        f, 
                        indent=2, 
                        ensure_ascii=False)
-        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')
+        raise Exception(f'{api} 接口调用报错 {responseJson.get("ret")}')

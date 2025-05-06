@@ -70,7 +70,7 @@ def get_home_list():
         headers=headers,
         data=data,
     )
-    logger.info(response.json().get('ret'))
+    logger.info(response.json().get("ret"))
 
 if __name__ == '__main__':
     get_home_list()

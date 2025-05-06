@@ -130,10 +130,10 @@ def test_goto_nav_page(user_id=None):
         headers=headers,
         data=data,
     ).json()
-    if responseJson.get('ret') == ['FAIL_BIZ_USER_PAGE_FORBIDDEN::该用户因违反法规或闲鱼相关规则账号已被处置']:
+    if responseJson.get("ret") == ['FAIL_BIZ_USER_PAGE_FORBIDDEN::该用户因违反法规或闲鱼相关规则账号已被处置']:
         return None
-    elif responseJson.get('ret') != ['SUCCESS::调用成功']:
-        raise Exception(f'mtop.idle.web.user.page.head 接口调用报错 {responseJson.get('ret')}')
+    elif responseJson.get("ret") != ['SUCCESS::调用成功']:
+        raise Exception(f'mtop.idle.web.user.page.head 接口调用报错 {responseJson.get("ret")}')
     else:
         return responseJson
     

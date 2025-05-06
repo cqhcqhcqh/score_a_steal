@@ -118,8 +118,8 @@ def goto_user_nav_page(cookies, headers, user_id):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
 
-    logger.info(f'{api} reponseJson ret: {responseJson.get('ret')}')
-    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+    logger.info(f'{api} reponseJson ret: {responseJson.get("ret")}')
+    if responseJson.get("ret") == ['SUCCESS::调用成功']:
         user_info = build_seller_info(responseJson['data'], user_id)
         if user_info.seller_id != user_id:
             raise Exception(f"{api} 接口调用报错 user_id {user_id} not in responseJson['data']")
@@ -134,4 +134,4 @@ def goto_user_nav_page(cookies, headers, user_id):
                        f, 
                        indent=2, 
                        ensure_ascii=False)
-        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')
+        raise Exception(f'{api} 接口调用报错 {responseJson.get("ret")}')

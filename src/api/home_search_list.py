@@ -169,8 +169,8 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
         with open('sessions/mtop.taobao.idlemtopsearch.pc.search_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
     
-    logger.info(f'reponseJson ret: {responseJson.get('ret')}')
-    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+    logger.info(f'reponseJson ret: {responseJson.get("ret")}')
+    if responseJson.get("ret") == ['SUCCESS::调用成功']:
         resultList = responseJson.get('data').get('resultList')
         hasMore = len(resultList) == rowsPerPage
         return resultList, hasMore
@@ -184,4 +184,4 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
                        f, 
                        indent=2, 
                        ensure_ascii=False)
-        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')
+        raise Exception(f'{api} 接口调用报错 {responseJson.get("ret")}')

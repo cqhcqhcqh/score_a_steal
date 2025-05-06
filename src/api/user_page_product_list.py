@@ -119,7 +119,7 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
     if not os.path.exists(f'sessions/{api}_.json'):
         with open(f'sessions/{api}_.json', 'w') as file:
             json.dump(responseJson, file, indent=2, ensure_ascii=False)
-    if responseJson.get('ret') == ['SUCCESS::调用成功']:
+    if responseJson.get("ret") == ['SUCCESS::调用成功']:
         card_list = build_card_list(responseJson['data'], user_id)
         if item_id:
             card_list = [card.item_id for card in card_list]
@@ -137,4 +137,4 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
                        indent=2, 
                        ensure_ascii=False)
 
-        raise Exception(f'{api} 接口调用报错 {responseJson.get('ret')}')
+        raise Exception(f'{api} 接口调用报错 {responseJson.get("ret")}')
