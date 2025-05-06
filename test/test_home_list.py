@@ -63,7 +63,7 @@ def get_home_list():
     }
 
     with open('./test/test_home_list_filter.json', 'w+') as f:
-        # headers = {key: value for key, value in headers._headers}
+        # headers = {key: value for key, value in headers._headers} if hasattr(headers, '_headers') else headers
         json.dump({'cookies': cookies,
                    'headers': headers, 
                    'data': data, 

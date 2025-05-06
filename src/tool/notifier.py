@@ -148,7 +148,10 @@ def console_notify(item_info, seller_info, evaluation_result=None):
     return True 
 
 import requests
-
+import os
+os.environ["no_proxy"] = ""
+os.environ["http_proxy"] = ""
+os.environ["https_proxy"] = ""
 def get_tenant_access_token(app_id="cli_a755d0a5f3789013", app_secret="K4HxJYI7T0iSW1NfxywS1c0dnetZTStQ"):
     url = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/"
     headers = {
@@ -158,7 +161,7 @@ def get_tenant_access_token(app_id="cli_a755d0a5f3789013", app_secret="K4HxJYI7T
         "app_id": app_id,
         "app_secret": app_secret
     }
-    response = requests.post(url, headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=data, proxies={})
     if response.status_code == 200:
         data = response.json()
         if data.get("code") == 0:

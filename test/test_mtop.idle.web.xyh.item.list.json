@@ -1,0 +1,56 @@
+{
+  "cookies": {
+    "tfstk": "gjIIt3bJf_IZtshGKWewhCsN8xxWR_ZqVY9RnTnEeHKKwbBv_6ReY8qWw6ANYBWevvbGgtnFYyxrVHxk2SP40ozhK3xJfRfOEBXOILewpBe7lDKk2SPZ70L3c3fKRXAlJOe6ULoK2_n-6OdMpbKJ9UhtWKd9w3CJJcL9EKg-vpdpXR9k6QKJ2_K9rLMXFyOhdJbkbam_9QBp10nRXuYBG93r20I6desRpCMELG9BRITJprmActBdmLsuH4O5UwCeI_Zb1hICOML6VuiMYt_OOF_QNcTGWtjJ5NVjotXdOZLAvlwCN1BcoHILZDRhyOIJ_MerVIQVnh9G45mpNNQRYexo9W91Ats5Pgyi0Iio94M6o096gRwsr40Yo9EzjCnpHepMdFy_CXQkJdv6ARwsrW8pIdubCRgDq",
+    "_m_h5_tk_enc": "f51a8f50c1cc6d5db523956374156a86",
+    "_m_h5_tk": "0a6b16abbf266ad720cf2adc24357315_1746239515759",
+    "havana_lgc_exp": "1748577066968",
+    "_hvn_lgc_": "77",
+    "unb": "2215834458188",
+    "_samesite_flag_": "true",
+    "tracknick": "xy634504632719",
+    "cookie2": "243f809fbc4b30a45d014d33f9766789",
+    "t": "573857e1ad4c15e7651f618a087fbaa6",
+    "_tb_token_": "de678ee8e83b",
+    "havana_lgc2_77": "eyJoaWQiOjIyMTU4MzQ0NTgxODgsInNnIjoiYmUyY2QwMmQzNWFmYjdhMGVjNTA2MjEwZWY5YTJiZmEiLCJzaXRlIjo3NywidG9rZW4iOiIxZWMzVkRGVEtLQlRYYkJLZmMtLVJnQSJ9",
+    "isg": "BN_f5fyWy4ejBs-b_5LvfD5hbjVpRDPmgTByfnEsew7VAP-CeRTDNl1SwpB-mAte",
+    "cna": "E4yYIOzElQACAbSsKT463EnZ",
+    "sgcookie": "E1006T%2FQxoqegqQnr%2FTra9FuP59KbwWfKB4VvhulThhxWwU2jHPWVv14GQaWQ54dd%2BAsorwjLYLCEdHldgwd3zavnSF4NYDiG41ueq95FDxTw60%3D",
+    "csg": "d592c7d8",
+    "xlly_s": "1",
+    "sdkSilent": "1746234472837",
+    "mtop_partitioned_detect": "1"
+  },
+  "headers": {
+    "content-length": "407",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    "accept": "application/json",
+    "sec-ch-ua": "\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"",
+    "content-type": "application/x-www-form-urlencoded",
+    "sec-ch-ua-mobile": "?0",
+    "origin": "https://www.goofish.com",
+    "sec-fetch-site": "same-site",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
+    "referer": "https://www.goofish.com/",
+    "accept-language": "zh-CN,zh;q=0.9",
+    "priority": "u=1, i"
+  },
+  "data": {
+    "data": "{\"needGroupInfo\": true, \"pageNumber\": 1, \"userId\": \"2201049607704\", \"pageSize\": 20}"
+  },
+  "params": {
+    "jsv": "2.7.2",
+    "appKey": "34839810",
+    "t": "1746231285962",
+    "v": "1.0",
+    "type": "originaljson",
+    "accountSite": "xianyu",
+    "dataType": "json",
+    "timeout": "20000",
+    "api": "mtop.idle.web.xyh.item.list",
+    "sessionOption": "AutoLoginOnly",
+    "spm_cnt": "a21ybx.personal.0.0",
+    "sign": "6ee43eb18bc3c7c3d61c37930c9c5526"
+  }
+}

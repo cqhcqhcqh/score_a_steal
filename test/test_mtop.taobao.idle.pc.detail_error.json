@@ -1,0 +1,54 @@
+{
+  "cookies": {
+    "tfstk": "ga5KiQaRXP3pGP5pSwyiEEK4qdzG2RbE-M7jZ3xnFGIOlZoHF6Ah2YIhzgv7YBfRXB5GKbx3YQQ5mQE0mSVc8wRpNoqDHWhCLQT7Z3wMdhMTvqZ0mSVgdVO8vojop-UC6U-6RUtBFP36PURWRQTQWhTJuYiCVga91ELrObTSOhM6khtWNQs55PLkfeOWNU4T2hgBqbBqvdUEvbKKNb19JpwGRhGW71Lppn_C9bG5ueppcwt_AznZELIpp1VK0eB1kG8d4SleOLBChB18DWd1uOjBWgZxeh6AT_pc9oH2A6-PDB6TfXdW6EQJnO4SHhX571pO9-0y76b5TKAbgDtlIZCJy_rz6iQCvt9fODIyOsfAe5iDDUDQWPHrUpTZy50CCTxQsj89myF-UYJa7FK0W8DrUp_DWn4G6YkyC55..",
+    "havana_lgc_exp": "1749102586371",
+    "_hvn_lgc_": "77",
+    "csg": "d5f7eefa",
+    "sgcookie": "E100eTLlBed0BIA8U9ViJk7VPmFyxT3tkXVl6xJhXM54Qe6esgzZavCYZpvgd8BmFZuWvIXyWVRB%2BNj%2FsqKJ04SFagYAALXdHj1yTJParNFv5C4%3D",
+    "unb": "2215834458188",
+    "cookie2": "18bd99a214cc49e5d0f998dd52bdc6ce",
+    "tracknick": "xy634504632719",
+    "_tb_token_": "73a4e3eea333e",
+    "_samesite_flag_": "true",
+    "havana_lgc2_77": "eyJoaWQiOjIyMTU4MzQ0NTgxODgsInNnIjoiMGYwMjAzMGRmOGZlMzFhZTllZmQ5NjZhMTUyYTdkOWEiLCJzaXRlIjo3NywidG9rZW4iOiIxWEw5Z0VKbm10ZjhucnpnX0N2NTIxZyJ9",
+    "_m_h5_tk_enc": "f26c2936a5089fb60fa3aefd980f0976",
+    "_m_h5_tk": "99348caae4db2a74badf4c0ca74d68eb_1746519120324",
+    "mtop_partitioned_detect": "1",
+    "t": "5a5da953d34e42f797d054adc6fc82c7",
+    "xlly_s": "1",
+    "cna": "kJCgIE+DaxUCAbSsKT6R9Upj"
+  },
+  "headers": {
+    "content-length": "407",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    "accept": "application/json",
+    "sec-ch-ua": "\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"",
+    "content-type": "application/x-www-form-urlencoded",
+    "sec-ch-ua-mobile": "?0",
+    "origin": "https://www.goofish.com",
+    "sec-fetch-site": "same-site",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
+    "referer": "https://www.goofish.com/",
+    "accept-language": "zh-CN,zh;q=0.9",
+    "priority": "u=1, i"
+  },
+  "data": {
+    "data": "{\"itemId\": \"919693031772\"}"
+  },
+  "params": {
+    "jsv": "2.7.2",
+    "appKey": "34839810",
+    "t": "1746510614856",
+    "v": "1.0",
+    "type": "originaljson",
+    "accountSite": "xianyu",
+    "dataType": "json",
+    "timeout": "20000",
+    "api": "mtop.taobao.idle.pc.detail",
+    "sessionOption": "AutoLoginOnly",
+    "spm_cnt": "a21ybx.item.0.0",
+    "sign": "057a67b74985011faa705e5b67c2e6d6"
+  }
+}

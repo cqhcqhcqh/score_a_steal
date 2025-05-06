@@ -97,33 +97,53 @@ def filter_by_keyword_lastest(driver, queryParams):
         min_seller_score=70,  # 可以根据需要调整阈值
         min_matching_score=75
     )
-    # loaded_cookies = driver.get_cookies()
-    # loaded_cookies = {cookie['name']: cookie['value'] for cookie in loaded_cookies}
+    loaded_cookies = driver.get_cookies()
+    headers = {
+    "content-length": "407",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
+    "accept": "application/json",
+    "sec-ch-ua": "\"Google Chrome\";v=\"135\", \"Not-A.Brand\";v=\"8\", \"Chromium\";v=\"135\"",
+    "content-type": "application/x-www-form-urlencoded",
+    "sec-ch-ua-mobile": "?0",
+    "origin": "https://www.goofish.com",
+    "sec-fetch-site": "same-site",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-dest": "empty",
+    "referer": "https://www.goofish.com/",
+    "accept-language": "zh-CN,zh;q=0.9",
+    "priority": "u=1, i",
+  }
+    loaded_cookies = {cookie['name']: cookie['value'] for cookie in loaded_cookies}
     # for key, value in cookies.items():
     #     if key not in loaded_cookies:
     #         loaded_cookies[key] = value
-    # cookies = loaded_cookies
+    cookies = loaded_cookies
     pageNumber = 1
     # 获取搜索结果
     while True:
-        cookies, headers = generate_valid_cookies_headers(driver, queryParams.keyword)
+        # cookies, headers = generate_valid_cookies_headers(driver, queryParams.keyword)
         result = get_home_search_result(cookies, headers, queryParams.keyword, pageNumber)
         items, hasMore = result
         logger.info(f'当前页: {pageNumber}, 找到 {len(items)} 个搜索结果')
         res = recommned_product_if_needed(recommendation_system, 
-                                            items, 
-                                            cookies, 
-                                            headers,
-                                            queryParams.expected_price, 
-                                            pageNumber,
-                                            queryParams.within_days)
+                                          driver,
+                                          items, 
+                                          cookies, 
+                                          headers,
+                                          queryParams.expected_price, 
+                                          pageNumber,
+                                          queryParams.within_days)
         if res == -1:
             break
 
         if hasMore:
             pageNumber += 1
+        # else:
+        #     break
 
 def recommned_product_if_needed(recommendation_system,
+                                driver,
                                 items,
                                 cookies,
                                 headers,
@@ -157,8 +177,14 @@ def recommned_product_if_needed(recommendation_system,
                 
                 logger.info(f"{desc} 评估商品: {item_id}")
                 
+                try:
                 # 获取商品详情
-                product_detail = get_product_detail(cookies, headers, item_id)
+                    product_detail = get_product_detail(cookies, headers, item_id)
+                except Exception as e:
+                    auto_captcha(driver, item_id, item_data.get('cCatId'))
+                    logger.info(f'get_product_detail failed with {e}')
+                    continue
+
                 if not product_detail:
                     logger.info(f"无法获取商品 {item_id} 的详情，跳过")
                     continue
@@ -271,7 +297,7 @@ def recommned_product_if_needed(recommendation_system,
                 logger.info(f"成功处理商品 {item_id}")
                 
                 # 添加短暂延迟，避免请求过于频繁
-                time.sleep(1)
+                time.sleep(random.uniform(3, 5))
                 
             except Exception as e:
                 logger.info(f"处理商品时出错: {str(e)}")
@@ -279,3 +305,85 @@ def recommned_product_if_needed(recommendation_system,
     
     logger.info(f"\n===== 搜索完成，共处理 {processed_count}/{len(items)} 个商品 =====")
     return processed_count
+
+from selenium.webdriver.common.action_chains import ActionChains
+
+def auto_captcha(driver, item_id, cate_id=None):
+    # driver.get(f'https://www.goofish.com/item?spm=a21ybx.home.feedsCnxh.1.4c053da6xuSmTf&id=906552072084&categoryId=126862528')
+    driver.get(f'https://www.goofish.com/item?spm=a21ybx.home.feedsCnxh.1.4c053da6xuSmTf&id={item_id}&categoryId={cate_id}')
+    slider = None
+    
+    time.sleep(random.uniform(3, 5))
+    iframes = driver.find_elements(By.TAG_NAME, "iframe")
+    if iframes:
+        logger.info(f'find quick_enter_button 找到 iframes')
+        for iframe in iframes:
+            driver.switch_to.frame(iframe)
+            slider = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+                lambda driver: (
+                    logger.info(f'查找`captcha 滑块`...'),
+                    EC.presence_of_element_located((By.CLASS_NAME, "btn_slide"))(driver)
+                )[1]
+            )
+            slider_track = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+                lambda driver: (
+                    logger.info(f'查找`captcha 滑块轨道`...'),
+                    EC.presence_of_element_located((By.CLASS_NAME, "nc_scale"))(driver)
+                )[1]
+            )
+
+    if not slider:
+        return
+    track_width = slider_track.size['width']
+    slider_width = slider.size['width']
+    # target_position = track_width - slider_width
+    # logger.info(f'track_width: {track_width} slider_width: {slider_width} target_position: {target_position}')
+    # driver.execute_script(f"""
+    #     var slider = document.querySelector('.btn_slide');
+    #     var event = new MouseEvent('mousedown', {{bubbles: true}});
+    #     slider.dispatchEvent(event);
+    #     slider.style.left = '{target_position}px';
+    #     var event = new MouseEvent('mouseup', {{bubbles: true}});
+    #     slider.dispatchEvent(event);
+    # """)
+    # 方法2：模拟人类拖动行为（更自然）
+    actions = ActionChains(driver)
+    actions.click_and_hold(slider)
+    
+    # # 分段移动，模拟人类行为
+    # total_distance = slider_width + 20
+    # steps = 3
+    # for i in range(steps):
+    #     distance = total_distance / steps
+    #     actions.move_by_offset(distance, 0)
+    #     time.sleep(random.uniform(0.01, 0.05))  # 添加小延迟模拟人类操作
+    
+    # actions.release()
+    # actions.perform()
+    human_like_slide(actions, slider, track_width)
+
+    driver.switch_to.default_content()
+    # 等待验证完成
+    time.sleep(3)
+    
+    # slider_width = driver.find_element(By.CLASS_NAME, "nc_scale").size['width']
+    # search_input = WebDriverWait(driver, 5, poll_frequency=1.0).until(
+    #     lambda driver: (
+    #         logger.info(f'查找`输入搜索框`...'),
+    #         EC.presence_of_element_located((By.XPATH, "//input[contains(@class, 'search-input')]"))(driver)
+    #     )[1]
+    # )
+
+def human_like_slide(actions, slider, total_distance):
+    actions.click_and_hold(slider)
+    current = 0
+    total_distance += 100
+    while current < total_distance:
+        step = random.randint(40, 80)  # 随机步长
+        if current + step > total_distance:
+            step = total_distance - current
+        actions.move_by_offset(step, random.randint(-2, 2))  # 添加微小垂直偏移
+        time.sleep(random.uniform(0.01, 0.05))  # 随机延迟
+        current += step
+    actions.release()
+    actions.perform()

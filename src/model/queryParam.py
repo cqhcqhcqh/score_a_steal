@@ -25,7 +25,7 @@ class QueryModel:
 class QueryModelFactory:
     DEFAULT_MODELS: Dict[str, dict] = {
         'steal_iPhone_Pro_256': {
-            'keyword': 'iPhone Pro',
+            'keyword': '苹果 iPhone Pro',
             'within_days': 14,
             'average_price': 2499,
             'expected_price': 1600,

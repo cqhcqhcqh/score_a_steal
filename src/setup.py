@@ -1,6 +1,7 @@
 import os
 import json
-from seleniumwire import webdriver
+# from seleniumwire import webdriver
+from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from src.logger.app_logger import app_logger as logger
@@ -28,7 +29,7 @@ def setup_driver():
     
     driver = webdriver.Chrome(
         options=chrome_options,
-        seleniumwire_options=seleniumwire_options,
+        # seleniumwire_options=seleniumwire_options,
         service=service
     )
     

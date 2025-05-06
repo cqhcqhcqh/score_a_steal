@@ -128,7 +128,7 @@ def fetch_user_product_list(cookies, headers, user_id, item_id=None):
         return card_list
     else:
         with open(f'./test/test_{api}.json', 'w+') as f:
-            headers = {key: value for key, value in headers._headers}
+            headers = {key: value for key, value in headers._headers} if hasattr(headers, '_headers') else headers
             json.dump({'cookies': cookies,
                        'headers': headers, 
                        'data': data, 

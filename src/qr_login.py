@@ -1,9 +1,10 @@
 import os
 import time
 import random
-# from selenium import webdriver
+from selenium import webdriver
 from src.model.queryParam import QueryModelFactory, QueryModel
-from seleniumwire import webdriver
+# from seleniumwire import webdriver
+from fake_useragent import UserAgent
 from selenium.webdriver.common.by import By
 from src.logger.app_logger import app_logger as logger
 from selenium.webdriver.chrome.options import Options
@@ -36,8 +37,9 @@ os.environ["https_proxy"] = ""
 def setup_driver(headless=True):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    if headless:
+    if not headless:
         chrome_options.add_argument('--headless')  # Enable headless mode
+    ua = UserAgent()
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation'])
     # chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -57,7 +59,7 @@ def setup_driver(headless=True):
     
     driver = webdriver.Chrome(
         options=chrome_options,
-        seleniumwire_options=seleniumwire_options,
+        # seleniumwire_options=seleniumwire_options,
         service=service
     )
     

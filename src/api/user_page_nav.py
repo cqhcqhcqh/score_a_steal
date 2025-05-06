@@ -126,7 +126,7 @@ def goto_user_nav_page(cookies, headers, user_id):
         return user_info
     else:
         with open(f'./test/test_{api}_error.json', 'w+') as f:
-            headers = {key: value for key, value in headers._headers}
+            headers = {key: value for key, value in headers._headers} if hasattr(headers, '_headers') else headers
             json.dump({'cookies': cookies,
                        'headers': headers, 
                        'data': data, 

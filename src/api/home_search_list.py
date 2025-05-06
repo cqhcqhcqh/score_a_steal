@@ -80,7 +80,7 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
                  "sortField":"create",
                  "customDistance":"",
                  "gps":"",
-                 "propValueStr":{"searchFilter":"priceRange:1000,6500;quickFilter:filterPersonal;"},
+                 "propValueStr":{"searchFilter":"priceRange:400,10000;quickFilter:filterPersonal;"},
                  "customGps":"",
                  "searchReqFromPage":"pcSearch",
                  "extraFilterValue":"{}",
@@ -176,7 +176,7 @@ def get_home_search_result(cookies, headers, keyword, pageNumber=1):
         return resultList, hasMore
     else:
         with open('./test/test_home_list_filter_error.json', 'w+') as f:
-            headers = {key: value for key, value in headers._headers}
+            headers = {key: value for key, value in headers._headers} if hasattr(headers, '_headers') else headers
             json.dump({'cookies': cookies,
                        'headers': headers, 
                        'data': data, 
