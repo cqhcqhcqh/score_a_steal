@@ -37,7 +37,7 @@ os.environ["https_proxy"] = ""
 def setup_driver(headless=True):
     chrome_options = Options()
     # chrome_options.add_argument('--start-maximized')
-    if not headless:
+    if headless:
         chrome_options.add_argument('--headless')  # Enable headless mode
     ua = UserAgent()
     chrome_options.add_argument('user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36')
